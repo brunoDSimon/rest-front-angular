@@ -2,7 +2,15 @@
     <div class="row">
         <div class="col-12 h4">Selecione os filtros de pesquisa</div>
         <div class="col-4">
-            <div class="dropdown">
+            <div class="row">
+                <div class="col-6">
+                    <input type="date" >
+                </div>
+                <div class="col-6">
+                    <input type="date" >
+                </div>
+            </div>
+            <!-- <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {{currentYear}}
             </button>
@@ -16,29 +24,39 @@
                     {{aux.year}}</button>
                 
             </div>
-        </div>
+        </div> -->
         </div>
         <div class="col-4">
             <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Dropdown
+                {{name}}
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                <button class="dropdown-item" type="button">Action</button>
-                <button class="dropdown-item" type="button">Another action</button>
-                <button class="dropdown-item" type="button">Something else here</button>
+                <button 
+                class="dropdown-item" 
+                type="button"
+                (click)="changeFilterName(aux.name)"
+                *ngFor="let aux of listUser"
+                >
+                    {{aux.name}}
+                </button>
             </div>
             </div>
         </div>
         <div class="col-4">
             <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Dropdown
+                {{nameCompany}}
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                <button class="dropdown-item" type="button">Action</button>
-                <button class="dropdown-item" type="button">Another action</button>
-                <button class="dropdown-item" type="button">Something else here</button>
+                <button 
+                class="dropdown-item" 
+                type="button"
+                (click)="changeFilterCompanyName(aux.companyName)"
+                *ngFor="let aux of listCompanies"
+                >
+                {{aux.companyName}}
+            </button>
             </div>
             </div>
         </div>

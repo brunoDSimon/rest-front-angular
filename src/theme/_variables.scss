@@ -1,5 +1,46 @@
-@import "../node_modules/bootstrap/scss/functions";
-@import "../node_modules/bootstrap/scss/variables";
+@import "~bootstrap/scss/functions";
 
-$navbar-sidebar-width: 232px;
-$navbar-sidebar-breakpoint: 'md';
+/*** 
+// Grids
+***/
+
+$grid-columns: 12;
+$grid-gutter-width: 30px;
+
+$container-max-widths: (
+  sm: 420px,
+  md: 720px,
+  lg: 960px,
+  xl: 1340px
+);
+
+
+
+@import "~bootstrap/scss/variables";
+
+$fonte-sizesExtraExtraSmall: ($font-size-base * .50) !default;
+
+$fonte-sizesExtraExtraSmallPlus: ($font-size-base * .65) !default;
+
+// 12px
+$fonte-sizesExtraSmall: ($font-size-base * .75) !default;
+
+// 14px
+$font-size-sm: ($font-size-base * .875) !default;
+
+// 15px
+$fonte-sizesSmallPlus: ($font-size-base * .9375) !default;
+
+// 16px
+$fonte-sizesMedium: $font-size-base !default;
+
+// 20px | $font-size-lg = ($font-size-base * 1.25 )
+$fonte-sizesExtraMedium: $font-size-lg !default;
+
+// 24px
+$fonte-sizesLarge: ($font-size-base * 1.5) !default;
+
+// 32px
+$fonte-sizesExtraLarge:  ($font-size-base * 2.0) !default;
+
+$text-muted: #999999 !default;
