@@ -8,6 +8,7 @@ import { FinanceiroService } from '../financeiro.service';
 export class ListarProducaoComponent implements OnInit {
   private _listUser: any[];
   private _listCompanies: any[];
+  private _listProducaoo: any[];
   private _currentYear = new Date(new Date().setFullYear(new Date().getFullYear())).getFullYear();
   private _listYear: any[] = [];
   private _name: any;
@@ -19,8 +20,9 @@ export class ListarProducaoComponent implements OnInit {
 
   ngOnInit(): void {
     this.filterYear();
-    // this.getListUser();
+    this.getListUser();
     this.getListCompanies();
+    this.getProducao();
   }
   get year(){
     return this._listYear;
@@ -41,6 +43,9 @@ export class ListarProducaoComponent implements OnInit {
   get listCompanies(){
     return this._listCompanies;
   }
+  get listProducao(){
+    return this._listProducaoo;
+  }
   private filterYear(){
     const date = new Date(new Date().setFullYear(new Date().getFullYear()));
     let filter = {year: date.getFullYear()};
@@ -54,7 +59,6 @@ export class ListarProducaoComponent implements OnInit {
   }
   public changeFilterYear(year){
     // console.log(year);
-
     const date = new Date;
     date.setFullYear(year);
     this._currentYear = year
@@ -69,7 +73,7 @@ export class ListarProducaoComponent implements OnInit {
   }
   public getListUser(){
     this.financeiroService.getUser().subscribe((res) =>{
-      this._listUser.push(res);
+      this._listUser = res.data;
       // console.log(this._listUser)
     })
   }
@@ -77,6 +81,12 @@ export class ListarProducaoComponent implements OnInit {
     this.financeiroService.getCompanies().subscribe((obj) =>{
       this._listCompanies =obj.data;
       console.log(this._listCompanies, 'ob')
+    })
+  }
+
+  public getProducao(){
+    this.financeiroService.getTalao().subscribe((res) =>{
+      this._listProducaoo = res.data
     })
   }
 }
