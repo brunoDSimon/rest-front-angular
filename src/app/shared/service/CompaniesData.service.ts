@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SessionStorage, SessionStorageService } from 'ngx-webstorage';
 
 @Injectable({
@@ -7,10 +6,9 @@ import { SessionStorage, SessionStorageService } from 'ngx-webstorage';
 })
 export class CompaniesDataService {
   @SessionStorage()
-  private _companies: any = []
+  private _companies: any =[] ;
 
 constructor(
-  private http: HttpClient,
   private session: SessionStorageService,
 ) { }
 

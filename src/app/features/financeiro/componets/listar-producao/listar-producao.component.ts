@@ -19,11 +19,18 @@ export class ListarProducaoComponent implements OnInit {
     private companiesData: CompaniesDataService
   ) { }
 
-  ngOnInit(): void {
-    this.filterYear();
-    this.getListUser();
-    this.getListCompanies();
-    this.getProducao();
+  ngOnInit(){
+    if(this.companiesData.companies.length){
+      this.getProducao();
+      this.getListUser();
+      this.filterYear();
+      this._listCompanies = this.companiesData.companies[0]
+    }else{
+      this.filterYear();
+      this.getListUser();
+      this.getListCompanies();
+      this.getProducao();
+    }
   }
   get year(){
     return this._listYear;
@@ -32,7 +39,6 @@ export class ListarProducaoComponent implements OnInit {
     return this._currentYear
   }
   get listUser(){
-    console.log(this._listUser)
     return this._listUser
   }
   get name(){
@@ -79,10 +85,10 @@ export class ListarProducaoComponent implements OnInit {
     })
   }
   public getListCompanies(){
-    this.financeiroService.getCompanies().subscribe((obj) =>{
-      this._listCompanies =obj.data;
-      this.companiesData.setCompanies(obj.data);
-      console.log(this._listCompanies, 'ob')
+    this.financeiroService.getCompanies().subscribe((res) =>{
+      this.companiesData.setCompanies(res.data);
+      this._listCompanies =res.data;
+      console.log(this._listCompanies)
     })
   }
 
