@@ -29,7 +29,8 @@ import { NgxCurrencyModule } from "ngx-currency";
     HttpClientModule,
     NgxCurrencyModule,
     PipeModule,
-    NgxWebstorageModule.forRoot()
+    NgxWebstorageModule.forRoot(),
+    NgxCurrencyModule
 
   ],
   providers: [],

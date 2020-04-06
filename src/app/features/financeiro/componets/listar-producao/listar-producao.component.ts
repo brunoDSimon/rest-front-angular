@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FinanceiroService } from '../financeiro.service';
+import { FinanceiroService } from '../../service/financeiro.service';
+import { CompaniesDataService } from 'src/app/shared/service/CompaniesData.service';
 @Component({
   selector: 'app-listar-producao',
   templateUrl: './listar-producao.component.html',
@@ -15,7 +16,7 @@ export class ListarProducaoComponent implements OnInit {
   private _nameCompany: any;
   constructor(
     private financeiroService: FinanceiroService,
-
+    private companiesData: CompaniesDataService
   ) { }
 
   ngOnInit(): void {
@@ -80,6 +81,7 @@ export class ListarProducaoComponent implements OnInit {
   public getListCompanies(){
     this.financeiroService.getCompanies().subscribe((obj) =>{
       this._listCompanies =obj.data;
+      this.companiesData.setCompanies(obj.data);
       console.log(this._listCompanies, 'ob')
     })
   }

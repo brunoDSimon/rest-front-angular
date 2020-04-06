@@ -5,7 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   {
     path: 'financeiro',
-    loadChildren: '../app/features/financeiro/financeiro.module#FinanceiroModule',
+    loadChildren: () => import('./features/financeiro/financeiro.module').then(m => m.FinanceiroModule),
   },
 ];
 
