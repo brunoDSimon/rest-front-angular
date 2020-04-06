@@ -5,6 +5,7 @@ import { ROUTES } from './app.routes';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgxWebstorageModule} from 'ngx-webstorage';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -36,7 +37,8 @@ import { NgxCurrencyModule } from "ngx-currency";
     HttpClientModule,
     RouterModule.forRoot(ROUTES),
     NgxCurrencyModule,
-    PipeModule
+    PipeModule,
+    NgxWebstorageModule.forRoot()
 
   ],
   providers: [],
