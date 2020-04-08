@@ -20,6 +20,7 @@ export class ListarProducaoComponent implements OnInit {
   ) { }
 
   ngOnInit(){
+    console.log(this.companiesData.companies);
     if(this.companiesData.companies.length){
       this.getProducao();
       this.getListUser();

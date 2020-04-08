@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {NgxWebstorageModule} from 'ngx-webstorage';
 
+import { NgxMaskModule} from 'ngx-mask'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -30,7 +31,9 @@ import { NgxCurrencyModule } from "ngx-currency";
     NgxCurrencyModule,
     PipeModule,
     NgxWebstorageModule.forRoot(),
-    NgxCurrencyModule
+    NgxCurrencyModule,
+    NgxMaskModule.forRoot()
+
 
   ],
   providers: [],

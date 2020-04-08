@@ -7,19 +7,19 @@ import { SessionStorage, SessionStorageService } from 'ngx-webstorage';
 export class CompaniesDataService {
   @SessionStorage()
   private _companies: any =[] ;
-
+  private _teste: any =[];
 constructor(
   private session: SessionStorageService,
 ) { }
 
   get companies(){
-    return this._companies;
+    return this._teste;
   }
 
   public setCompanies(_companies){
-    this._companies.push(_companies);
+    this._teste = _companies;
   }
-
+  
   public clear(){
     delete this._companies;
 
