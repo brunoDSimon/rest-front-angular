@@ -7,6 +7,16 @@ const routes: Routes = [
     path: 'financeiro',
     loadChildren: () => import('./features/financeiro/financeiro.module').then(m => m.FinanceiroModule),
   },
+  {
+    path: '',
+    redirectTo: 'financeiro',
+    pathMatch: 'full'
+  },
+  {
+    path: '**',
+    redirectTo: 'financeiro',
+    pathMatch: 'full'
+  },
 ];
 
 @NgModule({

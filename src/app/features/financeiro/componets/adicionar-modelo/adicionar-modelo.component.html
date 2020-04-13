@@ -44,18 +44,34 @@
                     >
                     <hr>
                     <label >Funcionario</label>
-                    <select formControlName="companyID" class="form-control w-25">
-                    <option selected>Choose...</option>
-                    <option>...</option>
+                    <select class="form-control w-25" formControlName="userID">
+                    <option
+                    *ngFor="let aux of listUsers"
+                    [ngValue]="aux.id"
+                    >
+                        {{aux.name}}
+                    </option>
                     </select>
                     <hr>
                     <label >Cliente</label>
-                    <select formControlName="userID" class="form-control w-25">
-                        <option selected>Choose...</option>
-                        <option>...</option>
+                    <!-- <select class="form-control" type="number" [(ngModel)]="cidadeId" (ngModelChange)="onAddCidade()" >
+                            <option *ngFor="let cidades of cidade" [ngValue]="cidades.Id">
+                              <p>{{ cidades.Id }}, {{ cidades.NomeCidade }}, {{ cidades.PaisCidade }}</p>
+                            </option>
+                          </select> -->
+                    <select class="form-control w-25"  formControlName="companyID" >
+                        <option
+                        *ngFor="let aux of listCompanies"
+                        [ngValue]="aux.id"
+                        >
+                        {{aux.companyName}}
+                        </option>
                     </select>
                     <hr>
-                    <button class="btn btn-primary mt-3" (click)="enviartalao()">Enviar</button>
+                    <button class="btn btn-primary mt-3" (click)="enviartalao()" [disabled]="!formGroup.valid">Enviar</button>
+                    <div class="alert alert-success" role="alert" *ngIf="openSucess">
+                        Talão cadastrado com sucesso!
+                    </div>
                   </div>
                 </div>
 

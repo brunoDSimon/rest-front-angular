@@ -1,119 +1,125 @@
 <div class="container">
   <div class="row">
     <div class="col-12">
-      <button class="btn btn-success" (click)="openCreate();" *ngIf="!createCompany">Adicionar nova empresa</button>
-      <button class="btn btn-success" (click)="openCreate();" *ngIf="createCompany">Ver empresa cadastradas</button>
-      <form class="form-group" [formGroup]="formGroup" *ngIf="createCompany"> 
-        <div class="card">
-          <div class="card-body">
-              <label>CNPJ</label>
-              <input 
-              type="text"
-              class="form-control w-25"
-              formControlName="cnpj"
-              mask="000.000.000-00"
-              [ngClass]="{'is-invalid': formGroup.get('cnpj').touched && 
-              formGroup.get('cnpj').hasError('required') && formGroup.get('cnpj').hasError('hasNumber') }"
-              >
-              <div class="alert alert-danger w-25" role="alert"  *ngIf="formGroup.get('cnpj').hasError('hasNumber') " >
-                  CNPJ CONTEM APENAS NUMERO
-                </div>
-                <div class="alert alert-danger w-25" role="alert"  *ngIf="!nextCreateCompanies && messeger == 'Compania existente'" >
-                  CNPJ JA EM USO
-                </div>
-              <button class="btn btn-outline-warning" (click)="verificarCNPJ();" >VERIFICAR CNPJ</button>
-              <div *ngIf="nextCreateCompanies">
-                  <label>Nome da empresa</label>
-                  <input 
-                  type="text"
-                  class="form-control w-25"
-                  formControlName="companyName"
-                  >
-                  <label>Telefone</label>
-                  <input 
-                  type="text"
-                  class="form-control w-25"
-                  formControlName="telephone"
-                  mask='(00) 00000-0000'
-                  >
-                  <label>Endereço</label>
-                  <input 
-                  type="text"
-                  class="form-control w-25"
-                  formControlName="address"
-                  >
-                  <label>Numero</label>
-                  <input 
-                  type="text"
-                  class="form-control w-25"
-                  formControlName="number"
-                  >
-                  <label>CEP</label>
-                  <input 
-                  type="text"
-                  class="form-control w-25"
-                  formControlName="zipCode"
-                  >
-                  <button class="btn btn-outline-success" [disabled]="!formGroup.valid" (click)="createCompanies()">Cadastrar</button>
-              </div>
-          </div>
-        </div>
-      </form>
-    </div>
-    <div class="col-12" *ngIf="!createCompany">
-      <h3 class="">Vejá as companias cadastradas</h3>
-      <div class="card mb-2" *ngFor="let aux of listCompanies">
+      <div class="card">
         <div class="card-body">
-         <div class="row text-sm">
-           <div class="col">
-             <div class="col-12">
-               Compania
-             </div>
-             <div class="col-12">
-               {{aux.companyName}}
-             </div>
-           </div>
-           <div class="col">
-             <div class="col-12">
-               CNPJ
-             </div>
-             <div class="col-12">
-               {{aux.cnpj | mask: '000.000.000-00'}}
-             </div>
-           </div>
-           <div class="col">
-             <div class="col-12">
-               Telefone
-             </div>
-             <div class="col-12">
-               {{aux.telephone | mask: '(00) 00000-0000'}}
-             </div>
-           </div>
-           <div class="col">
-             <div class="col-12">
-               Endereço
-             </div>
-             <div class="col-12">
-               {{aux.address}}
-             </div>
-           </div>
-           <div class="col">
-             <div class="col-12">
-               Numero 
-             </div>
-             <div class="col-12">
-               {{aux.number}}
-             </div>
-           </div>
-           <div class="col">
-             <div class="col-12">
-               CEP
-             </div>
-             <div class="col-12">
-               {{aux.zipCode | mask: '00000-000'}}
-             </div>
-           </div>
-         </div>
+            <div class="col-12">
+              <button class="btn btn-success" (click)="openCreate();" *ngIf="!createCompany">Adicionar nova empresa</button>
+              <button class="btn btn-success" (click)="openCreate();" *ngIf="createCompany">Ver empresa cadastradas</button>
+              <form class="form-group" [formGroup]="formGroup" *ngIf="createCompany"> 
+                <div class="card">
+                  <div class="card-body">
+                      <label>CNPJ</label>
+                      <input 
+                      type="text"
+                      class="form-control w-25"
+                      formControlName="cnpj"
+                      mask="000.000.000-00"
+                      [ngClass]="{'is-invalid': formGroup.get('cnpj').touched && 
+                      formGroup.get('cnpj').hasError('required') && formGroup.get('cnpj').hasError('hasNumber') }"
+                      >
+                      <div class="alert alert-danger w-25" role="alert"  *ngIf="formGroup.get('cnpj').hasError('hasNumber') " >
+                          CNPJ CONTEM APENAS NUMERO
+                        </div>
+                        <div class="alert alert-danger w-25" role="alert"  *ngIf="!nextCreateCompanies && messeger == 'Compania existente'" >
+                          CNPJ JA EM USO
+                        </div>
+                      <button class="btn btn-outline-warning" (click)="verificarCNPJ();" >VERIFICAR CNPJ</button>
+                      <div *ngIf="nextCreateCompanies">
+                          <label>Nome da empresa</label>
+                          <input 
+                          type="text"
+                          class="form-control w-25"
+                          formControlName="companyName"
+                          >
+                          <label>Telefone</label>
+                          <input 
+                          type="text"
+                          class="form-control w-25"
+                          formControlName="telephone"
+                          mask='(00) 00000-0000'
+                          >
+                          <label>Endereço</label>
+                          <input 
+                          type="text"
+                          class="form-control w-25"
+                          formControlName="address"
+                          >
+                          <label>Numero</label>
+                          <input 
+                          type="text"
+                          class="form-control w-25"
+                          formControlName="number"
+                          >
+                          <label>CEP</label>
+                          <input 
+                          type="text"
+                          class="form-control w-25"
+                          formControlName="zipCode"
+                          >
+                          <button class="btn btn-outline-success" [disabled]="!formGroup.valid" (click)="createCompanies()">Cadastrar</button>
+                      </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="col-12" *ngIf="!createCompany">
+              <h3 class="">Vejá as companias cadastradas</h3>
+              <div class="card mb-2" *ngFor="let aux of listCompanies">
+                <div class="card-body">
+                 <div class="row text-sm">
+                   <div class="col">
+                     <div class="col-12">
+                       Compania
+                     </div>
+                     <div class="col-12">
+                       {{aux.companyName}}
+                     </div>
+                   </div>
+                   <div class="col">
+                     <div class="col-12">
+                       CNPJ
+                     </div>
+                     <div class="col-12">
+                       {{aux.cnpj | mask: '000.000.000-00'}}
+                     </div>
+                   </div>
+                   <div class="col">
+                     <div class="col-12">
+                       Telefone
+                     </div>
+                     <div class="col-12">
+                       {{aux.telephone | mask: '(00) 00000-0000'}}
+                     </div>
+                   </div>
+                   <div class="col">
+                     <div class="col-12">
+                       Endereço
+                     </div>
+                     <div class="col-12">
+                       {{aux.address}}
+                     </div>
+                   </div>
+                   <div class="col">
+                     <div class="col-12">
+                       Numero 
+                     </div>
+                     <div class="col-12">
+                       {{aux.number}}
+                     </div>
+                   </div>
+                   <div class="col">
+                     <div class="col-12">
+                       CEP
+                     </div>
+                     <div class="col-12">
+                       {{aux.zipCode | mask: '00000-000'}}
+                     </div>
+                   </div>
+                 </div>
+                </div>
+              </div>
+            </div>
         </div>
       </div>
     </div>
