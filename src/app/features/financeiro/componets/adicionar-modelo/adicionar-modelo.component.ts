@@ -11,6 +11,7 @@ export class AdicionarModeloComponent implements OnInit {
   private _listUsers: any = [];
   private _companyID: any;
   private _openSucess: boolean = false;
+  private _error: any;
   public formGroup: FormGroup
   constructor(
     private formBuilder: FormBuilder,
@@ -82,6 +83,9 @@ export class AdicionarModeloComponent implements OnInit {
       setTimeout((openSucess) => {
         this._openSucess = false
       }, 10000);
+    }, (err) => {
+      this._error = err.message;
+     
     })
   }
 }

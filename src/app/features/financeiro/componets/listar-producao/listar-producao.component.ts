@@ -14,6 +14,7 @@ export class ListarProducaoComponent implements OnInit {
   private _listYear: any[] = [];
   private _name: any;
   private _nameCompany: any;
+  private _error: any;
   constructor(
     private financeiroService: FinanceiroService,
     private companiesData: CompaniesDataService
@@ -54,6 +55,9 @@ export class ListarProducaoComponent implements OnInit {
   get listProducao(){
     return this._listProducaoo;
   }
+  get error(){
+    return this._error;
+  }
   private filterYear(){
     const date = new Date(new Date().setFullYear(new Date().getFullYear()));
     let filter = {year: date.getFullYear()};
@@ -83,6 +87,9 @@ export class ListarProducaoComponent implements OnInit {
     this.financeiroService.getUser().subscribe((res) =>{
       this._listUser = res.data;
       // console.log(this._listUser)
+    }, (err) => {
+      this._error = err.message;
+     
     })
   }
   public getListCompanies(){
@@ -90,12 +97,18 @@ export class ListarProducaoComponent implements OnInit {
       this.companiesData.setCompanies(res.data);
       this._listCompanies =res.data;
       console.log(this._listCompanies)
+    }, (err) => {
+      this._error = err.message;
+     
     })
   }
 
   public getProducao(){
     this.financeiroService.getTalao().subscribe((res) =>{
       this._listProducaoo = res.data
-    })
+    }, (err) => {
+      this._error = err.message;
+     
+    } )
   }
 }
