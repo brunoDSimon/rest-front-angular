@@ -12,6 +12,8 @@ import {FinanceiroComponent} from './componets/financeiro.component'
 import {ListarProducaoComponent} from './componets/listar-producao/listar-producao.component'
 import {AdicionarModeloComponent} from './componets/adicionar-modelo/adicionar-modelo.component'
 import {AdicionarEmpresaComponent} from './componets/adicionar-empresa/adicionar-empresa.component'
+import { SharedModule } from 'src/app/shared/modules/shared.module';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -22,7 +24,8 @@ import {AdicionarEmpresaComponent} from './componets/adicionar-empresa/adicionar
     ReactiveFormsModule,
     HttpClientModule,
     NgxWebstorageModule.forRoot(),
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
+    SharedModule
 
 
   ],

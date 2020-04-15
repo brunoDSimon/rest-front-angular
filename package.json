@@ -23,6 +23,7 @@
     "@ng-bootstrap/ng-bootstrap": "^6.0.2",
     "bootstrap": "^4.4.1",
     "jquery": "^3.4.1",
+    "moment": "^2.24.0",
     "ngx-currency": "^2.2.2",
     "ngx-custom-validators": "^9.1.0",
     "ngx-mask": "^8.2.0",

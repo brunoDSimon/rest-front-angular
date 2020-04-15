@@ -5,64 +5,35 @@
                 <div class="card-body w-100 h-100">
                     <div class="row">
                         <div class="col-12 h4">Selecione os filtros de pesquisa</div>
-                        <div class="col-4">
-                            <div class="row">
-                                <div class="col-6">
-                                    <input type="date" class="form-group" >
+                        <div class="col-12">
+                            <form [formGroup]="formGroup" class="form-group " (ngSubmit)="getProducao()">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <app-date-piker></app-date-piker>
+                                    </div> 
+                                    <div class="col-3">
+                                        <select class="custom-select" formControlName="companyID">
+                                            <option 
+                                            *ngFor="let aux of listCompanies"
+                                            [ngValue]="aux.id"
+                                            >
+                                            {{aux.companyName}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-3">
+                                        <select class="custom-select" formControlName="userID" >
+                                            <option 
+                                            *ngFor="let aux of listUser"
+                                            [ngValue]="aux.id"
+                                            >
+                                            {{aux.name}}
+                                            </option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="col-6">
-                                    <input type="date" >
-                                </div>
-                            </div>
-                            <!-- <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{currentYear}}
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                <button
-                                class="dropdown-item"
-                                 type="button"
-                                 *ngFor="let aux of year"
-                                 (click)="changeFilterYear(aux.year)"
-                                 >
-                                    {{aux.year}}</button>
-                                
-                            </div>
-                        </div> -->
-                        </div>
-                        <div class="col-4">
-                            <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{name}}
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                <button 
-                                class="dropdown-item" 
-                                type="button"
-                                (click)="changeFilterName(aux.name)"
-                                *ngFor="let aux of listUser"
-                                >
-                                    {{aux.name}}
-                                </button>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{nameCompany}}
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                <button 
-                                class="dropdown-item" 
-                                type="button"
-                                (click)="changeFilterCompanyName(aux.companyName)"
-                                *ngFor="let aux of listCompanies"
-                                >
-                                {{aux.companyName}}
-                            </button>
-                            </div>
-                            </div>
+                                <button class="btn btn-outline-success" type="submit">PESQUISAR</button>
+                            </form>
                         </div>
                         <div 
                         class="col-12"

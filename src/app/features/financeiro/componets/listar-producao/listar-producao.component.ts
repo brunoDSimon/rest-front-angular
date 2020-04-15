@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FinanceiroService } from '../../service/financeiro.service';
 import { CompaniesDataService } from 'src/app/shared/service/CompaniesData.service';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+
 @Component({
   selector: 'app-listar-producao',
   templateUrl: './listar-producao.component.html',
   styleUrls: ['./listar-producao.component.scss']
 })
 export class ListarProducaoComponent implements OnInit {
+  public formGroup: FormGroup
+
   private _listUser: any[];
   private _listCompanies: any[];
   private _listProducaoo: any[];
@@ -17,11 +21,18 @@ export class ListarProducaoComponent implements OnInit {
   private _error: any;
   constructor(
     private financeiroService: FinanceiroService,
-    private companiesData: CompaniesDataService
+    private companiesData: CompaniesDataService,
+    private formBuilder: FormBuilder,
   ) { }
 
   ngOnInit(){
-    console.log(this.companiesData.companies);
+    this.formGroup = this.formBuilder.group({
+      dateEntry: ['', Validators.required],
+      dateFinal: ['', Validators.required],
+      userID: new FormControl([null]),
+      companyID: new FormControl(['', Validators.required])
+    })
+      console.log(this.companiesData.companies);
     if(this.companiesData.companies.length){
       this.getProducao();
       this.getListUser();
@@ -75,7 +86,7 @@ export class ListarProducaoComponent implements OnInit {
     date.setFullYear(year);
     this._currentYear = year
   }
-
+  
   public changeFilterName(name){
     // console.log(name);
     this._name = name;
@@ -104,7 +115,12 @@ export class ListarProducaoComponent implements OnInit {
   }
 
   public getProducao(){
-    this.financeiroService.getTalao().subscribe((res) =>{
+    const dateEntry = this.formGroup.get('dateEntry').value;
+    const dateFinal = this.formGroup.get('dateFinal').value;
+    const userID = this.formGroup.get('userID').value;
+    const companyID = this.formGroup.get('companyID').value;
+    console.log(dateEntry, dateFinal, userID, companyID)
+    this.financeiroService.getTalao(userID,dateEntry,dateFinal,companyID).subscribe((res) =>{
       this._listProducaoo = res.data
     }, (err) => {
       this._error = err.message;

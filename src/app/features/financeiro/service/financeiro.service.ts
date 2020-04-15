@@ -26,8 +26,19 @@ export class FinanceiroService extends Service{
   }
 
   // VER A PRODUCAO
-  public getTalao():Observable<any>{
-    return this.http.get('http://localhost:3333/beads/1/2020-03-24/2020-03-25',{headers: this.headers}).pipe(
+  public getTalao( userID: any, dateEntry: any, dateFinal: any,companyID: any):Observable<any>{
+    const filter ={
+      dateEntry: dateEntry,
+      dateFinal: dateFinal,
+      userID: userID,
+      companyID: companyID
+    }
+    if(userID == "undefined" || null){
+      delete filter.userID;
+    }
+    const filtro = new URLSearchParams(filter).toString();
+    // return this.http.get(`http://localhost:3333/beads/${userID}/${dateEntry}/${dateFinal}/${companyID}`,{headers: this.headers}).pipe(
+      return this.http.get(`http://localhost:3333/beads?`+filtro,{headers: this.headers}).pipe(
       map((res) =>{
         return Object(res);
       },catchError(
