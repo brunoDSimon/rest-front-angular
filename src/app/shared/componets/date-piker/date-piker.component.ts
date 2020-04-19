@@ -9,21 +9,21 @@ import * as moment from 'moment';
   styleUrls: ['./date-piker.component.scss']
 })
 export class DatePikerComponent implements OnInit {
-  @Output('select') select: EventEmitter<any> = new EventEmitter();
   @Input('init') valoresIniciais: DateStruct;
-  @Output() alterarPeriodo = new EventEmitter();
+  @Output() alterarPeriodo: EventEmitter<any> = new EventEmitter();
 
   ngOnInit() {
     this._date = this.valoresIniciais;
+
   }
-  hoveredDate: NgbDate | null = null;
+  hoveredDate: NgbDate = null;
   private _date: DateStruct = {
     fromDate: moment().toDate(),
     toDate: moment().toDate(),
   }
 
-  fromDate: NgbDate | null;
-  toDate: NgbDate | null;
+  fromDate: NgbDate;
+  toDate: NgbDate;
 
   constructor(
     private calendar: NgbCalendar, 
@@ -42,6 +42,8 @@ export class DatePikerComponent implements OnInit {
       this.toDate = null;
       this.fromDate = date;
     }
+    this.alterarPeriodo.emit(this._date);
+
   }
 
   isHovered(date: NgbDate) {
@@ -63,6 +65,7 @@ export class DatePikerComponent implements OnInit {
   get date(): DateStruct {
     return this._date;
   }
+  
 }
 
 
