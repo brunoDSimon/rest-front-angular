@@ -9,7 +9,10 @@
                             <form [formGroup]="formGroup" class="form-group " (ngSubmit)="getProducao()">
                                 <div class="row">
                                     <div class="col-6">
-                                        <app-date-piker></app-date-piker>
+                                        <app-date-piker 
+                                        [init]="init" 
+                                        (alterarPeriodo)="alterarPeriodo($event)"
+                                        ></app-date-piker>
                                     </div> 
                                     <div class="col-3">
                                         <select class="custom-select" formControlName="companyID">

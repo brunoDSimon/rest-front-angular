@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FinanceiroService } from '../../service/financeiro.service';
 import { CompaniesDataService } from 'src/app/shared/service/CompaniesData.service';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-
+import { DateStruct } from 'src/app/shared/models/date-struct.model';
+import * as moment from 'moment';
+import { DateFormatPipe } from 'ngx-moment';
 @Component({
   selector: 'app-listar-producao',
   templateUrl: './listar-producao.component.html',
@@ -10,7 +12,10 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 })
 export class ListarProducaoComponent implements OnInit {
   public formGroup: FormGroup
-
+  private _date: DateStruct = {
+    fromDate: moment().toDate(),
+    toDate: moment().toDate(),
+  };
   private _listUser: any[];
   private _listCompanies: any[];
   private _listProducaoo: any[];
@@ -23,28 +28,32 @@ export class ListarProducaoComponent implements OnInit {
     private financeiroService: FinanceiroService,
     private companiesData: CompaniesDataService,
     private formBuilder: FormBuilder,
-  ) { }
+    private dateFormatPipe: DateFormatPipe,
+
+  ) {
+    this._date = {
+      fromDate: moment(moment().toDate()).subtract(30, 'days').toDate(),
+      toDate: moment(moment().toDate()).subtract(1, 'days').toDate(),
+  };
+   }
 
   ngOnInit(){
+    console.log(this._date);
     this.formGroup = this.formBuilder.group({
       dateEntry: ['', Validators.required],
       dateFinal: ['', Validators.required],
       userID: new FormControl([null]),
       companyID: new FormControl(['', Validators.required])
     })
-      console.log(this.companiesData.companies);
-    if(this.companiesData.companies.length){
-      this.getProducao();
-      this.getListUser();
-      this.filterYear();
-      this._listCompanies = this.companiesData.companies[0]
-    }else{
+      // console.log(this.companiesData.companies);
       this.filterYear();
       this.getListUser();
       this.getListCompanies();
-      this.getProducao();
-    }
+      // this.getProducao();
   }
+  get init(): any { return this._date; }
+
+  
   get year(){
     return this._listYear;
   }
@@ -68,6 +77,9 @@ export class ListarProducaoComponent implements OnInit {
   }
   get error(){
     return this._error;
+  }
+  public alterarPeriodo(datas){
+    this._date = datas
   }
   private filterYear(){
     const date = new Date(new Date().setFullYear(new Date().getFullYear()));
@@ -107,7 +119,7 @@ export class ListarProducaoComponent implements OnInit {
     this.financeiroService.getCompanies().subscribe((res) =>{
       this.companiesData.setCompanies(res.data);
       this._listCompanies =res.data;
-      console.log(this._listCompanies)
+      // console.log(this._listCompanies)
     }, (err) => {
       this._error = err.message;
      
@@ -115,11 +127,11 @@ export class ListarProducaoComponent implements OnInit {
   }
 
   public getProducao(){
-    const dateEntry = this.formGroup.get('dateEntry').value;
-    const dateFinal = this.formGroup.get('dateFinal').value;
+    const dateEntry = this.dateFormatPipe.transform(this._date.fromDate, 'YYYY-MM-DD');
+    const dateFinal = this.dateFormatPipe.transform(this._date.toDate, 'YYYY-MM-DD');
     const userID = this.formGroup.get('userID').value;
     const companyID = this.formGroup.get('companyID').value;
-    console.log(dateEntry, dateFinal, userID, companyID)
+    // console.log(dateEntry, dateFinal, userID, companyID)
     this.financeiroService.getTalao(userID,dateEntry,dateFinal,companyID).subscribe((res) =>{
       this._listProducaoo = res.data
     }, (err) => {

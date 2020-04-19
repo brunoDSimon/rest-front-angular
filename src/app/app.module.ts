@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {NgxWebstorageModule} from 'ngx-webstorage';
+import { MomentModule,DateFormatPipe } from 'ngx-moment';
 
 import { NgxMaskModule} from 'ngx-mask'
 
@@ -32,11 +33,14 @@ import { NgxCurrencyModule } from "ngx-currency";
     PipeModule,
     NgxWebstorageModule.forRoot(),
     NgxCurrencyModule,
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
+    MomentModule
 
 
   ],
-  providers: [],
+  providers: [
+    DateFormatPipe
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -25,15 +25,14 @@ import { SharedModule } from 'src/app/shared/modules/shared.module';
     HttpClientModule,
     NgxWebstorageModule.forRoot(),
     NgxMaskModule.forRoot(),
-    SharedModule
-
+    SharedModule,
 
   ],
   declarations: [
     FinanceiroComponent,
     ListarProducaoComponent,
     AdicionarModeloComponent,
-    AdicionarEmpresaComponent
+    AdicionarEmpresaComponent,
   ]
 })
 export class FinanceiroModule { }

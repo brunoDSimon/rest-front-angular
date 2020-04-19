@@ -27,6 +27,7 @@
     "ngx-currency": "^2.2.2",
     "ngx-custom-validators": "^9.1.0",
     "ngx-mask": "^8.2.0",
+    "ngx-moment": "^3.5.0",
     "ngx-webstorage": "^5.0.0",
     "node-sass": "^4.13.1",
     "popper.js": "^1.16.1",

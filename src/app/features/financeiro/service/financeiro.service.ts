@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';    
 import {map, catchError} from 'rxjs/operators'
 import { Service } from 'src/app/shared/service/service';
+import { DateFormatPipe } from 'ngx-moment';
 @Injectable({
   providedIn: 'root'
 })
@@ -10,6 +11,8 @@ export class FinanceiroService extends Service{
 
   constructor(
     private http: HttpClient,
+    private dateFormatPipe: DateFormatPipe,
+
   ) {
     super()
    }
@@ -33,9 +36,9 @@ export class FinanceiroService extends Service{
       userID: userID,
       companyID: companyID
     }
-    if(userID == "undefined" || null){
-      delete filter.userID;
-    }
+    // if(userID == "undefined" || null){
+    //   delete filter.userID;
+    // }
     const filtro = new URLSearchParams(filter).toString();
     // return this.http.get(`http://localhost:3333/beads/${userID}/${dateEntry}/${dateFinal}/${companyID}`,{headers: this.headers}).pipe(
       return this.http.get(`http://localhost:3333/beads?`+filtro,{headers: this.headers}).pipe(
