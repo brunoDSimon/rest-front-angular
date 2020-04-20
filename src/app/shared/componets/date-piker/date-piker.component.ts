@@ -29,6 +29,7 @@ export class DatePikerComponent implements OnInit {
     private calendar: NgbCalendar, 
     public formatter: NgbDateParserFormatter
     ) {
+      
     // this.fromDate = calendar.getToday();
     // this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
   }
@@ -36,14 +37,24 @@ export class DatePikerComponent implements OnInit {
   onDateSelection(date: NgbDate) {
     if (!this.fromDate && !this.toDate) {
       this.fromDate = date;
-    } else if (this.fromDate && !this.toDate && date && date.after(this.fromDate)) {
+      this._date.fromDate = this.convertData(date)
+     }
+     else if (this.fromDate && !this.toDate && date && date.after(this.fromDate)) {
       this.toDate = date;
+      this._date.toDate = this.convertData(date)
+
     } else {
       this.toDate = null;
       this.fromDate = date;
+      this._date.fromDate = this.convertData(date)
+
     }
+    console.log(date)
     this.alterarPeriodo.emit(this._date);
 
+  }
+  convertData(data: NgbDate){
+    return new Date(data.year, data.month -1, data.day)
   }
 
   isHovered(date: NgbDate) {
