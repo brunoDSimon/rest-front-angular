@@ -38,12 +38,9 @@ export class ListarProducaoComponent implements OnInit {
    }
 
   ngOnInit(){
-    console.log(this._date);
     this.formGroup = this.formBuilder.group({
-      dateEntry: ['', Validators.required],
-      dateFinal: ['', Validators.required],
-      userID: new FormControl([null]),
-      companyID: new FormControl(['', Validators.required])
+      companyID: new FormControl(['', Validators.required]),
+      userID: new FormControl(['']),
     })
       // console.log(this.companiesData.companies);
       this.filterYear();

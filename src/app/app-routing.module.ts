@@ -8,6 +8,10 @@ const routes: Routes = [
     loadChildren: () => import('./features/financeiro/financeiro.module').then(m => m.FinanceiroModule),
   },
   {
+    path: 'login',
+    loadChildren: () => import('./features/login/login.module').then(m => m.LoginModule),
+  },
+  {
     path: '',
     redirectTo: 'financeiro',
     pathMatch: 'full'

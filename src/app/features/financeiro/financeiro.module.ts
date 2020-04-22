@@ -7,6 +7,7 @@ import { NgxCurrencyModule } from "ngx-currency";
 import { HttpClientModule } from '@angular/common/http';
 import {NgxWebstorageModule} from 'ngx-webstorage';
 import { NgxMaskModule} from 'ngx-mask'
+import { CustomFormsModule } from 'ngx-custom-validators';
 
 import {FinanceiroComponent} from './componets/financeiro.component'
 import {ListarProducaoComponent} from './componets/listar-producao/listar-producao.component'
@@ -26,7 +27,7 @@ import { SharedModule } from 'src/app/shared/modules/shared.module';
     NgxWebstorageModule.forRoot(),
     NgxMaskModule.forRoot(),
     SharedModule,
-
+    CustomFormsModule,
   ],
   declarations: [
     FinanceiroComponent,

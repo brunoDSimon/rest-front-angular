@@ -35,7 +35,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <button class="btn btn-outline-success" type="submit">PESQUISAR</button>
+                                <button class="btn btn-outline-success" [disabled]="!formGroup.valid"  type="submit">PESQUISAR</button>
                             </form>
                         </div>
                         <div 
@@ -46,7 +46,7 @@
                                 <div class="card-body">
                                    <!-- {{listProducao | json}} -->
                                    <div class="row text-sm">
-                                       <div class="col">
+                                       <div class="col-3">
                                            <div class="col-12">
                                                Solicitante
                                            </div>
@@ -54,7 +54,7 @@
                                                {{aux.companies.companyName}}
                                            </div>
                                        </div>
-                                       <div class="col">
+                                       <div class="col-3">
                                            <div class="col-12">
                                                Cortador
                                            </div>
@@ -62,7 +62,7 @@
                                                {{aux.users.name}}
                                            </div>
                                        </div>
-                                       <div class="col">
+                                       <div class="col-3">
                                            <div class="col-12">
                                                Referencia
                                            </div>
@@ -70,7 +70,7 @@
                                                {{aux.reference}}
                                            </div>
                                        </div>
-                                       <div class="col">
+                                       <div class="col-3">
                                            <div class="col-12">
                                                Talão
                                            </div>
@@ -78,7 +78,8 @@
                                                {{aux.patch}}
                                            </div>
                                        </div>
-                                       <div class="col">
+                                       <hr>
+                                       <div class="col-3">
                                            <div class="col-12">
                                                quantidade
                                            </div>
@@ -86,7 +87,7 @@
                                                {{aux.amount}}
                                            </div>
                                        </div>
-                                       <div class="col">
+                                       <div class="col-3">
                                            <div class="col-12">
                                                Valor
                                            </div>
@@ -94,7 +95,7 @@
                                                {{aux.value | reais}}
                                            </div>
                                        </div>
-                                       <div class="col">
+                                       <div class="col-3">
                                            <div class="col-12">
                                                Valor a receber
                                            </div>
@@ -102,7 +103,7 @@
                                                {{aux.valueTotal | reais}}
                                            </div>
                                        </div>
-                                       <div class="col">
+                                       <div class="col-3">
                                            <div class="col-12">
                                                Data Entrada
                                            </div>

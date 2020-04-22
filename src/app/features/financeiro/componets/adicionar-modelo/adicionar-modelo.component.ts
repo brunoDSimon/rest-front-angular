@@ -81,6 +81,13 @@ export class AdicionarModeloComponent implements OnInit {
       console.log(res)
        this._openSucess = true
       setTimeout((openSucess) => {
+        this.formGroup.get('reference').setValue('')
+        this.formGroup.get('value').setValue('')
+        this.formGroup.get('amount').setValue('')
+        this.formGroup.get('patch').setValue('')
+        this.formGroup.get('dateEntry').setValue('')
+        this.formGroup.get('companyID').setValue('')
+        this.formGroup.get('userID').setValue('')
         this._openSucess = false
       }, 10000);
     }, (err) => {
