@@ -14,7 +14,7 @@ import {ListarProducaoComponent} from './componets/listar-producao/listar-produc
 import {AdicionarModeloComponent} from './componets/adicionar-modelo/adicionar-modelo.component'
 import {AdicionarEmpresaComponent} from './componets/adicionar-empresa/adicionar-empresa.component'
 import { SharedModule } from 'src/app/shared/modules/shared.module';
-
+import {GeneratePdfEmpresaComponent} from './componets/generate-pdf-empresa/generate-pdf-empresa.component'
 @NgModule({
   imports: [
     CommonModule,
@@ -34,6 +34,7 @@ import { SharedModule } from 'src/app/shared/modules/shared.module';
     ListarProducaoComponent,
     AdicionarModeloComponent,
     AdicionarEmpresaComponent,
+    GeneratePdfEmpresaComponent
   ]
 })
 export class FinanceiroModule { }

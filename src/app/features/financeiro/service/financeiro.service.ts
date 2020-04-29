@@ -110,4 +110,20 @@ export class FinanceiroService extends Service{
       )
     )
   }
+
+  public getPdf(dateEntry: any, dateFinal: any,companyID: any):Observable<any>{
+    const filter ={
+      dateEntry: dateEntry,
+      dateFinal: dateFinal,
+      companyID: companyID
+    }
+    const filtro = new URLSearchParams(filter).toString();
+    return this.http.get('http://localhost:3333/pdf?'+filtro, {headers: this.headers}).pipe(
+      map((res) =>{
+        return res;
+      },(error)=>{
+        throw this.handleError(error);
+      })
+    )
+  }
 }
