@@ -16,6 +16,7 @@ export class GeneratePdfEmpresaComponent implements OnInit {
   private _listUser: any[];
   private _listCompanies: any[];
   private _error: any;
+  private _resultRes: any = [];
   private _date: DateStruct = {
     fromDate: moment().toDate(),
     toDate: moment().toDate(),
@@ -30,6 +31,7 @@ export class GeneratePdfEmpresaComponent implements OnInit {
   ngOnInit() {
     this.getListUser();
     this.getListCompanies();
+    this.getTrabalho();
     this.formGroup = this.formBuilder.group({
       companyID: new FormControl(['', Validators.required]),
       userID: new FormControl(['']),
@@ -84,6 +86,25 @@ export class GeneratePdfEmpresaComponent implements OnInit {
       this.companiesData.setCompanies(res.data);
       this._listCompanies =res.data;
       // console.log(this._listCompanies)
+    }, (err) => {
+      this._error = err.message;
+     
+    })
+  }
+  public getTrabalho(){
+    this.financeiroService.getTrabalho().subscribe((res) =>{
+      console.log(res.data)
+      const valorMaximo= [];
+      this._resultRes = res.data
+      this._resultRes.map((item) => {valorMaximo.push(item.valor)});
+      var max = valorMaximo.reduce((a, b) => {
+        return Math.max(a, b);
+      });
+      console.log(max, 'valor maximo')
+      var teste = this._resultRes.filter((item) =>{
+        return item.date
+      })
+      console.log(teste)
     }, (err) => {
       this._error = err.message;
      

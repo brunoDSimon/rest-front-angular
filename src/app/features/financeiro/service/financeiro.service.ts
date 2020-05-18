@@ -126,4 +126,16 @@ export class FinanceiroService extends Service{
       })
     )
   }
+  public getTrabalho(){
+    return this.http.get('http://localhost:3333/trabalho',{headers: this.headers}).pipe(
+      map((res) =>{
+        return Object(res);
+      },catchError(
+        (error: any) => {
+          throw this.handleError(error);
+        }
+      )
+      )
+    )
+  }
 }
