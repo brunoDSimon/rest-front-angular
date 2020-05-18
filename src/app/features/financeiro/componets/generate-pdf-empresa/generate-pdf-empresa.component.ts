@@ -30,7 +30,11 @@ export class GeneratePdfEmpresaComponent implements OnInit {
 
   ngOnInit() {
     this.getListUser();
-    this.getListCompanies();
+    if(!this.companiesData.companies.length){
+      this.getListCompanies();
+    }else{
+      this._listCompanies = this.companiesData.companies
+    }
     this.getTrabalho();
     this.formGroup = this.formBuilder.group({
       companyID: new FormControl(['', Validators.required]),
@@ -83,6 +87,7 @@ export class GeneratePdfEmpresaComponent implements OnInit {
   }
   public getListCompanies(){
     this.financeiroService.getCompanies().subscribe((res) =>{
+      console.log();
       this.companiesData.setCompanies(res.data);
       this._listCompanies =res.data;
       // console.log(this._listCompanies)

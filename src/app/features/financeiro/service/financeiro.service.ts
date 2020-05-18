@@ -98,7 +98,7 @@ export class FinanceiroService extends Service{
     )
   }
   // VER EMPRESAS CADASTRADAS
-  public getCompanies(){
+  public getCompanies():Observable<any>{
     return this.http.get('http://localhost:3333/companies',{headers: this.headers}).pipe(
       map((res) =>{
         return Object(res);
