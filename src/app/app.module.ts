@@ -14,6 +14,7 @@ import { HeaderComponent } from './features/header/header.component';
 import { FooterComponent } from './features/footer/footer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxCurrencyModule } from "ngx-currency";
+import { LoginService } from './features/login/service/login.service';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { NgxCurrencyModule } from "ngx-currency";
 
   ],
   providers: [
-    DateFormatPipe
+    DateFormatPipe,
+    LoginService
   ],
   bootstrap: [AppComponent]
 })

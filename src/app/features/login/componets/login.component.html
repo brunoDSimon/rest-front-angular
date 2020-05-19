@@ -21,6 +21,9 @@
             <div class="text-center mt-3">
               <button class="btn-block btn-success" [disabled]="!formGroup.valid" type="submit">Entrar</button>
             </div>
+            <div class="alert alert-info" role="alert" *ngIf="openError">
+              {{error}}
+            </div>
           </form>
         </div>
       </div>

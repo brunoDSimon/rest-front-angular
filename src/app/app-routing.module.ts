@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from './guards/auth-guard';
 
 
 const routes: Routes = [
   {
     path: 'financeiro',
     loadChildren: () => import('./features/financeiro/financeiro.module').then(m => m.FinanceiroModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'login',
