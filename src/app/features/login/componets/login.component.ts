@@ -44,8 +44,8 @@ export class LoginComponent implements OnInit {
       "password": this.formGroup.get('password').value
     }
     this.loginService.auth(body).subscribe((res) =>{
-      this.userData.setUserInfo(res.data);
-      this.userData.setToken(res.token);
+      this.userData.setUserInfo(res.data.user);
+      this.userData.setToken(res.data.token);
       this._logado = true
       this.router.navigate(['/financeiro']);
       this._openError = false

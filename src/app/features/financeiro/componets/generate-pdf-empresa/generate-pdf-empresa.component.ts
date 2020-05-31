@@ -29,13 +29,13 @@ export class GeneratePdfEmpresaComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getListUser();
-    if(!this.companiesData.companies.length){
-      this.getListCompanies();
-    }else{
-      this._listCompanies = this.companiesData.companies
-    }
-    this.getTrabalho();
+    // this.getListUser();
+    // if(!this.companiesData.companies.length){
+    //   this.getListCompanies();
+    // }else{
+    //   this._listCompanies = this.companiesData.companies
+    // }
+    this.getListCompanies();
     this.formGroup = this.formBuilder.group({
       companyID: new FormControl(['', Validators.required]),
       userID: new FormControl(['']),
@@ -96,23 +96,5 @@ export class GeneratePdfEmpresaComponent implements OnInit {
      
     })
   }
-  public getTrabalho(){
-    this.financeiroService.getTrabalho().subscribe((res) =>{
-      console.log(res.data)
-      const valorMaximo= [];
-      this._resultRes = res.data
-      this._resultRes.map((item) => {valorMaximo.push(item.valor)});
-      var max = valorMaximo.reduce((a, b) => {
-        return Math.max(a, b);
-      });
-      console.log(max, 'valor maximo')
-      var teste = this._resultRes.filter((item) =>{
-        return item.date
-      })
-      console.log(teste)
-    }, (err) => {
-      this._error = err.message;
-     
-    })
-  }
+  
 }
