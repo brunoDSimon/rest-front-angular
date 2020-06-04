@@ -9,11 +9,16 @@ import Chart from 'chart.js';
 })
 export class SumGroupMonthCompaniesComponent implements OnInit {
   private myChart: any;
-  private _filtradosNames: any = [];
-  private _filtradosMonth: any [] = [];
-  private _filtrados: any = [];
+  private _monthsChart: any[] = [];
+  private _conteudoChart: any[] = [];
   private response: any = [];
-  private _retorno: any;
+  private _cores = [
+    "#3e95cd",
+    "#3e94cd",
+    "#3e93cd",
+    "#3e92cd",
+    "#3e91cd",
+  ];
   constructor(
     private dashboardService: DashboardService
   ) { }
@@ -22,67 +27,45 @@ export class SumGroupMonthCompaniesComponent implements OnInit {
     this.getSumGroupMonthCompanies();
   }
 
-
+  get conteudoChart() {
+    return this._conteudoChart;
+  }
+  
+  get monthsChart() {
+    return this._monthsChart;
+  }
 
   public getSumGroupMonthCompanies(){
     this.dashboardService.sumGroupMonthCompanies().subscribe((res) =>{
       this.response = res.data;
       
-      this.response.map((item) =>{this._filtradosNames.push(item.companies.companyName)})
-      this.response.map((item) =>{this._filtradosMonth.push(item.month)})
-      // console.log(this._filtradosNames, 'filtradosNames')
-      // console.log(this._filtradosMonth, 'filtradosMonth')
-      let teste = [];
-      // teste = response.filter(x => x.month == '3' )
-       this.response.map((res) => {
-        if (this._filtrados.length) {
-          const index = this._filtrados.findIndex((t)=>t.companyName == res.companies.companyName)
+      this.response.map((item) =>{if(this._monthsChart.indexOf(item.month) ==-1){this._monthsChart.push(item.month)}});
+            
+      this.response.map((res) => {
+        if (this._conteudoChart.length) {
+          const index = this._conteudoChart.findIndex((t)=>t.label == res.companies.companyName)
           if(index != -1){
-            this._filtrados[index].valores.push(res.resultGroup);
-            this._filtrados[index].month.push(res.month)
+            this._conteudoChart[index].data.push(res.resultGroup);
           } else {
-            this._filtrados.push({companyName: res.companies.companyName, valores: [res.resultGroup], month: [res.month]});
+            this._conteudoChart.push({label: res.companies.companyName, data: [res.resultGroup],backgroundColor:  this.cores[this._conteudoChart.length]});
           }
-        }else {
-          this._filtrados.push({companyName: res.companies.companyName, valores: [res.resultGroup], month: [res.month]});
+        } else {
+          this._conteudoChart.push({label: res.companies.companyName, data: [res.resultGroup],backgroundColor: this.cores[0]});
         }
       }); 
-      this.callback(this._filtrados)
-      // response.map((res) => {
-      // if (this._filtrados.indexOf(res.month) === -1) {
-      //     this._filtrados.push(res.month);
-      //   }
-      // });
-      console.log(this._filtrados)
-      console.log(this._filtrados.map(res => res.valores))
-    this.render()
+      this.render()
 
     },(error) =>{
       console.log(error)
     })
   }
-  public callback(res){
-    const retorno = {
-      companies: {
-        month: this._filtrados.month,
-        value: this._filtrados.valores,
-        name: this._filtrados.companyName
-      }
-    }
-    console.log(retorno)
-  }
+
   public render(){
     this.myChart =new Chart(document.getElementById("bar-chart-grouped"), {
       type: 'bar',
       data: {
-        labels: this._filtrados.companyName,
-        datasets: [
-          {
-            label: 'Soma de ganhos por mes por empresa',
-            backgroundColor: "#3e95cd",
-            data: this._filtrados.map(res => res.valores)
-          },
-        ]
+        labels: this.monthsChart,
+        datasets: this.conteudoChart
       },
       options: {
         title: {
