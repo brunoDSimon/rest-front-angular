@@ -12,6 +12,7 @@ import { SharedModule } from 'src/app/shared/modules/shared.module';
 import { CustomFormsModule } from 'ngx-custom-validators';
 import { SumGroupMonthComponent } from './componets/sum-group-month/sum-group-month.component';
 import { SumGroupCompaniesComponent } from './componets/sum-group-companies/sum-group-companies.component';
+import { SumGroupMonthCompaniesComponent } from './componets/sum-group-month-companies/sum-group-month-companies.component';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import { SumGroupCompaniesComponent } from './componets/sum-group-companies/sum-
   declarations: [
     DashboardComponent,
     SumGroupMonthComponent,
-    SumGroupCompaniesComponent
+    SumGroupCompaniesComponent,
+    SumGroupMonthCompaniesComponent
   ]
 })
 export class DashboardModule { }

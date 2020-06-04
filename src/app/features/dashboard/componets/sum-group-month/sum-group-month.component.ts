@@ -24,7 +24,7 @@ export class SumGroupMonthComponent implements OnInit {
     this.dashboardService.sumGroupMonth().subscribe((res) =>{
       res.data.beadGroupMonth.map((item) =>{this._valueTotal.push(item.resultGroup.toFixed(2))})
       res.data.beadGroupMonth.map((item) =>{this._month.push(item.month)})
-      console.log(this._valueTotal)
+      // console.log(this._valueTotal)
       this.render();
     },(err) => {
       console.log(err)
@@ -62,11 +62,9 @@ export class SumGroupMonthComponent implements OnInit {
               return '';
             },
             label: (t, c) => {
-              // c = chart
-              // t = tooltipItem
-              const label = c.datasets[t.datasetIndex].label[t.index];
+              // const label = c.datasets[t.datasetIndex].label[t.index];
               const valor = this.reais.transform(c.datasets[t.datasetIndex].data[t.index]);
-              return `  ${label} ${valor}  `;
+              return `  ${valor}  `;
             },
             labelTextColor: (tooltipItem, chart) => {
               return 'black';

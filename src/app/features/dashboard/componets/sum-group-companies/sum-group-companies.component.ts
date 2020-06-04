@@ -24,10 +24,10 @@ export class SumGroupCompaniesComponent implements OnInit {
 
   public getSumTotalGroupCompanies(){
     this.dashboardService.sumTotalGroupCompanies().subscribe((res)=>{
-      console.log(res.data.beadSumGroup, 'getSumTotalGroupCompanies');
+      // console.log(res.data.beadSumGroup, 'getSumTotalGroupCompanies');
       res.data.beadSumGroup.map((item) =>{this._valueTotal.push(item.resultGroup.toFixed(2))})
       res.data.beadSumGroup.map((item) =>{this._namesCompanies.push(item.companies.companyName)})
-      console.log(this._namesCompanies);
+      // console.log(this._namesCompanies);
 
 
       this.render()
@@ -64,9 +64,9 @@ export class SumGroupCompaniesComponent implements OnInit {
               return '';
             },
             label: (t, c) => {
-              const label = c.datasets[t.datasetIndex].label[t.index];
+              // const label = c.datasets[t.datasetIndex].label[t.index];
               const valor = this.reais.transform(c.datasets[t.datasetIndex].data[t.index]);
-              return `  ${label} ${valor}  `;
+              return `   ${valor}  `;
             },
             labelTextColor: (tooltipItem, chart) => {
               return 'black';
