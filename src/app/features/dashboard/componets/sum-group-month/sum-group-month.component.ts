@@ -31,8 +31,8 @@ export class SumGroupMonthComponent implements OnInit {
     this.dashboardService.sumGroupMonth().subscribe((res) =>{
       this._response = res.data.beadGroupMonth;
       res.data.beadGroupMonth.map((item) =>{this._valueTotal.push(item.resultGroup.toFixed(2))})
-      res.data.beadGroupMonth.map((item) =>{this._month.push(item.month)})
-      console.log(this._response)
+      res.data.beadGroupMonth.map((item) =>{this._month.push(item.periodo)})
+      // console.log(this._response)
       this.render();
     },(err) => {
       console.log(err)
@@ -41,7 +41,7 @@ export class SumGroupMonthComponent implements OnInit {
 
   public render(){
     const meses = this.getMesesSigla();
-    console.log(meses)
+    // console.log(meses)
     this.myChart = new Chart(document.getElementById("bar-chart"), {
       type: 'bar',
       data: {
