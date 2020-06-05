@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DashboardService } from '../../service/dashboard.service';
 import Chart from 'chart.js';
 import { ReaisPipe } from 'src/app/shared/pipe/reais.pipe';
+import { MesAnoPipe } from 'src/app/shared/pipe/mes-ano.pipe';
 @Component({
   selector: 'app-sum-group-month',
   templateUrl: './sum-group-month.component.html',
@@ -11,20 +12,27 @@ export class SumGroupMonthComponent implements OnInit {
   private myChart: any;
   private _month: any = [];
   private _valueTotal: any = [];
+  private _response: any = [];
   constructor(
     private dashboardService: DashboardService,
-    private reais:ReaisPipe
+    private reais:ReaisPipe,
+    private mesAno:MesAnoPipe
   ) { }
 
   ngOnInit() {
     this.getSumGroupMonth();
+    
   }
 
+  get response(){
+    return this._response;
+  }
   public getSumGroupMonth(){
     this.dashboardService.sumGroupMonth().subscribe((res) =>{
+      this._response = res.data.beadGroupMonth;
       res.data.beadGroupMonth.map((item) =>{this._valueTotal.push(item.resultGroup.toFixed(2))})
       res.data.beadGroupMonth.map((item) =>{this._month.push(item.month)})
-      // console.log(this._valueTotal)
+      console.log(this._response)
       this.render();
     },(err) => {
       console.log(err)
@@ -32,6 +40,8 @@ export class SumGroupMonthComponent implements OnInit {
   }
 
   public render(){
+    const meses = this.getMesesSigla();
+    console.log(meses)
     this.myChart = new Chart(document.getElementById("bar-chart"), {
       type: 'bar',
       data: {
@@ -74,45 +84,17 @@ export class SumGroupMonthComponent implements OnInit {
       }
   });
   }
-  private getNomeMes(mes) {
-    let nome = '';
-    switch (mes) {
-      case '02':
-        nome = 'Fevereiro';
-        break;
-      case '03':
-        nome = 'Março';
-        break;
-      case '04':
-        nome = 'Abril';
-        break;
-      case '05':
-        nome = 'Maio';
-        break;
-      case '06':
-        nome = 'Junho';
-        break;
-      case '07':
-        nome = 'Julho';
-        break;
-      case '08':
-        nome = 'Agosto';
-        break;
-      case '09':
-        nome = 'Setembro';
-        break;
-      case '10':
-        nome = 'Outubro';
-        break;
-      case '11':
-        nome = 'Novembro';
-        break;
-      case '12':
-        nome = 'Dezembro';
-        break;
-      default:
-        nome = 'Janeiro';
+  private getMesesSigla() {
+    const meses = [];
+    const periodo = this._month;
+    const lengthPeriodo = this._month.length;
+    if (lengthPeriodo) {
+      periodo.map((mes) => {
+        meses.push(this.mesAno.transform(mes, 'sigla', true).toString());
+      });
+      return meses;
     }
-    return nome;
+    return meses;
   }
+
 }

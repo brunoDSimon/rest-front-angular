@@ -12,6 +12,7 @@ export class SumGroupCompaniesComponent implements OnInit {
   private myChart: any;
   private _valueTotal: any = [];
   private _namesCompanies: any = [];
+  private _response: any = [];
   constructor(
    private dashboardService: DashboardService,
    private reais:ReaisPipe
@@ -21,13 +22,16 @@ export class SumGroupCompaniesComponent implements OnInit {
     this.getSumTotalGroupCompanies();
   }
 
-
+  get response(){
+    return this._response;
+  }
   public getSumTotalGroupCompanies(){
     this.dashboardService.sumTotalGroupCompanies().subscribe((res)=>{
       // console.log(res.data.beadSumGroup, 'getSumTotalGroupCompanies');
+      this._response = res.data.beadSumGroup;
       res.data.beadSumGroup.map((item) =>{this._valueTotal.push(item.resultGroup.toFixed(2))})
       res.data.beadSumGroup.map((item) =>{this._namesCompanies.push(item.companies.companyName)})
-      // console.log(this._namesCompanies);
+      // console.log( this._response, 'response');
 
 
       this.render()
@@ -42,7 +46,7 @@ export class SumGroupCompaniesComponent implements OnInit {
       data: {
         labels: this._namesCompanies,
         datasets: [{
-          label: "Population (millions)",
+          // label: "Population (millions)",
           backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
           data: this._valueTotal
         }]

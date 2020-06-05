@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from '../../service/dashboard.service';
 import Chart from 'chart.js';
+import { ReaisPipe } from 'src/app/shared/pipe/reais.pipe';
 
 @Component({
   selector: 'app-sum-group-month-companies',
@@ -14,13 +15,15 @@ export class SumGroupMonthCompaniesComponent implements OnInit {
   private response: any = [];
   private _cores = [
     "#3e95cd",
-    "#3e94cd",
-    "#3e93cd",
-    "#3e92cd",
-    "#3e91cd",
+    "#4c32a8",
+    "#DF3A01",
+    "#0B4C5F",
+    "#8000FF",
   ];
   constructor(
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    private reais:ReaisPipe
+
   ) { }
 
   ngOnInit() {
@@ -47,10 +50,10 @@ export class SumGroupMonthCompaniesComponent implements OnInit {
           if(index != -1){
             this._conteudoChart[index].data.push(res.resultGroup);
           } else {
-            this._conteudoChart.push({label: res.companies.companyName, data: [res.resultGroup],backgroundColor:  this.cores[this._conteudoChart.length]});
+            this._conteudoChart.push({label: res.companies.companyName, data: [res.resultGroup],backgroundColor:  this._cores[this._conteudoChart.length]});
           }
         } else {
-          this._conteudoChart.push({label: res.companies.companyName, data: [res.resultGroup],backgroundColor: this.cores[0]});
+          this._conteudoChart.push({label: res.companies.companyName, data: [res.resultGroup],backgroundColor: this._cores[0]});
         }
       }); 
       this.render()
@@ -70,9 +73,31 @@ export class SumGroupMonthCompaniesComponent implements OnInit {
       options: {
         title: {
           display: false,
-          text: 'Population growth (millions)'
-        }
-      }
+          text: 'Ganhos agrupado por mes de cada compania'
+        },
+        tooltips: {
+          backgroundColor: '#fff',
+          borderWidth: 1,
+          borderColor: '#999',
+          displayColors: false,
+          mode: 'point',
+          titleFontColor: 'black',
+          callbacks: {
+            title: () => {
+              return '';
+            },
+            label: (t, c) => {
+              // const label = c.datasets[t.datasetIndex].label[t.index];
+              const valor = this.reais.transform(c.datasets[t.datasetIndex].data[t.index]);
+              return `  ${valor}  `;
+            },
+            labelTextColor: (tooltipItem, chart) => {
+              return 'black';
+            }
+          }
+        },
+      },
+      
    });
   }
 }
