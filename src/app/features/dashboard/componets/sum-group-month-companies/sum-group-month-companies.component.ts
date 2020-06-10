@@ -15,12 +15,18 @@ export class SumGroupMonthCompaniesComponent implements OnInit {
   private response: any[] = [];
   private _periodos:any = [];
   private _valor: any[]= []
+  private teste: any[] =[];
+  private _names: any[] =[];
   private _cores = [
     "#3e95cd",
     "#4c32a8",
     "#DF3A01",
     "#0B4C5F",
     "#8000FF",
+    "#CCFFE5",
+    "#FF9999",
+    "#CCFFCC",
+    "#FF3333"
   ];
   private dados:any =[
     {
@@ -132,6 +138,9 @@ export class SumGroupMonthCompaniesComponent implements OnInit {
  get valor(){
    return this._valor
  }
+ get names(){
+   return this._names;
+ }
   public getSumGroupMonthCompanies(){
     this.dashboardService.sumGroupMonthCompanies().subscribe((res) =>{
       this.response = res.data;
@@ -139,47 +148,68 @@ export class SumGroupMonthCompaniesComponent implements OnInit {
       this.response.map((item) =>{if(this._monthsChart.indexOf(item.periodo) ==-1){this._monthsChart.push(item.periodo)}});
       this.response.map((res) => {
         if (this._conteudoChart.length) {
-          const index = this._conteudoChart.findIndex((t)=>t.periodo == res.periodo)
+          const index = this._conteudoChart.findIndex((t)=>t.label == res.companies.companyName)
           if(index != -1){
-            this._conteudoChart[index].data.push(res.resultGroup);
-            this._conteudoChart[index].label.push(res.companies.companyName);
+            this._conteudoChart[index].dataValorPeriodo.push({valor:res.resultGroup, periodo: res.periodo});
           } else {
-            this._conteudoChart.push({periodo:res.periodo, label: [res.companies.companyName], data: [res.resultGroup]})
+            this._conteudoChart.push({label: res.companies.companyName, dataValorPeriodo:[{valor:res.resultGroup, periodo: res.periodo}] ,backgroundColor:  this._cores[this._conteudoChart.length], data: []})
           }
         } else {
-          this._conteudoChart.push({periodo:res.periodo,label: [res.companies.companyName], data: [res.resultGroup]});
+          this._conteudoChart.push({label: res.companies.companyName, dataValorPeriodo: [{valor:res.resultGroup, periodo: res.periodo}], backgroundColor: this._cores[0], data: []});
         }
       }); 
       console.log(this._conteudoChart)
-      this._conteudoChart.map((aux) =>{this._valor.push(aux.data) })
+      
+      this._conteudoChart.map((aux, i) =>{
+        this._monthsChart.map((periodo) => {
+          console.log(periodo, 'period')
+          console.log(aux.dataValorPeriodo, 'valor periodo')
+          let itemEncontrado = aux.dataValorPeriodo.findIndex((item) =>{
+            console.log('item periodo', item.periodo);
+            console.log('comparacao', item.periodo==periodo);
+            return item.periodo == periodo;
+          });
+          if (itemEncontrado != -1) {
+            this._conteudoChart[i].data.push(aux.dataValorPeriodo[itemEncontrado].valor);
+          } else {
+            this._conteudoChart[i].data.push(0);
+          }
+        })
+        this._valor.push(aux.data) 
+      })
       console.log(this._valor)
       this.render()
     },(error) =>{
       console.log(error)
     })
   }
-
+  public split(array, cols) {
+    var ret = [];
+    if (cols==1 || array.length === 1){
+      ret.push(array);
+    }else{
+      var size = Math.ceil(array.length / cols);
+      for (var i = 0; i < cols; i++) {
+        var start = i*size;
+        ret.push(array.slice(start, start+size));
+      }
+    }
+    console.log(ret)
+    return ret;
+  }
   public render(){
-    this.myChart =new Chart(document.getElementById("bar-chart-grouped"), {
-        type: 'bar',
-        // data: {
-        //   labels: this.monthsChart,
-        //   datasets: this.conteudoChart
-        // },
-        data: {
-          labels: this._monthsChart,
-          datasets: [
-            {
-              label: 'Soma total de ganhos por mes',
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: this.valor
-            }
-          ]
-        },
+    new Chart(document.getElementById("bar-chart-grouped"), {
+      type: 'bar',
+      data: {
+        labels: this.monthsChart,
+        datasets: this.conteudoChart
+    
+      },
       options: {
+        legend: { display: false },
         title: {
-          display: false,
-          text: 'Ganhos agrupado por mes de cada compania'
+          display: true,
+          text: 'Soma total de ganhos por mes'
         },
         // tooltips: {
         //   backgroundColor: '#fff',
@@ -202,8 +232,7 @@ export class SumGroupMonthCompaniesComponent implements OnInit {
         //     }
         //   }
         // },
-      },
-      
-   });
+      }
+  });
   }
 }
