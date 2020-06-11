@@ -15,6 +15,7 @@ import {AdicionarModeloComponent} from './componets/adicionar-modelo/adicionar-m
 import {AdicionarEmpresaComponent} from './componets/adicionar-empresa/adicionar-empresa.component'
 import { SharedModule } from 'src/app/shared/modules/shared.module';
 import {GeneratePdfEmpresaComponent} from './componets/generate-pdf-empresa/generate-pdf-empresa.component'
+import { CardTotalizadorComponent } from './componets/card-totalizador/card-totalizador.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -34,7 +35,8 @@ import {GeneratePdfEmpresaComponent} from './componets/generate-pdf-empresa/gene
     ListarProducaoComponent,
     AdicionarModeloComponent,
     AdicionarEmpresaComponent,
-    GeneratePdfEmpresaComponent
+    GeneratePdfEmpresaComponent,
+    CardTotalizadorComponent
   ]
 })
 export class FinanceiroModule { }

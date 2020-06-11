@@ -50,3 +50,17 @@ body{
 }
 
 
+.container-centralized {
+    max-width: 1300px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    @media (max-width: 2560px) {
+      max-width: 2500px;
+    }
+    @media (max-width: 1440px) {
+      max-width: 1400px;
+    }
+    @media (max-width: 1360px) {
+      max-width: 1300px;
+    }
+}

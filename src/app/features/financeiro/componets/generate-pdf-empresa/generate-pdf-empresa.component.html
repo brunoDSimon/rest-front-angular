@@ -1,31 +1,29 @@
-<div class="container">
-  <div class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Gerar cobrança</h5>
-          <form class="form-group" [formGroup]="formGroup" (ngSubmit)="gerarPdf()">
-            <div class="col-12">
-              <div>Data</div>
-              <app-date-piker 
-              [init]="init" 
-              (alterarPeriodo)="alterarPeriodo($event)"
-              ></app-date-piker>
-            </div>
-            <div class="col-12">
-              <div>Empresa</div>
-              <select class="custom-select w-75" formControlName="companyID">
-                  <option 
-                  *ngFor="let aux of listCompanies"
-                  [ngValue]="aux.id"
-                  >
-                  {{aux.companyName}}
-                  </option>
-              </select>
-            </div>
-            <button class="btn btn-block btn-outline-success mt-3" type="submit">Gerar pdf</button>
-          </form>
-        </div>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <h6 class="card-title font-weight-bold">Gerar cobrança</h6>
+        <form class="form-group" [formGroup]="formGroup" (ngSubmit)="gerarPdf()">
+          <div class="col-12">
+            <div>Data</div>
+            <app-date-piker 
+            [init]="init" 
+            (alterarPeriodo)="alterarPeriodo($event)"
+            ></app-date-piker>
+          </div>
+          <div class="col-12">
+            <div>Empresa</div>
+            <select class="custom-select w-75" formControlName="companyID">
+                <option 
+                *ngFor="let aux of listCompanies"
+                [ngValue]="aux.id"
+                >
+                {{aux.companyName}}
+                </option>
+            </select>
+          </div>
+          <button class="btn btn-block btn-outline-success mt-3" type="submit">Gerar pdf</button>
+        </form>
       </div>
     </div>
   </div>

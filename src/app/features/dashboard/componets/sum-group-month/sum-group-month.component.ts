@@ -48,8 +48,8 @@ export class SumGroupMonthComponent implements OnInit {
         labels: this._month,
         datasets: [
           {
-            label: 'Soma total de ganhos por mes',
-            backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+            label: 'Soma total de ganhos por mês',
+            backgroundColor: ["#0000CD", "#48D1CC","#4B0082","#A020F0","#FF0000", "#FFA500","#FFFF00","#B0E0E6","#4682B4","#00FFFF", "#ADFF2F","#008B8B" ],
             data: this._valueTotal
           }
         ]
@@ -58,7 +58,7 @@ export class SumGroupMonthComponent implements OnInit {
         legend: { display: false },
         title: {
           display: true,
-          text: 'Soma total de ganhos por mes'
+          text: 'Soma total de ganhos por mês'
         },
         tooltips: {
           backgroundColor: '#fff',
@@ -72,9 +72,9 @@ export class SumGroupMonthComponent implements OnInit {
               return '';
             },
             label: (t, c) => {
-              // const label = c.datasets[t.datasetIndex].label[t.index];
+              const label = c.datasets[t.datasetIndex];
               const valor = this.reais.transform(c.datasets[t.datasetIndex].data[t.index]);
-              return `  ${valor}  `;
+              return `${valor}  `;
             },
             labelTextColor: (tooltipItem, chart) => {
               return 'black';

@@ -124,6 +124,7 @@ export class ListarProducaoComponent implements OnInit {
   }
 
   public getProducao(){
+    this._listProducaoo = [];
     const dateEntry = this.dateFormatPipe.transform(this._date.fromDate, 'YYYY-MM-DD');
     const dateFinal = this.dateFormatPipe.transform(this._date.toDate, 'YYYY-MM-DD');
     const userID = this.formGroup.get('userID').value;

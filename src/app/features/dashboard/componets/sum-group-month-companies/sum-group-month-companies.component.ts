@@ -158,15 +158,10 @@ export class SumGroupMonthCompaniesComponent implements OnInit {
           this._conteudoChart.push({label: res.companies.companyName, dataValorPeriodo: [{valor:res.resultGroup, periodo: res.periodo}], backgroundColor: this._cores[0], data: []});
         }
       }); 
-      console.log(this._conteudoChart)
       
       this._conteudoChart.map((aux, i) =>{
         this._monthsChart.map((periodo) => {
-          console.log(periodo, 'period')
-          console.log(aux.dataValorPeriodo, 'valor periodo')
-          let itemEncontrado = aux.dataValorPeriodo.findIndex((item) =>{
-            console.log('item periodo', item.periodo);
-            console.log('comparacao', item.periodo==periodo);
+          let itemEncontrado = aux.dataValorPeriodo.findIndex((item) =>{            
             return item.periodo == periodo;
           });
           if (itemEncontrado != -1) {
@@ -177,25 +172,11 @@ export class SumGroupMonthCompaniesComponent implements OnInit {
         })
         this._valor.push(aux.data) 
       })
-      console.log(this._valor)
+     
       this.render()
     },(error) =>{
       console.log(error)
     })
-  }
-  public split(array, cols) {
-    var ret = [];
-    if (cols==1 || array.length === 1){
-      ret.push(array);
-    }else{
-      var size = Math.ceil(array.length / cols);
-      for (var i = 0; i < cols; i++) {
-        var start = i*size;
-        ret.push(array.slice(start, start+size));
-      }
-    }
-    console.log(ret)
-    return ret;
   }
   public render(){
     new Chart(document.getElementById("bar-chart-grouped"), {
@@ -206,32 +187,32 @@ export class SumGroupMonthCompaniesComponent implements OnInit {
     
       },
       options: {
-        legend: { display: false },
+        legend: { display: true },
         title: {
           display: true,
-          text: 'Soma total de ganhos por mes'
+          text: 'Soma total de ganhos por mês agrupado por empresa'
         },
-        // tooltips: {
-        //   backgroundColor: '#fff',
-        //   borderWidth: 1,
-        //   borderColor: '#999',
-        //   displayColors: false,
-        //   mode: 'point',
-        //   titleFontColor: 'black',
-        //   callbacks: {
-        //     title: () => {
-        //       return '';
-        //     },
-        //     label: (t, c) => {
-        //       // const label = c.datasets[t.datasetIndex].label[t.index];
-        //       const valor = this.reais.transform(c.datasets[t.datasetIndex].data[t.index]);
-        //       return `  ${valor}  `;
-        //     },
-        //     labelTextColor: (tooltipItem, chart) => {
-        //       return 'black';
-        //     }
-        //   }
-        // },
+        tooltips: {
+          backgroundColor: '#fff',
+          borderWidth: 1,
+          borderColor: '#999',
+          displayColors: false,
+          mode: 'point',
+          titleFontColor: 'black',
+          callbacks: {
+            title: () => {
+              return '';
+            },
+            label: (t, c) => {
+              const label = c.datasets[t.datasetIndex].label;
+              const valor = this.reais.transform(c.datasets[t.datasetIndex].data[t.index]);
+              return ` ${label}  ${valor}  `;
+            },
+            labelTextColor: (tooltipItem, chart) => {
+              return 'black';
+            }
+          }
+        },
       }
   });
   }
