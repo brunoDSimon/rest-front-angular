@@ -4,7 +4,6 @@ import { PipeModule } from 'src/app/shared/modules/pipe.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxCurrencyModule } from "ngx-currency";
 import { HttpClientModule } from '@angular/common/http';
-import {NgxWebstorageModule} from 'ngx-webstorage';
 import { NgxMaskModule} from 'ngx-mask'
 import { DatePikerComponent } from '../componets/date-piker/date-piker.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -17,9 +16,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NgxWebstorageModule.forRoot(),
     NgxMaskModule.forRoot(),
-    NgbModule
+    NgbModule,
   ],
   declarations: [
     DatePikerComponent

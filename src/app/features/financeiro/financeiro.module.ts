@@ -5,7 +5,6 @@ import { FinanceiroRoutingModule } from './financeiro-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxCurrencyModule } from "ngx-currency";
 import { HttpClientModule } from '@angular/common/http';
-import {NgxWebstorageModule} from 'ngx-webstorage';
 import { NgxMaskModule} from 'ngx-mask'
 import { CustomFormsModule } from 'ngx-custom-validators';
 
@@ -25,7 +24,6 @@ import { CardTotalizadorComponent } from './componets/card-totalizador/card-tota
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NgxWebstorageModule.forRoot(),
     NgxMaskModule.forRoot(),
     SharedModule,
     CustomFormsModule,

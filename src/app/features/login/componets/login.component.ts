@@ -23,11 +23,16 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.logado
-    this.formGroup = this.formBuilder.group({
-      email: ['', CustomValidators.email],
-      password: ['', Validators.required]
-    })
+    if(this.userData.userInfo[0]){
+      this.router.navigate(['/financeiro']);
+      this._logado = true;
+    }else{
+      this.formGroup = this.formBuilder.group({
+        email: ['', CustomValidators.email],
+        password: ['', Validators.required]
+      })
+    }
+    
   }
   get openError(){
     return this._openError
@@ -45,7 +50,7 @@ export class LoginComponent implements OnInit {
     }
     this.loginService.auth(body).subscribe((res) =>{
       this.userData.setUserInfo(res.data.user);
-      this.userData.setToken(res.data.token);
+      this.userData.setAuth(res.data.token);
       this._logado = true
       this.router.navigate(['/financeiro']);
       this._openError = false

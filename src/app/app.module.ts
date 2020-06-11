@@ -3,8 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {NgxWebstorageModule} from 'ngx-webstorage';
 import { MomentModule,DateFormatPipe } from 'ngx-moment';
+import { WebStorageModule } from 'ngx-store-9';
 
 import { NgxMaskModule} from 'ngx-mask'
 
@@ -32,10 +32,10 @@ import { LoginService } from './features/login/service/login.service';
     HttpClientModule,
     NgxCurrencyModule,
     PipeModule,
-    NgxWebstorageModule.forRoot(),
     NgxCurrencyModule,
     NgxMaskModule.forRoot(),
-    MomentModule
+    MomentModule,
+    WebStorageModule
 
 
   ],

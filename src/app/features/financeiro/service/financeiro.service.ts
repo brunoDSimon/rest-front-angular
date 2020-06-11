@@ -57,10 +57,10 @@ export class FinanceiroService extends Service{
 
 
   // VER USUARIOS DISPONIVEIS
-  public getUser(){
+  public getUser():Observable<any>{
     return this.http.get('http://localhost:3333/user',{headers: this.headers}).pipe(
       map((res) =>{
-        return Object(res);
+        return res;
       },catchError(
         (error: any) => {
           throw this.handleError(error);

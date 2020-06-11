@@ -1,29 +1,24 @@
 import { Injectable } from '@angular/core';
-import { SessionStorage, SessionStorageService } from 'ngx-webstorage';
+import { SessionStorageService, SessionStorage } from 'ngx-store-9';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CompaniesDataService {
   @SessionStorage()
-  private _companies: [] = this.session.retrieve('companies');
+  private _companies:any =[];
 constructor(
   private session: SessionStorageService,
 ) { }
 
-  // public companies(){
-   
-  // }
   get companies(){
-    return this._companies
-  }
-  public setCompanies(companies){
-    this.session.store('companies', companies)
+    return this._companies;
   }
   
-  // public clear(){
-  //   delete this._companies;
-
-  //   this._companies = []
-  // }
+  public setCompanies(_companies){
+    this._companies.push(_companies)
+  }
+  public clear(){
+    delete this._companies;
+  }
 }

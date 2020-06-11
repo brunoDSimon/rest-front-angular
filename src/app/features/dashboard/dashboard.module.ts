@@ -6,7 +6,6 @@ import { PipeModule } from 'src/app/shared/modules/pipe.module';
 import { NgxCurrencyModule } from 'ngx-currency';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { NgxWebstorageModule } from 'ngx-webstorage';
 import { NgxMaskModule } from 'ngx-mask';
 import { SharedModule } from 'src/app/shared/modules/shared.module';
 import { CustomFormsModule } from 'ngx-custom-validators';
@@ -23,7 +22,6 @@ import { SumGroupMonthCompaniesComponent } from './componets/sum-group-month-com
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NgxWebstorageModule.forRoot(),
     NgxMaskModule.forRoot(),
     SharedModule,
     CustomFormsModule,
