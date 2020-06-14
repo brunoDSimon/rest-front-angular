@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CookiesStorageService, LocalStorageService, SessionStorageService, SharedStorageService, SessionStorage } from 'ngx-store-9';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class UsersDataService {
   private _auth: any =  [];
   constructor(
    private sessionStorageService: SessionStorageService,
+   private router: Router,
   ) { }
   get userInfo(){
     return this._userInfo
@@ -27,5 +29,7 @@ export class UsersDataService {
   public clearAll(){
     this._auth = []
     this._userInfo = []
+
+    this.router.navigate(['/login']);
   }
 }

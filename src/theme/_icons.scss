@@ -10,7 +10,6 @@
         cursor: pointer;
         width: 100%;
         height: 100%;
-        display: block;
     }
     &-calendario{
         background-image: url('/assets/calendario.svg');
@@ -20,6 +19,33 @@
         cursor: pointer;
         width: 100%;
         height: 100%;
-        display: block;
+    }
+    &-conta{
+        background-image: url('/assets/conta.svg');
+        background-position: center;
+        background-repeat: no-repeat;
+        padding: 10px;
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+    }
+    &-dinheiro{
+        background-image: url('/assets/dinheiro.svg');
+        background-position: center;
+        background-repeat: no-repeat;
+        padding: 20px;
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+    }
+    &-bag{
+        background-image: url('/assets/bag.svg');
+        background-position: center;
+        background-repeat: no-repeat;
+        padding: 20px;
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+        background-size: 30px;
     }
 }

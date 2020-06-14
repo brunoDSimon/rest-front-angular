@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UsersDataService } from 'src/app/shared/service/UsersData.service';
 
 @Component({
   selector: 'app-financeiro',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FinanceiroComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private userData:UsersDataService
+  ) { }
 
   ngOnInit(): void {
+    console.log(this.userData.auth[0])
   }
 
 }

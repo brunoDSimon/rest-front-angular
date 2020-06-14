@@ -18,7 +18,7 @@ constructor(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ):Observable<boolean> | boolean{
-    if(this.userData.auth != null){
+    if(this.userData.auth.length){
       return true
     }else{
       this.router.navigate(['/login']);

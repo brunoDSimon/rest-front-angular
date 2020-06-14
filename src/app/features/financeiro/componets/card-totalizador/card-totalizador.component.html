@@ -1,22 +1,35 @@
 <div class="card h-100">
   <div class="card-body">
-    <h6 class="card-title font-weight-bold">Ganhos por periodo
-      <div ngbDropdown class="d-inline-block float-right">
-        <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>{{currentYear}}</button>
-        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-          <button 
-            class="dropdown-item pr-3 mt-1" 
-            *ngFor='let aux of years'
-            (click)="changeFilter(aux.year)">
-            <i class="ic ic-calendar mr-2"></i>
-            {{ aux.year }}
+    <h6 class="card-title font-weight-bold">
+      <span>
+        <i class="ic-bag"></i>
+      </span>
+      Ganhos por periodo
+      <div ngbDropdown class="float-right">
+        <button class="btn btn-sm btn-outline-primary" id="dropdownMenuButton" ngbDropdownToggle>              
+            <i class="ic ic-filtro"></i>
+            {{ this?.currentMonthDescription }} {{ this?.currentYear }}
+        </button>
+        <div ngbDropdownMenu  aria-labelledby="dropdownMenuButton" >
+          <button class="dropdown-item" (click)="changeFilter(aux.valor, aux.year)" *ngFor='let aux of months;index as i;'>                
+              <i class="ic ic-filtro"></i>
+            {{ aux?.month | titlecase  }} {{ aux?.year}}
           </button>
         </div>
-    </div>
+      </div>
     </h6>
       <div class="row">
-        <div class="col-12">
-          
+        <div class="col-12 text-muted">
+          Valor bruto:
+        </div>
+        <div class="col-12 h4 font-weight-bold">
+          {{totalizadores[0]?.valueTotal | reais}}
+        </div>
+        <div class="col-12 text-muted">
+          Peças produzidas:
+        </div>
+        <div class="col-12 h4 font-weight-bold">
+          {{totalizadores[0]?.sumBags}}
         </div>
       </div>
   </div>

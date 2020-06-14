@@ -1,7 +1,7 @@
 import { PipeModule } from './shared/modules/pipe.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { MomentModule,DateFormatPipe } from 'ngx-moment';
 import { WebStorageModule } from 'ngx-store-9';
@@ -15,6 +15,8 @@ import { FooterComponent } from './features/footer/footer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxCurrencyModule } from "ngx-currency";
 import { LoginService } from './features/login/service/login.service';
+import { TokenInterceptor } from './features/login/interceptor/token.interceptor';
+import { RefrashTokenInterceptor } from './features/login/interceptor/RefrashToken.interceptor';
 
 
 @NgModule({
@@ -41,7 +43,10 @@ import { LoginService } from './features/login/service/login.service';
   ],
   providers: [
     DateFormatPipe,
-    LoginService
+    LoginService,
+    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    {provide: HTTP_INTERCEPTORS, useClass: RefrashTokenInterceptor, multi: true }
+
   ],
   bootstrap: [AppComponent]
 })

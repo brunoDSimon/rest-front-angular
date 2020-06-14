@@ -23,7 +23,8 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if(this.userData.userInfo[0]){
+    console.log(this.userData.auth.length)
+    if(this.userData.userInfo[0] != undefined){
       this.router.navigate(['/financeiro']);
       this._logado = true;
     }else{
