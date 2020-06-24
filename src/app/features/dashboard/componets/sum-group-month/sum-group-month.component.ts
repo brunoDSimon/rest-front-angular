@@ -32,7 +32,7 @@ export class SumGroupMonthComponent implements OnInit {
       this._response = res.data.beadGroupMonth;
       res.data.beadGroupMonth.map((item) =>{this._valueTotal.push(item.resultGroup.toFixed(2))})
       res.data.beadGroupMonth.map((item) =>{this._month.push(item.periodo)})
-      // console.log(this._response)
+      console.log(this._response)
       this.render();
     },(err) => {
       console.log(err)

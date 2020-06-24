@@ -16,8 +16,12 @@ export class HeaderComponent implements OnInit {
 
   ) { }
 
-  ngOnInit(): void {
-    if(this.userData.auth.length){ this._logado = true;}
+  ngOnInit() {
+    if(this.userData.auth.length){ 
+      this._logado = true;
+    }else{
+      this._logado = false;
+    }
   }
   get logado(){
     return this._logado
