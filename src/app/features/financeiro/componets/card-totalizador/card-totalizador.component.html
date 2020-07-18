@@ -1,4 +1,4 @@
-<div class="card h-100">
+<div class="card h-100 shadow">
   <div class="card-body">
     <h6 class="card-title font-weight-bold">
       <span>
@@ -6,13 +6,11 @@
       </span>
       Ganhos por periodo
       <div ngbDropdown class="float-right">
-        <button class="btn btn-sm btn-outline-primary" id="dropdownMenuButton" ngbDropdownToggle>              
-            <i class="ic ic-filtro"></i>
+        <button class="btn btn-sm btn-outline-info" id="dropdownMenuButton" ngbDropdownToggle>
             {{ this?.currentMonthDescription }} {{ this?.currentYear }}
         </button>
         <div ngbDropdownMenu  aria-labelledby="dropdownMenuButton" >
-          <button class="dropdown-item" (click)="changeFilter(aux.valor, aux.year)" *ngFor='let aux of months;index as i;'>                
-              <i class="ic ic-filtro"></i>
+          <button class="dropdown-item" (click)="changeFilter(aux.valor, aux.year)" *ngFor='let aux of months;index as i;'>
             {{ aux?.month | titlecase  }} {{ aux?.year}}
           </button>
         </div>
