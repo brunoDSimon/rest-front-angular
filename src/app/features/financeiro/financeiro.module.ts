@@ -5,9 +5,9 @@ import { FinanceiroRoutingModule } from './financeiro-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxCurrencyModule } from "ngx-currency";
 import { HttpClientModule } from '@angular/common/http';
-import {NgxWebstorageModule} from 'ngx-webstorage';
 import { NgxMaskModule} from 'ngx-mask'
 import { CustomFormsModule } from 'ngx-custom-validators';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {FinanceiroComponent} from './componets/financeiro.component'
 import {ListarProducaoComponent} from './componets/listar-producao/listar-producao.component'
@@ -16,6 +16,8 @@ import {AdicionarEmpresaComponent} from './componets/adicionar-empresa/adicionar
 import { SharedModule } from 'src/app/shared/modules/shared.module';
 import {GeneratePdfEmpresaComponent} from './componets/generate-pdf-empresa/generate-pdf-empresa.component'
 import { CardTotalizadorComponent } from './componets/card-totalizador/card-totalizador.component';
+import { ProducaoEmpresaComponent } from './componets/producao-empresa/producao-empresa.component';
+import { ProducaoFuncionarioComponent } from './componets/producao-funcionario/producao-funcionario.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -25,10 +27,10 @@ import { CardTotalizadorComponent } from './componets/card-totalizador/card-tota
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NgxWebstorageModule.forRoot(),
     NgxMaskModule.forRoot(),
     SharedModule,
     CustomFormsModule,
+    NgbModule
   ],
   declarations: [
     FinanceiroComponent,
@@ -36,7 +38,9 @@ import { CardTotalizadorComponent } from './componets/card-totalizador/card-tota
     AdicionarModeloComponent,
     AdicionarEmpresaComponent,
     GeneratePdfEmpresaComponent,
-    CardTotalizadorComponent
+    CardTotalizadorComponent,
+    ProducaoEmpresaComponent,
+    ProducaoFuncionarioComponent
   ]
 })
 export class FinanceiroModule { }

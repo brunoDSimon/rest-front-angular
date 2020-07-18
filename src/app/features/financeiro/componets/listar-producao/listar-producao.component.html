@@ -2,121 +2,22 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-body w-100 h-100">
-                    <div class="row">
-                        <div class="col-12 h4">Selecione os filtros de pesquisa</div>
-                        <div class="col-12">
-                            <form [formGroup]="formGroup" class="form-group " (ngSubmit)="getProducao()">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <app-date-piker 
-                                        [init]="init" 
-                                        (alterarPeriodo)="alterarPeriodo($event)"
-                                        ></app-date-piker>
-                                    </div> 
-                                    <div class="col-3">
-                                        <select class="custom-select" formControlName="companyID">
-                                            <option 
-                                            *ngFor="let aux of listCompanies"
-                                            [ngValue]="aux.id"
-                                            >
-                                            {{aux.companyName}}
-                                            </option>
-                                        </select>
-                                    </div>
-                                    <div class="col-3">
-                                        <select class="custom-select" formControlName="userID" >
-                                            <option 
-                                            *ngFor="let aux of listUser"
-                                            [ngValue]="aux.id"
-                                            >
-                                            {{aux.name}}
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <button class="btn btn-outline-success" [disabled]="!formGroup.valid"  type="submit">PESQUISAR</button>
-                            </form>
-                        </div>
-                        <div 
-                        class="col-12"
-                        *ngFor="let aux of listProducao"
-                        >
-                            <div class="card">
-                                <div class="card-body">
-                                   <!-- {{listProducao | json}} -->
-                                   <div class="row text-sm">
-                                       <div class="col-3">
-                                           <div class="col-12">
-                                               Solicitante
-                                           </div>
-                                           <div class="col-12">
-                                               {{aux.companies.companyName}}
-                                           </div>
-                                       </div>
-                                       <div class="col-3">
-                                           <div class="col-12">
-                                               Cortador
-                                           </div>
-                                           <div class="col-12">
-                                               {{aux.users.name}}
-                                           </div>
-                                       </div>
-                                       <div class="col-3">
-                                           <div class="col-12">
-                                               Referencia
-                                           </div>
-                                           <div class="col-12">
-                                               {{aux.reference}}
-                                           </div>
-                                       </div>
-                                       <div class="col-3">
-                                           <div class="col-12">
-                                               Talão
-                                           </div>
-                                           <div class="col-12">
-                                               {{aux.patch}}
-                                           </div>
-                                       </div>
-                                       <hr>
-                                       <div class="col-3">
-                                           <div class="col-12">
-                                               quantidade
-                                           </div>
-                                           <div class="col-12">
-                                               {{aux.amount}}
-                                           </div>
-                                       </div>
-                                       <div class="col-3">
-                                           <div class="col-12">
-                                               Valor
-                                           </div>
-                                           <div class="col-12">
-                                               {{aux.value | reais}}
-                                           </div>
-                                       </div>
-                                       <div class="col-3">
-                                           <div class="col-12">
-                                               Valor a receber
-                                           </div>
-                                           <div class="col-12">
-                                               {{aux.valueTotal | reais}}
-                                           </div>
-                                       </div>
-                                       <div class="col-3">
-                                           <div class="col-12">
-                                               Data Entrada
-                                           </div>
-                                           <div class="col-12">
-                                               {{aux.dateEntry | date:'dd/MM/yyy'}}
-                                           </div>
-                                       </div>
-                                   </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+              <ul ngbNav #nav="ngbNav" class="nav-tabs">
+                <li ngbNavItem>
+                  <a ngbNavLink>Empresa</a>
+                  <ng-template ngbNavContent>
+                    <app-producao-empresa ></app-producao-empresa>
+                  </ng-template>
+                </li>
+                <li ngbNavItem>
+                  <a ngbNavLink>Funcionario</a>
+                  <ng-template ngbNavContent>
+                    <app-producao-funcionario></app-producao-funcionario>
+                  </ng-template>
+                </li>
+              </ul>
+              <div [ngbNavOutlet]="nav"></div>
+
             </div>
         </div>
     </div>

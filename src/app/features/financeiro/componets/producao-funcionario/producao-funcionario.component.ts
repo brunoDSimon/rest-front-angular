@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { FinanceiroService } from '../../service/financeiro.service';
-import { CompaniesDataService } from 'src/app/shared/service/CompaniesData.service';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { DateStruct } from 'src/app/shared/models/date-struct.model';
 import * as moment from 'moment';
+import { FinanceiroService } from '../../service/financeiro.service';
+import { CompaniesDataService } from 'src/app/shared/service/CompaniesData.service';
 import { DateFormatPipe } from 'ngx-moment';
 import { CustomValidators } from 'ngx-custom-validators';
+
 @Component({
-  selector: 'app-listar-producao',
-  templateUrl: './listar-producao.component.html',
-  styleUrls: ['./listar-producao.component.scss']
+  selector: 'app-producao-funcionario',
+  templateUrl: './producao-funcionario.component.html',
+  styleUrls: ['./producao-funcionario.component.scss']
 })
-export class ListarProducaoComponent implements OnInit {
+export class ProducaoFuncionarioComponent implements OnInit {
   public formGroup: FormGroup;
-  public formDescont: FormGroup;
   private _date: DateStruct = {
     fromDate: moment().toDate(),
     toDate: moment().toDate(),
@@ -28,8 +28,7 @@ export class ListarProducaoComponent implements OnInit {
   private _error: any;
   private _valorTotal: number;
   private _totalBolsas: number;
-  private _openCompany: boolean = true;
-  private _openFuncionario: boolean = false;
+  private _totalDescont: number;
 
   constructor(
     private financeiroService: FinanceiroService,
@@ -38,30 +37,21 @@ export class ListarProducaoComponent implements OnInit {
     private dateFormatPipe: DateFormatPipe,
 
   ) {
-    this._date = {
-      fromDate: moment(moment().toDate()).subtract(30, 'days').toDate(),
-      toDate: moment(moment().toDate()).subtract(1, 'days').toDate(),
-  };
+
    }
 
   ngOnInit(){
     this.formGroup = this.formBuilder.group({
-      companyID: new FormControl(['', Validators.required]),
-      userID: new FormControl(['']),
-    })
-    this.formDescont = this.formBuilder.group({
+      userID: new FormControl(['',Validators.required]),
       descont: new FormControl(['', CustomValidators.number, Validators.required])
     })
       // console.log(this.companiesData.companies);
-      this.filterYear();
       this.getListUser();
       this.getListCompanies();
-      // this.getProducao();
   }
   get init(): any { return this._date; }
-
-  get openCompany(){
-    return this._openCompany;
+  get totalDescont(){
+    return this._totalDescont;
   }
   get year(){
     return this._listYear;
@@ -145,15 +135,20 @@ export class ListarProducaoComponent implements OnInit {
     this._listProducaoo = [];
     this._valorTotal = null;
     this._totalBolsas = null;
+    this._totalDescont = null;
+
     const dateEntry = this.dateFormatPipe.transform(this._date.fromDate, 'YYYY-MM-DD');
     const dateFinal = this.dateFormatPipe.transform(this._date.toDate, 'YYYY-MM-DD');
     const userID = this.formGroup.get('userID').value;
-    const companyID = this.formGroup.get('companyID').value;
-    // console.log(dateEntry, dateFinal, userID, companyID)
-    this.financeiroService.getTalao(userID,dateEntry,dateFinal,companyID).subscribe((res) =>{
+    const descont = this.formGroup.get('descont').value / 100;
+    console.log(dateEntry, dateFinal, userID, descont)
+
+    this.financeiroService.getValoresFuncionario(userID,dateEntry,dateFinal,descont).subscribe((res) =>{
+
       this._listProducaoo = res.data.bead;
       this._valorTotal = res.data.sumValueTotal;
       this._totalBolsas = res.data.sumBags;
+      this._totalDescont = res.data.descont;
     }, (err) => {
       this._error = err.message;
 
@@ -169,22 +164,11 @@ export class ListarProducaoComponent implements OnInit {
     downloadLink.click();
   }
 
-  public gerarPdf(){
-    const dateEntry = this.dateFormatPipe.transform(this._date.fromDate, 'YYYY-MM-DD');
-    const dateFinal = this.dateFormatPipe.transform(this._date.toDate, 'YYYY-MM-DD');
-    const companyID = this.formGroup.get('companyID').value;
-    console.log('entrou')
-    this.financeiroService.getPdf(dateEntry, dateFinal,companyID).subscribe((res) =>{
-     this.pdf(res.base64,dateEntry,dateFinal);
-    },(error) =>{
-      console.log(error);
-    })
-  }
   public geratePaymentUser(){
     const dateEntry = this.dateFormatPipe.transform(this._date.fromDate, 'YYYY-MM-DD');
     const dateFinal = this.dateFormatPipe.transform(this._date.toDate, 'YYYY-MM-DD');
     const userID = this.formGroup.get('userID').value;
-    const descont = this.formDescont.get('descont').value;
+    const descont = this.formGroup.get('descont').value / 100;
 
     console.log('entrou')
     this.financeiroService.geratePaymentUser(userID,dateEntry, dateFinal,descont).subscribe((res) =>{

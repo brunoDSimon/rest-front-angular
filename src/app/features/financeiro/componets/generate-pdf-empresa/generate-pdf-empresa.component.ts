@@ -29,13 +29,12 @@ export class GeneratePdfEmpresaComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // this.getListUser();
-    // if(!this.companiesData.companies.length){
-    //   this.getListCompanies();
-    // }else{
-    //   this._listCompanies = this.companiesData.companies
-    // }
-    this.getListCompanies();
+    if(!this.companiesData.companies.length){
+      this.getListCompanies();
+    }else{
+      console.log(this.companiesData.companies[0])
+      this._listCompanies = this.companiesData.companies[0]
+    }
     this.formGroup = this.formBuilder.group({
       companyID: new FormControl(['', Validators.required]),
       userID: new FormControl(['']),
@@ -50,16 +49,17 @@ export class GeneratePdfEmpresaComponent implements OnInit {
     const dateEntry = this.dateFormatPipe.transform(this._date.fromDate, 'YYYY-MM-DD');
     const dateFinal = this.dateFormatPipe.transform(this._date.toDate, 'YYYY-MM-DD');
     const companyID = this.formGroup.get('companyID').value;
-    this.financeiroService.getPdf(dateEntry, dateFinal,companyID).subscribe((res) =>{
-      const linkSource = 'data:application/pdf;base64,' +`${res.base64}`;
-      const downloadLink = document.createElement("a");
-      const fileName = "sample.pdf";
-      downloadLink.href = linkSource;
-      downloadLink.download = fileName;
-      downloadLink.click();
-    },(error) =>{
-      console.log(error);
-    })
+    console.log(dateEntry, dateFinal, companyID, 'pdf empresa');
+    // this.financeiroService.getPdf(dateEntry, dateFinal,companyID).subscribe((res) =>{
+    //   const linkSource = 'data:application/pdf;base64,' +`${res.base64}`;
+    //   const downloadLink = document.createElement("a");
+    //   const fileName = "sample.pdf";
+    //   downloadLink.href = linkSource;
+    //   downloadLink.download = fileName;
+    //   downloadLink.click();
+    // },(error) =>{
+    //   console.log(error);
+    // })
   }
   get init(): any { return this._date; }
 
@@ -82,7 +82,7 @@ export class GeneratePdfEmpresaComponent implements OnInit {
       // console.log(this._listUser)
     }, (err) => {
       this._error = err.message;
-     
+
     })
   }
   public getListCompanies(){
@@ -93,8 +93,8 @@ export class GeneratePdfEmpresaComponent implements OnInit {
       // console.log(this._listCompanies)
     }, (err) => {
       this._error = err.message;
-     
+
     })
   }
-  
+
 }

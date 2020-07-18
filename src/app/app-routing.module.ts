@@ -7,12 +7,12 @@ const routes: Routes = [
   {
     path: 'financeiro',
     loadChildren: () => import('./features/financeiro/financeiro.module').then(m => m.FinanceiroModule),
-    // canActivate: [AuthGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'dashboard',
     loadChildren: () => import('./features/dashboard/dashboard.module').then(m => m.DashboardModule),
-    // canActivate: [AuthGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'login',

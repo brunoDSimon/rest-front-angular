@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {map, catchError} from 'rxjs/operators'
 import { Service } from 'src/app/shared/service/service';
 import { DateFormatPipe } from 'ngx-moment';
+import { environment } from '../../../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
@@ -16,7 +17,7 @@ constructor(
 
 
   public auth(body): Observable<any>{
-    return this.http.post(`http://localhost:3333/auth`,body, {headers: this.headers}).pipe(
+    return this.http.post(environment.api_url+`auth`,body, {headers: this.headers}).pipe(
       map((res) =>{
         return res 
       },catchError(

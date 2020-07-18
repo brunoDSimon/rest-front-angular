@@ -1,10 +1,10 @@
 import { PipeModule } from './shared/modules/pipe.module';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { NgModule, LOCALE_ID } from '@angular/core';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {NgxWebstorageModule} from 'ngx-webstorage';
 import { MomentModule,DateFormatPipe } from 'ngx-moment';
+import { WebStorageModule } from 'ngx-store-9';
 
 import { NgxMaskModule} from 'ngx-mask'
 
@@ -15,13 +15,18 @@ import { FooterComponent } from './features/footer/footer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxCurrencyModule } from "ngx-currency";
 import { LoginService } from './features/login/service/login.service';
-
+import { TokenInterceptor } from './features/login/interceptor/token.interceptor';
+import { RefrashTokenInterceptor } from './features/login/interceptor/RefrashToken.interceptor';
+import { registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
+registerLocaleData(localePt)
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
+
   ],
   imports: [
     FormsModule,
@@ -32,16 +37,19 @@ import { LoginService } from './features/login/service/login.service';
     HttpClientModule,
     NgxCurrencyModule,
     PipeModule,
-    NgxWebstorageModule.forRoot(),
     NgxCurrencyModule,
     NgxMaskModule.forRoot(),
-    MomentModule
+    MomentModule,
+    WebStorageModule,
 
 
   ],
   providers: [
     DateFormatPipe,
-    LoginService
+    LoginService,
+    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    {provide: HTTP_INTERCEPTORS, useClass: RefrashTokenInterceptor, multi: true },
+    { provide: LOCALE_ID, useValue: 'pt'}
   ],
   bootstrap: [AppComponent]
 })

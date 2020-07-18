@@ -13,8 +13,8 @@ export class DatePikerComponent implements OnInit {
   @Output() alterarPeriodo: EventEmitter<any> = new EventEmitter();
 
   ngOnInit() {
-    this._date = this.valoresIniciais;
-
+    this.date
+    console.log(this._date)
   }
   hoveredDate: NgbDate = null;
   private _date: DateStruct = {
@@ -26,10 +26,10 @@ export class DatePikerComponent implements OnInit {
   toDate: NgbDate;
 
   constructor(
-    private calendar: NgbCalendar, 
+    private calendar: NgbCalendar,
     public formatter: NgbDateParserFormatter
     ) {
-      
+
     // this.fromDate = calendar.getToday();
     // this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
   }
@@ -76,7 +76,7 @@ export class DatePikerComponent implements OnInit {
   get date(): DateStruct {
     return this._date;
   }
-  
+
 }
 
 

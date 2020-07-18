@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { CustomFormsModule } from 'ngx-custom-validators';
 import { SharedModule } from 'src/app/shared/modules/shared.module';
 import { NgxMaskModule } from 'ngx-mask';
-import { NgxWebstorageModule } from 'ngx-webstorage';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgxCurrencyModule } from 'ngx-currency';
@@ -21,10 +20,10 @@ import { LoginRoutingModule } from './login-routing.module';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NgxWebstorageModule.forRoot(),
     NgxMaskModule.forRoot(),
     SharedModule,
-    CustomFormsModule,  ],
+    CustomFormsModule,  
+  ],
   declarations: [
     LoginComponent
   ]

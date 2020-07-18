@@ -4,6 +4,8 @@ import {Observable} from 'rxjs';
 import {map, catchError} from 'rxjs/operators'
 import { Service } from 'src/app/shared/service/service';
 import { DateFormatPipe } from 'ngx-moment';
+import { environment } from '../../../../environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -17,7 +19,7 @@ constructor(
 
 
   public sumGroupMonthCompanies():Observable<any>{
-    return this.http.get(`http://localhost:3333/bead/sumGroupMonthCompanies`).pipe(
+    return this.http.get(environment.api_url+`bead/sumGroupMonthCompanies`).pipe(
       map((res) =>{
         return res;
       }),catchError((error) =>{
@@ -27,7 +29,7 @@ constructor(
   }
 
   public sumGroupMonth():Observable<any>{
-    return this.http.get(`http://localhost:3333/bead/sumGroupMonth`).pipe(
+    return this.http.get(environment.api_url+`bead/sumGroupMonth`).pipe(
       map((res)=>{
         return res;
       }),catchError((error) =>{
@@ -37,7 +39,7 @@ constructor(
   }
 
   public sumTotalGroupCompanies():Observable<any>{
-    return this.http.get(`http://localhost:3333/bead/sumTotalGroupCompanies`).pipe(
+    return this.http.get(environment.api_url+`bead/sumTotalGroupCompanies`).pipe(
       map((res) =>{
         return res
       }),catchError((error) =>{
