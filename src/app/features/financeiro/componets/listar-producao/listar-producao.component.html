@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+              <ul ngbNav #nav="ngbNav" class="nav-tabs">
+                <li ngbNavItem>
+                  <a ngbNavLink>Empresa</a>
+                  <ng-template ngbNavContent>
+                    <app-producao-empresa ></app-producao-empresa>
+                  </ng-template>
+                </li>
+                <li ngbNavItem>
+                  <a ngbNavLink>Funcionario</a>
+                  <ng-template ngbNavContent>
+                    <app-producao-funcionario></app-producao-funcionario>
+                  </ng-template>
+                </li>
+              </ul>
+              <div [ngbNavOutlet]="nav"></div>
+
+            </div>
+        </div>
+    </div>
+</div>

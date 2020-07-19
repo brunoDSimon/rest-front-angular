@@ -1,0 +1,123 @@
+<div class="card-body w-100 h-100">
+  <div class="row">
+      <div class="col-12 h4">Utilize os filtros para ver a produção do funcionario</div>
+      <div class="col-12">
+          <form [formGroup]="formGroup" class="form-group " (ngSubmit)="getProducao()">
+              <div class="row">
+                  <div class="col-6">
+                      <app-date-piker
+                      [init]="init"
+                      (alterarPeriodo)="alterarPeriodo($event)"
+                      ></app-date-piker>
+                  </div>
+                  <div class="col-2">
+                    <input class="custom-select" type="number" formControlName="descont" placeholder="desconto %">
+                  </div>
+                  <div class="col-2">
+                      <select class="custom-select" formControlName="userID" >
+                          <option
+                          *ngFor="let aux of listUser"
+                          [ngValue]="aux.id"
+                          >
+                          {{aux.name}}
+                          </option>
+                      </select>
+                  </div>
+                  <div class="col-2">
+                    <button class="btn btn-info text-right" [disabled]="!formGroup.valid"  type="submit">PESQUISAR</button>
+                    {{formGroup.valid }}
+                  </div>
+              </div>
+          </form>
+      </div>
+      <div class="col-12">
+        <div class="row">
+          <div class="col-4">
+            <div class="font-weight-bold h5">Quantidade total Bolsas: {{totalBolsas}}</div>
+          </div>
+          <div class="col-4">
+            <div class="font-weight-bold h5">Valor total: {{valorTotal  | reais}}</div>
+          </div>
+          <div class="col-4">
+            <div class="font-weight-bold h5"> porcentagem desconto: {{totalDescont  | percent}}</div>
+          </div>
+          <div class="col-12">
+            <button class="text-sm btn btn-outline-warning" (click)="geratePaymentUser()">exportar pagamento</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 mb-2 " *ngFor="let aux of listProducao">
+        <div class="card">
+            <div class="card-body">
+                <div class="row text-sm">
+                    <div class="col-3">
+                        <div class="col-12 font-weight-bold">
+                            Solicitante
+                        </div>
+                        <div class="col-12">
+                            {{aux.companies.companyName}}
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="col-12 font-weight-bold">
+                            Cortador
+                        </div>
+                        <div class="col-12">
+                            {{aux.users.name}}
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="col-12 font-weight-bold">
+                            Referencia
+                        </div>
+                        <div class="col-12">
+                            {{aux.reference}}
+                        </div>
+                    </div>
+                    <div class="col-3 ">
+                        <div class="col-12 font-weight-bold">
+                            Talão
+                        </div>
+                        <div class="col-12">
+                            {{aux.patch}}
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="col-3">
+                        <div class="col-12 font-weight-bold">
+                            quantidade
+                        </div>
+                        <div class="col-12 text-success">
+                            {{aux.amount}}
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="col-12 font-weight-bold">
+                            Valor
+                        </div>
+                        <div class="col-12 text-success">
+                            {{aux.value | reais}}
+                        </div>
+                    </div>
+                    <div class="col-3 ">
+                        <div class="col-12 font-weight-bold">
+                            Valor a receber
+                        </div>
+                        <div class="col-12 text-danger">
+                            {{aux.valueTotal | reais}}
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="col-12 font-weight-bold">
+                            Data Entrada
+                        </div>
+                        <div class="col-12">
+                            {{aux.dateEntry | date:'dd/MM/yyy'}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+  </div>
+</div>
