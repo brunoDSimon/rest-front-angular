@@ -18,17 +18,17 @@ export class ProducaoFuncionarioComponent implements OnInit {
     fromDate: moment().toDate(),
     toDate: moment().toDate(),
   };
-  private _listUser: any[];
-  private _listCompanies: any[];
-  private _listProducaoo: any[];
+  private _listUser: any =[];
+  private _listCompanies: any =[];
+  private _listProducao: any =[];
   private _currentYear = new Date(new Date().setFullYear(new Date().getFullYear())).getFullYear();
   private _listYear: any[] = [];
   private _name: any;
   private _nameCompany: any;
   private _error: any;
-  private _valorTotal: number;
-  private _totalBolsas: number;
-  private _totalDescont: number;
+  private _valorTotal: any;
+  private _totalBolsas: any;
+  private _totalDescont: any;
 
   constructor(
     private financeiroService: FinanceiroService,
@@ -72,7 +72,7 @@ export class ProducaoFuncionarioComponent implements OnInit {
     return this._listCompanies;
   }
   get listProducao(){
-    return this._listProducaoo;
+    return this._listProducao;
   }
   get totalBolsas(){
     return this._totalBolsas
@@ -132,7 +132,7 @@ export class ProducaoFuncionarioComponent implements OnInit {
   }
 
   public getProducao(){
-    this._listProducaoo = [];
+    this._listProducao = [];
     this._valorTotal = null;
     this._totalBolsas = null;
     this._totalDescont = null;
@@ -145,7 +145,7 @@ export class ProducaoFuncionarioComponent implements OnInit {
 
     this.financeiroService.getValoresFuncionario(userID,dateEntry,dateFinal,descont).subscribe((res) =>{
 
-      this._listProducaoo = res.data.bead;
+      this._listProducao = res.data.bead;
       this._valorTotal = res.data.sumValueTotal;
       this._totalBolsas = res.data.sumBags;
       this._totalDescont = res.data.descont;

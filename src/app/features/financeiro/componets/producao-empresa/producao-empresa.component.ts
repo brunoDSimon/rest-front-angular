@@ -18,9 +18,9 @@ export class ProducaoEmpresaComponent implements OnInit {
     fromDate: moment().toDate(),
     toDate: moment().toDate(),
   };
-  private _listUser: any[];
-  private _listCompanies: any[];
-  private _listProducaoo: any[];
+  private _listUser: any = [];
+  private _listCompanies: any = [];
+  private _listProducao: any = [];
   private _currentYear = new Date(new Date().setFullYear(new Date().getFullYear())).getFullYear();
   private _listYear: any[] = [];
   private _name: any;
@@ -77,7 +77,7 @@ export class ProducaoEmpresaComponent implements OnInit {
     return this._listCompanies;
   }
   get listProducao(){
-    return this._listProducaoo;
+    return this._listProducao;
   }
   get totalBolsas(){
     return this._totalBolsas
@@ -135,7 +135,7 @@ export class ProducaoEmpresaComponent implements OnInit {
   }
 
   public getProducao(){
-    this._listProducaoo = [];
+    this._listProducao = [];
     this._valorTotal = null;
     this._totalBolsas = null;
     const dateEntry = this.dateFormatPipe.transform(this._date.fromDate, 'YYYY-MM-DD');
@@ -144,7 +144,7 @@ export class ProducaoEmpresaComponent implements OnInit {
     const companyID = this.formGroup.get('companyID').value;
     // console.log(dateEntry, dateFinal, userID, companyID)
     this.financeiroService.getTalao(userID,dateEntry,dateFinal,companyID).subscribe((res) =>{
-      this._listProducaoo = res.data.bead;
+      this._listProducao = res.data.bead;
       this._valorTotal = res.data.sumValueTotal;
       this._totalBolsas = res.data.sumBags;
     }, (err) => {

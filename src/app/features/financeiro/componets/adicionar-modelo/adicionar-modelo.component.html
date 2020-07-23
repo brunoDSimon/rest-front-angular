@@ -5,7 +5,7 @@
                 <div class="card ">
                   <div class="card-body">
                     <label >Referencia</label>
-                    <input 
+                    <input
                     class="form-control w-25"
                     type="text"
                     formControlName="reference"
@@ -13,7 +13,7 @@
                     >
                     <hr>
                     <label >Talão</label>
-                    <input 
+                    <input
                     class="form-control w-25"
                     type="text"
                     formControlName="patch"
@@ -21,16 +21,17 @@
                     >
                     <hr>
                     <label >Quantidade</label>
-                    <input 
+                    <input
                     class="form-control w-25"
-                    type="number"
+                    type="text"
+                    mask="99999"
                     formControlName="amount"
                     placeholder="EX: 10"
-                    
+
                     >
                     <hr>
                     <label >Valor</label>
-                    <input 
+                    <input
                     class="form-control w-25"
                     currencyMask
                     [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',', align: 'left'}"
@@ -38,37 +39,30 @@
                     >
                     <hr>
                     <label >Data de entrada</label>
-                    <input 
+                    <input
                     class="form-control w-25"
                     type="date"
                     formControlName="dateEntry"
                     >
                     <hr>
+
                     <label >Funcionario</label>
-                    <select class="form-control w-25" formControlName="userID">
-                    <option
-                    *ngFor="let aux of listUsers"
-                    [ngValue]="aux.id"
-                    >
-                        {{aux.name}}
-                    </option>
+                    <select class="form-control w-25" formControlName="userID" autofocus>
+                      <option *ngFor="let aux of listUsers"[ngValue]="aux">{{aux.name}}</option>
                     </select>
+
                     <hr>
                     <label >Cliente</label>
-                    <!-- <select class="form-control" type="number" [(ngModel)]="cidadeId" (ngModelChange)="onAddCidade()" >
-                            <option *ngFor="let cidades of cidade" [ngValue]="cidades.Id">
-                              <p>{{ cidades.Id }}, {{ cidades.NomeCidade }}, {{ cidades.PaisCidade }}</p>
-                            </option>
-                          </select> -->
-                    <select class="form-control w-25"  formControlName="companyID" >
-                        <option
-                        *ngFor="let aux of listCompanies"
-                        [ngValue]="aux.id"
-                        >
-                        {{aux.companyName}}
-                        </option>
+                    <select class="form-control w-25"  formControlName="companyID" autofocus>
+                        <option *ngFor="let aux of listCompanies" [ngValue]="aux">{{aux.companyName}}</option>
                     </select>
                     <hr>
+                    <!-- <div>
+                      status {{formGroup.status}}
+                    </div>
+                    <div>
+                      status {{formGroup.value | json}}
+                    </div> -->
                     <button class="btn btn-primary mt-3" (click)="enviartalao()" [disabled]="!formGroup.valid">Enviar</button>
                     <div class="alert alert-success" role="alert" *ngIf="openSucess">
                         Talão cadastrado com sucesso!

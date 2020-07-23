@@ -28,93 +28,7 @@ export class SumGroupMonthCompaniesComponent implements OnInit {
     "#CCFFCC",
     "#FF3333"
   ];
-  private dados:any =[
-    {
-      "status": {
-        "value": "0",
-        "messege": "requisição efetuada com sucesso"
-      },
-      "data": [
-        {
-          "resultGroup": 3.72,
-          "periodo": "2020-01",
-          "companies": {
-            "companyName": "Sagga"
-          }
-        },
-        {
-          "resultGroup": 3446.0399999999963,
-          "periodo": "2020-03",
-          "companies": {
-            "companyName": "Arrezo"
-          }
-        },
-        {
-          "resultGroup": 40.92,
-          "periodo": "2020-03",
-          "companies": {
-            "companyName": "MCM"
-          }
-        },
-        {
-          "resultGroup": 13843.73,
-          "periodo": "2020-04",
-          "companies": {
-            "companyName": "Arrezo"
-          }
-        },
-        {
-          "resultGroup": 76.67999999999998,
-          "periodo": "2020-04",
-          "companies": {
-            "companyName": "Sagga"
-          }
-        },
-        {
-          "resultGroup": 148.26,
-          "periodo": "2020-05",
-          "companies": {
-            "companyName": "Sagga"
-          }
-        },
-        {
-          "resultGroup": 3.72,
-          "periodo": "2020-06",
-          "companies": {
-            "companyName": "Sagga"
-          }
-        },
-        {
-          "resultGroup": 3.72,
-          "periodo": "2020-07",
-          "companies": {
-            "companyName": "Sagga"
-          }
-        },
-        {
-          "resultGroup": 11.16,
-          "periodo": "2020-08",
-          "companies": {
-            "companyName": "Sagga"
-          }
-        },
-        {
-          "resultGroup": 100.43999999999998,
-          "periodo": "2020-08",
-          "companies": {
-            "companyName": "MCM"
-          }
-        },
-        {
-          "resultGroup": 29.759999999999994,
-          "periodo": "2020-12",
-          "companies": {
-            "companyName": "MCM"
-          }
-        }
-      ]
-    }
-  ]
+
   constructor(
     private dashboardService: DashboardService,
     private reais:ReaisPipe
@@ -128,7 +42,7 @@ export class SumGroupMonthCompaniesComponent implements OnInit {
   get conteudoChart() {
     return this._conteudoChart;
   }
-  
+
   get monthsChart() {
     return this._monthsChart;
   }
@@ -144,7 +58,7 @@ export class SumGroupMonthCompaniesComponent implements OnInit {
   public getSumGroupMonthCompanies(){
     this.dashboardService.sumGroupMonthCompanies().subscribe((res) =>{
       this.response = res.data;
-      
+
       this.response.map((item) =>{if(this._monthsChart.indexOf(item.periodo) ==-1){this._monthsChart.push(item.periodo)}});
       this.response.map((res) => {
         if (this._conteudoChart.length) {
@@ -157,11 +71,11 @@ export class SumGroupMonthCompaniesComponent implements OnInit {
         } else {
           this._conteudoChart.push({label: res.companies.companyName, dataValorPeriodo: [{valor:res.resultGroup, periodo: res.periodo}], backgroundColor: this._cores[0], data: []});
         }
-      }); 
-      
+      });
+
       this._conteudoChart.map((aux, i) =>{
         this._monthsChart.map((periodo) => {
-          let itemEncontrado = aux.dataValorPeriodo.findIndex((item) =>{            
+          let itemEncontrado = aux.dataValorPeriodo.findIndex((item) =>{
             return item.periodo == periodo;
           });
           if (itemEncontrado != -1) {
@@ -170,9 +84,9 @@ export class SumGroupMonthCompaniesComponent implements OnInit {
             this._conteudoChart[i].data.push(0);
           }
         })
-        this._valor.push(aux.data) 
+        this._valor.push(aux.data)
       })
-     
+
       this.render()
     },(error) =>{
       console.log(error)
@@ -184,7 +98,7 @@ export class SumGroupMonthCompaniesComponent implements OnInit {
       data: {
         labels: this.monthsChart,
         datasets: this.conteudoChart
-    
+
       },
       options: {
         legend: { display: true },
