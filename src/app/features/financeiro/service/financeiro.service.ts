@@ -113,6 +113,18 @@ export class FinanceiroService extends Service{
       )
     )
   }
+  public updateCompany(id,body){
+    return this.http.post(environment.api_url+`companies/update/${id}`,body,{headers: this.headers}).pipe(
+      map((res) =>{
+        return res
+      },catchError(
+        (error: any) => {
+          throw this.handleError(error);
+        }
+      )
+      )
+    )
+  }
   // VER EMPRESAS CADASTRADAS
   public getCompanies():Observable<any>{
     return this.http.get(environment.api_url+'companies',{headers: this.headers}).pipe(
