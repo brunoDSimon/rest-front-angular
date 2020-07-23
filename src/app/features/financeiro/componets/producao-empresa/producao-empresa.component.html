@@ -39,15 +39,15 @@
         </div>
         <div class="col-12 mb-2">
           <div class="row">
-            <div class="col-12">
+            <div class="col-12" *ngIf="listProducao.length">
               <button class="btn btn-outline-warning bt-sm " (click)="gerarPdf()">
                 Exportar pagamento empresa
               </button>
             </div>
           </div>
         </div>
-        <div class="col-12 mb-2 " *ngFor="let aux of listProducao">
-          <div class="card">
+        <div class="col-12  " *ngIf="listProducao.length">
+          <div class="card mb-2" *ngFor="let aux of listProducao">
               <div class="card-body">
                   <div class="row text-sm">
                       <div class="col-3">
@@ -118,6 +118,9 @@
                   </div>
               </div>
           </div>
+        </div>
+        <div class="col-12" *ngIf="!listProducao.length">
+          <app-messenger-dados></app-messenger-dados>
         </div>
     </div>
   </div>

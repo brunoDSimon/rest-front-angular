@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgxMaskModule} from 'ngx-mask'
 import { DatePikerComponent } from '../componets/date-piker/date-piker.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { MessengerDadosComponent } from '../componets/messenger-dados/messenger-dados.component';
 
 @NgModule({
   imports: [
@@ -20,10 +21,12 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     NgbModule,
   ],
   declarations: [
-    DatePikerComponent
+    DatePikerComponent,
+    MessengerDadosComponent
   ],
   exports:[
-    DatePikerComponent
+    DatePikerComponent,
+    MessengerDadosComponent
   ],
   providers:[
 

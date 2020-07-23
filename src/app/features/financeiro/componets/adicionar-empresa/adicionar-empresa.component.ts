@@ -22,9 +22,9 @@ export class AdicionarEmpresaComponent implements OnInit {
   ngOnInit() {
     this.getCompanies();
     this.formGroup = this.formBuilder.group({
-      cnpj: ['' ,Validators.compose([Validators.required,Validators.min(11) ,CustomValidators.patternValidator(/^[0-9.]/, { hasNumber: true })])],
+      cnpj: ['' ,Validators.compose([Validators.required,Validators.min(11) ])],
       companyName: ['', Validators.required],
-      telephone: ['', Validators.compose([Validators.min(11), CustomValidators.patternValidator(/^[0-9.]/, { hasNumber: true }) ])],
+      telephone: ['', Validators.compose([Validators.min(11)])],
       address: ['', Validators.required],
       number: ['', Validators.required],
       zipCode: ['', Validators.required]
@@ -57,10 +57,10 @@ export class AdicionarEmpresaComponent implements OnInit {
 
   public createCompanies(){
     const body: any={
-      "companyName": this.formGroup.get('companyName').value, 
-      "cnpj": this.formGroup.get('cnpj').value, 
-      "telephone": this.formGroup.get('telephone').value, 
-      "address": this.formGroup.get('address').value, 
+      "companyName": this.formGroup.get('companyName').value,
+      "cnpj": this.formGroup.get('cnpj').value,
+      "telephone": this.formGroup.get('telephone').value,
+      "address": this.formGroup.get('address').value,
       "zipCode": this.formGroup.get('zipCode').value,
       "number": this.formGroup.get('number').value
     }
