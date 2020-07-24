@@ -39,22 +39,17 @@ export class ProducaoEmpresaComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    if(!this.companiesData.companies.length){
-      this.getListCompanies();
-    }else{
-      console.log(this.companiesData.companies[0])
+    if(this.companiesData.companies.length && this.companiesData.users.length){
       this._listCompanies = this.companiesData.companies[0]
+      this._listUser = this.companiesData.users[0]
+    }else{
+      this.getListCompanies();
+      this.getListUser();
     }
     this.formGroup = this.formBuilder.group({
       companyID: new FormControl(['', Validators.required]),
       userID: new FormControl(['']),
     })
-
-      // console.log(this.companiesData.companies);
-      // this.filterYear();
-      this.getListUser();
-      this.getListCompanies();
-      // this.getProducao();
   }
   get init(): any { return this._date; }
 
