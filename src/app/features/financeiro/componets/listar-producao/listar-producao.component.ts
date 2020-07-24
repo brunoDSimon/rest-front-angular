@@ -45,18 +45,6 @@ export class ListarProducaoComponent implements OnInit {
    }
 
   ngOnInit(){
-    this.formGroup = this.formBuilder.group({
-      companyID: new FormControl(['', Validators.required]),
-      userID: new FormControl(['']),
-    })
-    this.formDescont = this.formBuilder.group({
-      descont: new FormControl(['', CustomValidators.number, Validators.required])
-    })
-      // console.log(this.companiesData.companies);
-      this.filterYear();
-      this.getListUser();
-      this.getListCompanies();
-      // this.getProducao();
   }
   get init(): any { return this._date; }
 
@@ -132,8 +120,8 @@ export class ListarProducaoComponent implements OnInit {
   }
   public getListCompanies(){
     this.financeiroService.getCompanies().subscribe((res) =>{
-      this.companiesData.setCompanies(res.data);
-      this._listCompanies =res.data;
+      this.companiesData.setCompanies(res.data.companies)[0];
+      this._listCompanies =res.data.companies;
       // console.log(this._listCompanies)
     }, (err) => {
       this._error = err.message;

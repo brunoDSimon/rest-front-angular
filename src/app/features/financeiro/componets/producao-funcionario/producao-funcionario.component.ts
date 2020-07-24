@@ -41,6 +41,13 @@ export class ProducaoFuncionarioComponent implements OnInit {
    }
 
   ngOnInit(){
+    if(this.companiesData.companies.length && this.companiesData.users.length){
+      this._listCompanies = this.companiesData.companies[0]
+      this._listUser = this.companiesData.users[0]
+    }else{
+      this.getListCompanies();
+      this.getListUser();
+    }
     this.formGroup = this.formBuilder.group({
       userID: new FormControl(['',Validators.required]),
       descont: new FormControl(['', CustomValidators.number, Validators.required])
@@ -113,7 +120,8 @@ export class ProducaoFuncionarioComponent implements OnInit {
   }
   public getListUser(){
     this.financeiroService.getUser().subscribe((res) =>{
-      this._listUser = res.data;
+      this._listUser = res.data.users;
+      this.companiesData.setUsers(res.data.users)[0];
       // console.log(this._listUser)
     }, (err) => {
       this._error = err.message;
@@ -122,8 +130,8 @@ export class ProducaoFuncionarioComponent implements OnInit {
   }
   public getListCompanies(){
     this.financeiroService.getCompanies().subscribe((res) =>{
-      this.companiesData.setCompanies(res.data);
-      this._listCompanies =res.data;
+      this.companiesData.setCompanies(res.data.companies)[0];
+      this._listCompanies =res.data.companies;
       // console.log(this._listCompanies)
     }, (err) => {
       this._error = err.message;

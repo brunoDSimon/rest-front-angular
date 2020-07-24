@@ -39,6 +39,12 @@ export class ProducaoEmpresaComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    if(!this.companiesData.companies.length){
+      this.getListCompanies();
+    }else{
+      console.log(this.companiesData.companies[0])
+      this._listCompanies = this.companiesData.companies[0]
+    }
     this.formGroup = this.formBuilder.group({
       companyID: new FormControl(['', Validators.required]),
       userID: new FormControl(['']),
