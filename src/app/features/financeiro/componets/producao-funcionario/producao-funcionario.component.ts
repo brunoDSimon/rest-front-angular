@@ -52,9 +52,6 @@ export class ProducaoFuncionarioComponent implements OnInit {
       userID: new FormControl(['',Validators.required]),
       descont: new FormControl(['', CustomValidators.number, Validators.required])
     })
-      // console.log(this.companiesData.companies);
-      this.getListUser();
-      this.getListCompanies();
   }
   get init(): any { return this._date; }
   get totalDescont(){
