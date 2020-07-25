@@ -39,16 +39,8 @@ export class ProducaoEmpresaComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.formGroup = this.formBuilder.group({
-      companyID: new FormControl(['', Validators.required]),
-      userID: new FormControl(['']),
-    })
-
-      // console.log(this.companiesData.companies);
-      // this.filterYear();
-      this.getListUser();
-      this.getListCompanies();
-      // this.getProducao();
+    this.verifiqueSessao();
+    this.crieFormulario();
   }
   get init(): any { return this._date; }
 
@@ -91,6 +83,25 @@ export class ProducaoEmpresaComponent implements OnInit {
   public alterarPeriodo(datas){
     this._date = datas
   }
+  public crieFormulario(){
+    this.formGroup = this.formBuilder.group({
+      companyID: new FormControl(['', Validators.required]),
+      userID: new FormControl(['']),
+    })
+  }
+  public verifiqueSessao(){
+    if(this.companiesData.companies.length){
+      this._listCompanies = this.companiesData.companies[0];
+    }else{
+      this.getListCompanies();
+    }
+
+    if(this.companiesData.users.length){
+      this._listUser = this.companiesData.users[0];
+    }else{
+      this.getListUser();
+    }
+  }
   // private filterYear(){
   //   const date = new Date(new Date().setFullYear(new Date().getFullYear()));
   //   let filter = {year: date.getFullYear()};
@@ -116,8 +127,8 @@ export class ProducaoEmpresaComponent implements OnInit {
   }
   public getListUser(){
     this.financeiroService.getUser().subscribe((res) =>{
-      this._listUser = res.data;
-      // console.log(this._listUser)
+      this._listUser = res.data.users;
+      this.companiesData.setUsers(res.data.users)[0];
     }, (err) => {
       this._error = err.message;
 
@@ -125,8 +136,8 @@ export class ProducaoEmpresaComponent implements OnInit {
   }
   public getListCompanies(){
     this.financeiroService.getCompanies().subscribe((res) =>{
-      this.companiesData.setCompanies(res.data);
-      this._listCompanies =res.data;
+      this._listCompanies =res.data.companies;
+      this.companiesData.setCompanies(res.data.companies)[0];
       // console.log(this._listCompanies)
     }, (err) => {
       this._error = err.message;

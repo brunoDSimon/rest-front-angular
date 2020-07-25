@@ -35,57 +35,85 @@ export class ProducaoFuncionarioComponent implements OnInit {
     private companiesData: CompaniesDataService,
     private formBuilder: FormBuilder,
     private dateFormatPipe: DateFormatPipe,
-
   ) {
 
    }
 
   ngOnInit(){
+    this.verifiqueSessao();
+    this.crieFormulario();
+  }
+  get init(): any { return this._date; }
+
+  get totalDescont(){
+    return this._totalDescont;
+  }
+
+  get year(){
+    return this._listYear;
+  }
+
+  get currentYear(){
+    return this._currentYear
+  }
+
+  get listUser(){
+    return this._listUser
+  }
+
+  get name(){
+    return this._name;
+  }
+
+  get nameCompany(){
+    return this._nameCompany
+  }
+
+  get listCompanies(){
+    return this._listCompanies;
+  }
+
+  get listProducao(){
+    return this._listProducao;
+  }
+
+  get totalBolsas(){
+    return this._totalBolsas
+  }
+
+  get valorTotal(){
+    return this._valorTotal;
+  }
+
+  get error(){
+    return this._error;
+  }
+
+  public alterarPeriodo(datas){
+    this._date = datas
+  }
+
+  public verifiqueSessao(){
+    if(this.companiesData.companies.length){
+      this._listCompanies = this.companiesData.companies[0];
+    }else{
+      this.getListCompanies();
+    }
+
+    if(this.companiesData.users.length){
+      this._listUser = this.companiesData.users[0];
+    }else{
+      this.getListUser();
+    }
+  }
+
+  public crieFormulario(){
     this.formGroup = this.formBuilder.group({
       userID: new FormControl(['',Validators.required]),
       descont: new FormControl(['', CustomValidators.number, Validators.required])
     })
-      // console.log(this.companiesData.companies);
-      this.getListUser();
-      this.getListCompanies();
   }
-  get init(): any { return this._date; }
-  get totalDescont(){
-    return this._totalDescont;
-  }
-  get year(){
-    return this._listYear;
-  }
-  get currentYear(){
-    return this._currentYear
-  }
-  get listUser(){
-    return this._listUser
-  }
-  get name(){
-    return this._name;
-  }
-  get nameCompany(){
-    return this._nameCompany
-  }
-  get listCompanies(){
-    return this._listCompanies;
-  }
-  get listProducao(){
-    return this._listProducao;
-  }
-  get totalBolsas(){
-    return this._totalBolsas
-  }
-  get valorTotal(){
-    return this._valorTotal;
-  }
-  get error(){
-    return this._error;
-  }
-  public alterarPeriodo(datas){
-    this._date = datas
-  }
+
   private filterYear(){
     const date = new Date(new Date().setFullYear(new Date().getFullYear()));
     let filter = {year: date.getFullYear()};
@@ -97,6 +125,7 @@ export class ProducaoFuncionarioComponent implements OnInit {
       this._listYear.push(filter);
     }
   }
+
   public changeFilterYear(year){
     // console.log(year);
     const date = new Date;
@@ -108,23 +137,26 @@ export class ProducaoFuncionarioComponent implements OnInit {
     // console.log(name);
     this._name = name;
   }
+
   public changeFilterCompanyName(companyName){
     this._nameCompany = companyName
   }
+
   public getListUser(){
     this.financeiroService.getUser().subscribe((res) =>{
-      this._listUser = res.data;
+      this._listUser = res.data.users;
+      this.companiesData.setUsers(res.data.users)[0];
       // console.log(this._listUser)
     }, (err) => {
       this._error = err.message;
 
     })
   }
+
   public getListCompanies(){
     this.financeiroService.getCompanies().subscribe((res) =>{
-      this.companiesData.setCompanies(res.data);
-      this._listCompanies =res.data;
-      // console.log(this._listCompanies)
+      this._listCompanies =res.data.companies;
+      this.companiesData.setCompanies(res.data.companies)[0];
     }, (err) => {
       this._error = err.message;
 
@@ -177,4 +209,5 @@ export class ProducaoFuncionarioComponent implements OnInit {
       console.log(error);
     })
   }
+
 }

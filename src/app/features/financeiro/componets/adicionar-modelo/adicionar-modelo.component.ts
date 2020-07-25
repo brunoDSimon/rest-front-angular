@@ -66,7 +66,6 @@ export class AdicionarModeloComponent implements OnInit {
     this.financeiroService.getCompanies().subscribe((res) =>{
       this._listCompanies = res.data.companies;
       this.compaiesDataService.setCompanies(res.data.companies)[0];
-      console.log(this._listCompanies);
     })
   }
   public getUsers(){
