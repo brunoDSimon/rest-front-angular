@@ -11,13 +11,13 @@
                       ></app-date-piker>
                   </div>
                   <div class="col-2">
-                    <input class="custom-select" type="number" formControlName="descont" placeholder="desconto %">
+                    <input class="custom-select" type="text" formControlName="descont" placeholder="desconto %" mask="99999">
                   </div>
                   <div class="col-2">
                       <select class="custom-select" formControlName="userID" >
                           <option
                           *ngFor="let aux of listUser"
-                          [ngValue]="aux.id"
+                          [ngValue]="aux"
                           >
                           {{aux.name}}
                           </option>
@@ -25,7 +25,6 @@
                   </div>
                   <div class="col-2">
                     <button class="btn btn-info text-right" [disabled]="!formGroup.valid"  type="submit">PESQUISAR</button>
-                    {{formGroup.valid }}
                   </div>
               </div>
           </form>

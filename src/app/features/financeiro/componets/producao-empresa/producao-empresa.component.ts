@@ -39,8 +39,8 @@ export class ProducaoEmpresaComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.verifiqueSessao();
     this.crieFormulario();
+    this.verifiqueSessao();
   }
   get init(): any { return this._date; }
 
@@ -85,8 +85,7 @@ export class ProducaoEmpresaComponent implements OnInit {
   }
   public crieFormulario(){
     this.formGroup = this.formBuilder.group({
-      companyID: new FormControl(['', Validators.required]),
-      userID: new FormControl(['']),
+      companyID: new FormControl(this._listCompanies, Validators.required),
     })
   }
   public verifiqueSessao(){
@@ -152,7 +151,7 @@ export class ProducaoEmpresaComponent implements OnInit {
     const dateEntry = this.dateFormatPipe.transform(this._date.fromDate, 'YYYY-MM-DD');
     const dateFinal = this.dateFormatPipe.transform(this._date.toDate, 'YYYY-MM-DD');
     const userID = '';
-    const companyID = this.formGroup.get('companyID').value;
+    const companyID = this.formGroup.get('companyID').value.id;
     // console.log(dateEntry, dateFinal, userID, companyID)
     this.financeiroService.getTalao(userID,dateEntry,dateFinal,companyID).subscribe((res) =>{
       this._listProducao = res.data.bead;

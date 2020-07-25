@@ -8,6 +8,8 @@ import { NgxMaskModule} from 'ngx-mask'
 import { DatePikerComponent } from '../componets/date-piker/date-piker.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { MessengerDadosComponent } from '../componets/messenger-dados/messenger-dados.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 @NgModule({
   imports: [
@@ -19,6 +21,8 @@ import { MessengerDadosComponent } from '../componets/messenger-dados/messenger-
     HttpClientModule,
     NgxMaskModule.forRoot(),
     NgbModule,
+    BrowserAnimationsModule,
+    NgxSpinnerModule
   ],
   declarations: [
     DatePikerComponent,

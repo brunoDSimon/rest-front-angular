@@ -26,7 +26,7 @@
                 </option>
             </select>
           </div>
-          <button class="btn btn-block btn-outline-success mt-3" type="submit">Gerar pdf</button>
+          <button class="btn btn-block btn-outline-success mt-3" type="submit" [disabled]="!formGroup.valid">Gerar pdf</button>
         </form>
       </div>
     </div>

@@ -29,8 +29,8 @@ export class GeneratePdfEmpresaComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.verifiqueSessao();
     this.crieFormulario();
+    this.verifiqueSessao();
   }
 
   public gerarPdf(){
@@ -66,12 +66,8 @@ export class GeneratePdfEmpresaComponent implements OnInit {
   }
   public crieFormulario(){
     this.formGroup = this.formBuilder.group({
-      companyID: new FormControl([this._listCompanies, Validators.required]),
+      companyID: new FormControl(this._listCompanies, Validators.required),
     })
-    this._date = {
-      fromDate: moment(moment().toDate()).subtract(30, 'days').toDate(),
-      toDate: moment(moment().toDate()).subtract(1, 'days').toDate(),
-  };
   }
   public verifiqueSessao(){
     if(!this.companiesData.companies.length){

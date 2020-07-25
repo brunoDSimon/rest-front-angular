@@ -40,8 +40,8 @@ export class ProducaoFuncionarioComponent implements OnInit {
    }
 
   ngOnInit(){
-    this.verifiqueSessao();
     this.crieFormulario();
+    this.verifiqueSessao();
   }
   get init(): any { return this._date; }
 
@@ -109,8 +109,8 @@ export class ProducaoFuncionarioComponent implements OnInit {
 
   public crieFormulario(){
     this.formGroup = this.formBuilder.group({
-      userID: new FormControl(['',Validators.required]),
-      descont: new FormControl(['', CustomValidators.number, Validators.required])
+      userID: new FormControl(this._listUser,Validators.required),
+      descont: ['',[ CustomValidators.number, Validators.required]]
     })
   }
 
@@ -171,7 +171,7 @@ export class ProducaoFuncionarioComponent implements OnInit {
 
     const dateEntry = this.dateFormatPipe.transform(this._date.fromDate, 'YYYY-MM-DD');
     const dateFinal = this.dateFormatPipe.transform(this._date.toDate, 'YYYY-MM-DD');
-    const userID = this.formGroup.get('userID').value;
+    const userID = this.formGroup.get('userID').value.id;
     const descont = this.formGroup.get('descont').value / 100;
     console.log(dateEntry, dateFinal, userID, descont)
 
