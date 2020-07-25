@@ -1,8 +1,9 @@
 import { FinanceiroService } from '../../service/financeiro.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { UsersDataService } from 'src/app/shared/service/UsersData.service';
 import { CompaniesDataService } from 'src/app/shared/service/CompaniesData.service';
+import {EventEmitterService} from 'src/app/shared/service/event-emitter.service'
 @Component({
   selector: 'app-adicionar-modelo',
   templateUrl: './adicionar-modelo.component.html',
@@ -54,6 +55,7 @@ export class AdicionarModeloComponent implements OnInit {
   }
 
   public verificarSessao(){
+    EventEmitterService.get('showLoader').emit();
     if(this.compaiesDataService.companies.length){
       this._listCompanies = this.compaiesDataService.companies[0]
     }else{
@@ -64,6 +66,7 @@ export class AdicionarModeloComponent implements OnInit {
     }else{
       this.getUsers();
     }
+    EventEmitterService.get('hideLoader').emit();
   }
 
   public getCompanies(){

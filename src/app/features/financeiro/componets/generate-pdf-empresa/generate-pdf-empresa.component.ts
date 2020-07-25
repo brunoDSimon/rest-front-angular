@@ -5,6 +5,8 @@ import { CompaniesDataService } from 'src/app/shared/service/CompaniesData.servi
 import { FinanceiroService } from '../../service/financeiro.service';
 import * as moment from 'moment';
 import { DateStruct } from 'src/app/shared/models/date-struct.model';
+import {EventEmitterService} from 'src/app/shared/service/event-emitter.service'
+import { LoaderService } from 'src/app/shared/service/loader.service';
 
 @Component({
   selector: 'app-generate-pdf-empresa',
@@ -26,6 +28,7 @@ export class GeneratePdfEmpresaComponent implements OnInit {
     private companiesData: CompaniesDataService,
     private formBuilder: FormBuilder,
     private dateFormatPipe: DateFormatPipe,
+    private loaderService: LoaderService
   ) { }
 
   ngOnInit() {
@@ -39,6 +42,7 @@ export class GeneratePdfEmpresaComponent implements OnInit {
     const companyID = this.formGroup.get('companyID').value.id;
     console.log(dateEntry, dateFinal, companyID, 'pdf empresa');
     this.financeiroService.getPdf(dateEntry, dateFinal,companyID).subscribe((res) =>{
+
       const linkSource = 'data:application/pdf;base64,' +`${res.base64}`;
       const downloadLink = document.createElement("a");
       const fileName = `${this.formGroup.get('companyID').value.companyName}.pdf`;
@@ -46,6 +50,7 @@ export class GeneratePdfEmpresaComponent implements OnInit {
       downloadLink.download = fileName;
       downloadLink.click();
     },(error) =>{
+
       console.log(error);
     })
   }
