@@ -199,9 +199,9 @@ export class ProducaoFuncionarioComponent implements OnInit {
   public geratePaymentUser(){
     const dateEntry = this.dateFormatPipe.transform(this._date.fromDate, 'YYYY-MM-DD');
     const dateFinal = this.dateFormatPipe.transform(this._date.toDate, 'YYYY-MM-DD');
-    const userID = this.formGroup.get('userID').value;
+    const userID = this.formGroup.get('userID').value.id;
     const descont = this.formGroup.get('descont').value / 100;
-
+    console.log(dateEntry,dateFinal,userID,descont)
     console.log('entrou')
     this.financeiroService.geratePaymentUser(userID,dateEntry, dateFinal,descont).subscribe((res) =>{
      this.pdf(res.data.base64,dateEntry,dateFinal);

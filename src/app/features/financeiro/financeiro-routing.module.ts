@@ -5,12 +5,14 @@ import {FinanceiroComponent} from './componets/financeiro.component'
 import {ListarProducaoComponent} from './componets/listar-producao/listar-producao.component'
 import {AdicionarModeloComponent} from './componets/adicionar-modelo/adicionar-modelo.component'
 import {AdicionarEmpresaComponent} from './componets/adicionar-empresa/adicionar-empresa.component'
+import { SaidaComponent } from './componets/saida/saida.component';
 
 const routes: Routes = [
   {path: '', component: FinanceiroComponent},
   {path: 'adicionar-modelo', component:AdicionarModeloComponent},
   {path: 'list-producao', component:ListarProducaoComponent },
-  {path: 'adicionar-empresa', component: AdicionarEmpresaComponent}
+  {path: 'adicionar-empresa', component: AdicionarEmpresaComponent},
+  {path: 'saida/:id', component: SaidaComponent}
 ];
 
 @NgModule({

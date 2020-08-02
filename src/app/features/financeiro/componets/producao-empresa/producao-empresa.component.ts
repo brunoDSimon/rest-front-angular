@@ -30,6 +30,7 @@ export class ProducaoEmpresaComponent implements OnInit {
   private _totalBolsas: number;
   private _openCompany: boolean = true;
   private _openFuncionario: boolean = false;
+  private _url: any;
   constructor(
     private financeiroService: FinanceiroService,
     private companiesData: CompaniesDataService,
@@ -183,7 +184,10 @@ export class ProducaoEmpresaComponent implements OnInit {
       console.log(error);
     })
   }
-
+  public url(aux){
+    let url = `http://localhost:4200/financeiro/saida/${aux}`
+    return url
+  }
 }
 
 
