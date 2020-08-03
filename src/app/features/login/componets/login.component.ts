@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
         password: ['', Validators.required]
       })
     }
-    
+
   }
   get openError(){
     return this._openError

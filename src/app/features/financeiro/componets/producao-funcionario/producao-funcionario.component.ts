@@ -156,7 +156,7 @@ export class ProducaoFuncionarioComponent implements OnInit {
   public getListCompanies(){
     this.financeiroService.getCompanies().subscribe((res) =>{
       this._listCompanies =res.data.companies;
-      this.companiesData.setCompanies(res.data.companies)[0];
+      this.companiesData.setCompanies(res.data.companies);
     }, (err) => {
       this._error = err.message;
 

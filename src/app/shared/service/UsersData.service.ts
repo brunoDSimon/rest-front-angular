@@ -11,8 +11,6 @@ export class UsersDataService {
   @LocalStorage()
   private _auth: any =  [];
   constructor(
-   private sessionStorageService: SessionStorageService,
-   private localStorageService: LocalStorageService,
    private router: Router,
   ) { }
   get userInfo(){
