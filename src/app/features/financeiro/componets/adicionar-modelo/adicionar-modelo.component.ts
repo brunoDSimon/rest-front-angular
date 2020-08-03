@@ -22,17 +22,8 @@ export class AdicionarModeloComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
-    if(this.compaiesDataService.companies.length && this.compaiesDataService.users.length){
-      this._listCompanies = this.compaiesDataService.companies[0]
-      this._listUsers = this.compaiesDataService.users[0]
-    }else{
-      this.getCompanies();
-      this.getUsers();
-    }
     this.formulario();
-    console.log(this.compaiesDataService.companies);
-    console.log(this.compaiesDataService.users);
+    this.verificarSessao();
   }
   public formulario(){
     this.formGroup = this.formBuilder.group({
@@ -62,17 +53,29 @@ export class AdicionarModeloComponent implements OnInit {
     return this._openSucess;
   }
 
+  public verificarSessao(){
+    if(this.compaiesDataService.companies.length){
+      this._listCompanies = this.compaiesDataService.companies[0]
+    }else{
+      this.getCompanies();
+    }
+    if(this.compaiesDataService.users.length){
+      this._listUsers = this.compaiesDataService.users[0]
+    }else{
+      this.getUsers();
+    }
+  }
+
   public getCompanies(){
     this.financeiroService.getCompanies().subscribe((res) =>{
       this._listCompanies = res.data.companies;
-      this.compaiesDataService.setCompanies(res.data.companies)[0];
-      console.log(this._listCompanies);
+      this.compaiesDataService.setCompanies(res.data.companies);
     })
   }
   public getUsers(){
     this.financeiroService.getUser().subscribe((res) =>{
       this._listUsers = res.data.users;
-      this.compaiesDataService.setUsers(res.data.users)[0];
+      this.compaiesDataService.setUsers(res.data.users);
     },(err: Error)=>{
       console.log(err)
     })

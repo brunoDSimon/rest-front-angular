@@ -8,6 +8,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgxMaskModule} from 'ngx-mask'
 import { CustomFormsModule } from 'ngx-custom-validators';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { QRCodeModule } from 'angularx-qrcode';
+
+
 
 import {FinanceiroComponent} from './componets/financeiro.component'
 import {ListarProducaoComponent} from './componets/listar-producao/listar-producao.component'
@@ -18,6 +21,7 @@ import {GeneratePdfEmpresaComponent} from './componets/generate-pdf-empresa/gene
 import { CardTotalizadorComponent } from './componets/card-totalizador/card-totalizador.component';
 import { ProducaoEmpresaComponent } from './componets/producao-empresa/producao-empresa.component';
 import { ProducaoFuncionarioComponent } from './componets/producao-funcionario/producao-funcionario.component';
+import { SaidaComponent } from './componets/saida/saida.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -30,7 +34,8 @@ import { ProducaoFuncionarioComponent } from './componets/producao-funcionario/p
     NgxMaskModule.forRoot(),
     SharedModule,
     CustomFormsModule,
-    NgbModule
+    NgbModule,
+    QRCodeModule
   ],
   declarations: [
     FinanceiroComponent,
@@ -40,7 +45,8 @@ import { ProducaoFuncionarioComponent } from './componets/producao-funcionario/p
     GeneratePdfEmpresaComponent,
     CardTotalizadorComponent,
     ProducaoEmpresaComponent,
-    ProducaoFuncionarioComponent
+    ProducaoFuncionarioComponent,
+    SaidaComponent
   ]
 })
 export class FinanceiroModule { }

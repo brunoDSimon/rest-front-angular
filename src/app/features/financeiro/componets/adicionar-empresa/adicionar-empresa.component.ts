@@ -23,8 +23,8 @@ export class AdicionarEmpresaComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getCompanies();
     this.crieFormulario()
+    this.getCompanies();
   }
 
   public crieFormulario(){

@@ -30,6 +30,7 @@ export class ProducaoEmpresaComponent implements OnInit {
   private _totalBolsas: number;
   private _openCompany: boolean = true;
   private _openFuncionario: boolean = false;
+  private _url: any;
   constructor(
     private financeiroService: FinanceiroService,
     private companiesData: CompaniesDataService,
@@ -39,17 +40,8 @@ export class ProducaoEmpresaComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    if(this.companiesData.companies.length && this.companiesData.users.length){
-      this._listCompanies = this.companiesData.companies[0]
-      this._listUser = this.companiesData.users[0]
-    }else{
-      this.getListCompanies();
-      this.getListUser();
-    }
-    this.formGroup = this.formBuilder.group({
-      companyID: new FormControl(['', Validators.required]),
-      userID: new FormControl(['']),
-    })
+    this.crieFormulario();
+    this.verifiqueSessao();
   }
   get init(): any { return this._date; }
 
@@ -92,6 +84,24 @@ export class ProducaoEmpresaComponent implements OnInit {
   public alterarPeriodo(datas){
     this._date = datas
   }
+  public crieFormulario(){
+    this.formGroup = this.formBuilder.group({
+      companyID: new FormControl(this._listCompanies, Validators.required),
+    })
+  }
+  public verifiqueSessao(){
+    if(this.companiesData.companies.length){
+      this._listCompanies = this.companiesData.companies[0];
+    }else{
+      this.getListCompanies();
+    }
+
+    if(this.companiesData.users.length){
+      this._listUser = this.companiesData.users[0];
+    }else{
+      this.getListUser();
+    }
+  }
   // private filterYear(){
   //   const date = new Date(new Date().setFullYear(new Date().getFullYear()));
   //   let filter = {year: date.getFullYear()};
@@ -117,8 +127,8 @@ export class ProducaoEmpresaComponent implements OnInit {
   }
   public getListUser(){
     this.financeiroService.getUser().subscribe((res) =>{
-      this._listUser = res.data;
-      // console.log(this._listUser)
+      this._listUser = res.data.users;
+      this.companiesData.setUsers(res.data.users);
     }, (err) => {
       this._error = err.message;
 
@@ -126,8 +136,8 @@ export class ProducaoEmpresaComponent implements OnInit {
   }
   public getListCompanies(){
     this.financeiroService.getCompanies().subscribe((res) =>{
-      this.companiesData.setCompanies(res.data);
-      this._listCompanies =res.data;
+      this._listCompanies =res.data.companies;
+      this.companiesData.setCompanies(res.data.companies);
       // console.log(this._listCompanies)
     }, (err) => {
       this._error = err.message;
@@ -142,7 +152,7 @@ export class ProducaoEmpresaComponent implements OnInit {
     const dateEntry = this.dateFormatPipe.transform(this._date.fromDate, 'YYYY-MM-DD');
     const dateFinal = this.dateFormatPipe.transform(this._date.toDate, 'YYYY-MM-DD');
     const userID = '';
-    const companyID = this.formGroup.get('companyID').value;
+    const companyID = this.formGroup.get('companyID').value.id;
     // console.log(dateEntry, dateFinal, userID, companyID)
     this.financeiroService.getTalao(userID,dateEntry,dateFinal,companyID).subscribe((res) =>{
       this._listProducao = res.data.bead;
@@ -174,7 +184,10 @@ export class ProducaoEmpresaComponent implements OnInit {
       console.log(error);
     })
   }
-
+  public url(aux){
+    let url = `https://frontend-empresa.herokuapp.com/saida/${aux}`
+    return url
+  }
 }
 
 

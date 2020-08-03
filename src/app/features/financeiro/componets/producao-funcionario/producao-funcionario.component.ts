@@ -35,61 +35,85 @@ export class ProducaoFuncionarioComponent implements OnInit {
     private companiesData: CompaniesDataService,
     private formBuilder: FormBuilder,
     private dateFormatPipe: DateFormatPipe,
-
   ) {
 
    }
 
   ngOnInit(){
-    if(this.companiesData.companies.length && this.companiesData.users.length){
-      this._listCompanies = this.companiesData.companies[0]
-      this._listUser = this.companiesData.users[0]
-    }else{
-      this.getListCompanies();
-      this.getListUser();
-    }
-    this.formGroup = this.formBuilder.group({
-      userID: new FormControl(['',Validators.required]),
-      descont: new FormControl(['', CustomValidators.number, Validators.required])
-    })
+    this.crieFormulario();
+    this.verifiqueSessao();
   }
   get init(): any { return this._date; }
+
   get totalDescont(){
     return this._totalDescont;
   }
+
   get year(){
     return this._listYear;
   }
+
   get currentYear(){
     return this._currentYear
   }
+
   get listUser(){
     return this._listUser
   }
+
   get name(){
     return this._name;
   }
+
   get nameCompany(){
     return this._nameCompany
   }
+
   get listCompanies(){
     return this._listCompanies;
   }
+
   get listProducao(){
     return this._listProducao;
   }
+
   get totalBolsas(){
     return this._totalBolsas
   }
+
   get valorTotal(){
     return this._valorTotal;
   }
+
   get error(){
     return this._error;
   }
+
   public alterarPeriodo(datas){
     this._date = datas
   }
+
+  public verifiqueSessao(){
+    if(this.companiesData.companies.length){
+      this._listCompanies = this.companiesData.companies[0];
+    }else{
+      this.getListCompanies();
+    }
+
+    if(this.companiesData.users.length){
+      this._listUser = this.companiesData.users[0];
+    }else{
+      this.getListUser();
+    }
+  }
+
+  public crieFormulario(){
+    this.formGroup = this.formBuilder.group({
+      userID: new FormControl(this._listUser,Validators.required),
+      descont: ['',[ CustomValidators.number, Validators.required]]
+    })
+  }
+
   private filterYear(){
     const date = new Date(new Date().setFullYear(new Date().getFullYear()));
     let filter = {year: date.getFullYear()};
@@ -101,6 +125,7 @@ export class ProducaoFuncionarioComponent implements OnInit {
       this._listYear.push(filter);
     }
   }
+
   public changeFilterYear(year){
     // console.log(year);
     const date = new Date;
@@ -112,24 +137,26 @@ export class ProducaoFuncionarioComponent implements OnInit {
     // console.log(name);
     this._name = name;
   }
+
   public changeFilterCompanyName(companyName){
     this._nameCompany = companyName
   }
+
   public getListUser(){
     this.financeiroService.getUser().subscribe((res) =>{
       this._listUser = res.data.users;
-      this.companiesData.setUsers(res.data.users)[0];
+      this.companiesData.setUsers(res.data.users);
       // console.log(this._listUser)
     }, (err) => {
       this._error = err.message;
 
     })
   }
+
   public getListCompanies(){
     this.financeiroService.getCompanies().subscribe((res) =>{
-      this.companiesData.setCompanies(res.data.companies)[0];
       this._listCompanies =res.data.companies;
-      // console.log(this._listCompanies)
+      this.companiesData.setCompanies(res.data.companies)[0];
     }, (err) => {
       this._error = err.message;
 
@@ -144,7 +171,7 @@ export class ProducaoFuncionarioComponent implements OnInit {
 
     const dateEntry = this.dateFormatPipe.transform(this._date.fromDate, 'YYYY-MM-DD');
     const dateFinal = this.dateFormatPipe.transform(this._date.toDate, 'YYYY-MM-DD');
-    const userID = this.formGroup.get('userID').value;
+    const userID = this.formGroup.get('userID').value.id;
     const descont = this.formGroup.get('descont').value / 100;
     console.log(dateEntry, dateFinal, userID, descont)
 
@@ -172,9 +199,9 @@ export class ProducaoFuncionarioComponent implements OnInit {
   public geratePaymentUser(){
     const dateEntry = this.dateFormatPipe.transform(this._date.fromDate, 'YYYY-MM-DD');
     const dateFinal = this.dateFormatPipe.transform(this._date.toDate, 'YYYY-MM-DD');
-    const userID = this.formGroup.get('userID').value;
+    const userID = this.formGroup.get('userID').value.id;
     const descont = this.formGroup.get('descont').value / 100;
-
+    console.log(dateEntry,dateFinal,userID,descont)
     console.log('entrou')
     this.financeiroService.geratePaymentUser(userID,dateEntry, dateFinal,descont).subscribe((res) =>{
      this.pdf(res.data.base64,dateEntry,dateFinal);
@@ -182,4 +209,5 @@ export class ProducaoFuncionarioComponent implements OnInit {
       console.log(error);
     })
   }
+
 }

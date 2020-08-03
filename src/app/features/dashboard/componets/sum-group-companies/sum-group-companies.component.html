@@ -14,8 +14,8 @@
       <tbody>
         <tr *ngFor="let aux of response; index as i">
           <th scope="row">{{ i+1 }}</th>
-          <td>{{aux.companies.companyName}}</td>
-          <td>{{aux.resultGroup | reais}}</td>
+          <td>{{aux?.companies?.companyName}}</td>
+          <td>{{aux?.resultGroup | reais}}</td>
         </tr>
       </tbody>
     </table>

@@ -5,6 +5,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { MomentModule,DateFormatPipe } from 'ngx-moment';
 import { WebStorageModule } from 'ngx-store-9';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NgxMaskModule} from 'ngx-mask'
 
@@ -41,7 +42,7 @@ registerLocaleData(localePt)
     NgxMaskModule.forRoot(),
     MomentModule,
     WebStorageModule,
-
+    BrowserAnimationsModule
 
   ],
   providers: [

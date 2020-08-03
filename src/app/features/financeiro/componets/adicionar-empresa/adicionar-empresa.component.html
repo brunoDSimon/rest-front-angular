@@ -19,7 +19,7 @@
                         <div class="alert alert-danger w-25" role="alert"  *ngIf="!nextCreateCompanies && messeger == 'Compania existente'" >
                           CNPJ JA EM USO
                         </div>
-                      <button class="btn btn-outline-warning mt-2" (click)="verificarCNPJ();" >VERIFICAR CNPJ</button>
+                      <button class="btn btn-outline-warning mt-2" (click)="verificarCNPJ();" [disabled]="!formGroup.get('cnpj').value">VERIFICAR CNPJ</button>
                       <div *ngIf="nextCreateCompanies">
                           <label>Nome da empresa</label>
                           <input
