@@ -69,13 +69,13 @@ export class AdicionarModeloComponent implements OnInit {
   public getCompanies(){
     this.financeiroService.getCompanies().subscribe((res) =>{
       this._listCompanies = res.data.companies;
-      this.compaiesDataService.setCompanies(res.data.companies)[0];
+      this.compaiesDataService.setCompanies(res.data.companies);
     })
   }
   public getUsers(){
     this.financeiroService.getUser().subscribe((res) =>{
       this._listUsers = res.data.users;
-      this.compaiesDataService.setUsers(res.data.users)[0];
+      this.compaiesDataService.setUsers(res.data.users);
     },(err: Error)=>{
       console.log(err)
     })

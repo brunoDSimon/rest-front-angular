@@ -21,7 +21,7 @@ export class SumGroupMonthComponent implements OnInit {
 
   ngOnInit() {
     this.getSumGroupMonth();
-    
+
   }
 
   get response(){

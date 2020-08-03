@@ -128,7 +128,7 @@ export class ProducaoEmpresaComponent implements OnInit {
   public getListUser(){
     this.financeiroService.getUser().subscribe((res) =>{
       this._listUser = res.data.users;
-      this.companiesData.setUsers(res.data.users)[0];
+      this.companiesData.setUsers(res.data.users);
     }, (err) => {
       this._error = err.message;
 
@@ -137,7 +137,7 @@ export class ProducaoEmpresaComponent implements OnInit {
   public getListCompanies(){
     this.financeiroService.getCompanies().subscribe((res) =>{
       this._listCompanies =res.data.companies;
-      this.companiesData.setCompanies(res.data.companies)[0];
+      this.companiesData.setCompanies(res.data.companies);
       // console.log(this._listCompanies)
     }, (err) => {
       this._error = err.message;

@@ -81,7 +81,7 @@ export class GeneratePdfEmpresaComponent implements OnInit {
   public getListCompanies(){
     this.financeiroService.getCompanies().subscribe((res) =>{
       console.log();
-      this.companiesData.setCompanies(res.data.companies)[0];
+      this.companiesData.setCompanies(res.data.companies);
       this._listCompanies = res.data.companies;
       // console.log(this._listCompanies)
     }, (err) => {

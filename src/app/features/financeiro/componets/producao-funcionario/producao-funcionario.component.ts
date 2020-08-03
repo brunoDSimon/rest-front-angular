@@ -145,7 +145,7 @@ export class ProducaoFuncionarioComponent implements OnInit {
   public getListUser(){
     this.financeiroService.getUser().subscribe((res) =>{
       this._listUser = res.data.users;
-      this.companiesData.setUsers(res.data.users)[0];
+      this.companiesData.setUsers(res.data.users);
       // console.log(this._listUser)
     }, (err) => {
       this._error = err.message;
