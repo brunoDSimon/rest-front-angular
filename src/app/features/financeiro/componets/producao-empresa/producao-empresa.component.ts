@@ -185,7 +185,7 @@ export class ProducaoEmpresaComponent implements OnInit {
     })
   }
   public url(aux){
-    let url = `http://localhost:4200/financeiro/saida/${aux}`
+    let url = `https://frontend-empresa.herokuapp.com/saida/${aux}`
     return url
   }
 }
