@@ -31,6 +31,8 @@ export class ProducaoEmpresaComponent implements OnInit {
   private _openCompany: boolean = true;
   private _openFuncionario: boolean = false;
   private _url: any;
+
+  public ngbAlert = {type: null, msg: null}
   constructor(
     private financeiroService: FinanceiroService,
     private companiesData: CompaniesDataService,
@@ -136,8 +138,8 @@ export class ProducaoEmpresaComponent implements OnInit {
   }
   public getListCompanies(){
     this.financeiroService.getCompanies().subscribe((res) =>{
-      this._listCompanies =res.data.companies;
-      this.companiesData.setCompanies(res.data.companies);
+      this._listCompanies =res.companies;
+      this.companiesData.setCompanies(res.companies);
       // console.log(this._listCompanies)
     }, (err) => {
       this._error = err.message;
@@ -164,14 +166,11 @@ export class ProducaoEmpresaComponent implements OnInit {
     } )
   }
 
-  public pdf(res,dateEntry,dateFinal){
-
-  }
 
   public gerarPdf(){
     const dateEntry = this.dateFormatPipe.transform(this._date.fromDate, 'YYYY-MM-DD');
     const dateFinal = this.dateFormatPipe.transform(this._date.toDate, 'YYYY-MM-DD');
-    const companyID = this.formGroup.get('companyID').value;
+    const companyID = this.formGroup.get('companyID').value.id;
     console.log(this.formGroup.get('companyID'))
     this.financeiroService.getPdf(dateEntry, dateFinal,companyID).subscribe((res) =>{
      const linkSource = 'data:application/pdf;base64,' +`${res.base64}`;
@@ -181,8 +180,12 @@ export class ProducaoEmpresaComponent implements OnInit {
      downloadLink.download = fileName;
      downloadLink.click();
     },(error) =>{
-      console.log(error);
+      this.ngbAlert.msg = error
+      this.ngbAlert.type = 'danger';
     })
+  }
+  public close(){
+    this.ngbAlert = {type: null, msg: null}
   }
   public url(aux){
     let url = `https://frontend-empresa.herokuapp.com/saida/${aux}`

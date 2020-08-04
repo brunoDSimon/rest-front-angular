@@ -68,8 +68,8 @@ export class AdicionarModeloComponent implements OnInit {
 
   public getCompanies(){
     this.financeiroService.getCompanies().subscribe((res) =>{
-      this._listCompanies = res.data.companies;
-      this.compaiesDataService.setCompanies(res.data.companies);
+      this._listCompanies = res.companies;
+      this.compaiesDataService.setCompanies(res.companies);
     })
   }
   public getUsers(){
@@ -102,7 +102,7 @@ export class AdicionarModeloComponent implements OnInit {
         this.formGroup.get('companyID').setValue('')
         this.formGroup.get('userID').setValue('')
         this._openSucess = false
-      }, 10000);
+      }, 3000);
     }, (err) => {
       this._error = err.message;
 

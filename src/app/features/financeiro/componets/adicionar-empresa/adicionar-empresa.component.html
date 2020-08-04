@@ -9,58 +9,63 @@
               <form class="form-group" [formGroup]="formGroup" *ngIf="createCompany">
                 <div class="card">
                   <div class="card-body">
-                      <label>CNPJ</label>
-                      <input
-                        type="text"
-                        class="form-control w-25"
-                        formControlName="cnpj"
-                        mask="000.000.000-00||00.000.000/0000-00"
-                      >
-                        <div class="alert alert-danger w-25" role="alert"  *ngIf="!nextCreateCompanies && messeger == 'Compania existente'" >
-                          CNPJ JA EM USO
-                        </div>
-                      <button class="btn btn-outline-warning mt-2" (click)="verificarCNPJ();" [disabled]="!formGroup.get('cnpj').value">VERIFICAR CNPJ</button>
-                      <div *ngIf="nextCreateCompanies">
-                          <label>Nome da empresa</label>
-                          <input
+                    <div class="row">
+                      <div class="col-xl-4 offset-xl-4 col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-12">
+                        <label class="font-weight-bold">CNPJ</label>
+                        <input
                           type="text"
-                          class="form-control w-25"
-                          formControlName="companyName"
-                          >
-                          <label>Telefone</label>
-                          <input
+                          class="form-control "
+                          formControlName="cnpj"
+                          mask="000.000.000-00||00.000.000/0000-00"
+                        >
+                        <div class="col-12">
+                          <ngb-alert [type]="ngbAlert.type" (close)="close()" >{{ ngbAlert.msg }}</ngb-alert>
+                        </div>
+                        <button class="btn btn-outline-warning mt-2" (click)="verificarCNPJ();" [disabled]="!formGroup.get('cnpj').value">VERIFICAR CNPJ</button>
+                        <div *ngIf="nextCreateCompanies">
+                            <label class="font-weight-bold">Nome da empresa</label>
+                            <input
                             type="text"
-                            class="form-control w-25"
-                            formControlName="telephone"
-                            mask="(00) 0000-0000||(00) 0 0000-0000"
-                          >
-                          <label>Endereço</label>
-                          <input
-                            type="text"
-                            class="form-control w-25"
-                            formControlName="address"
-                          >
-                          <label>Numero</label>
-                          <input
-                            type="text"
-                            class="form-control w-25"
-                            formControlName="number"
-                            mask="99999999999"
-                          >
-                          <label>CEP</label>
-                          <input
-                            type="text"
-                            class="form-control w-25"
-                            formControlName="zipCode"
-                            mask="00000-000"
-                          >
-                          <button class="btn btn-outline-success mt-2" [disabled]="!formGroup.valid" (click)="createCompanies()">Cadastrar</button>
-                          <div>
-                          <div class="alert alert-info" role="alert" *ngIf="sucessoCriar">
-                            Empresa cadastrada com sucesso!
-                          </div>
-                          </div>
+                            class="form-control "
+                            formControlName="companyName"
+                            >
+                            <label class="font-weight-bold">Telefone</label>
+                            <input
+                              type="text"
+                              class="form-control "
+                              formControlName="telephone"
+                              mask="(00) 0000-0000||(00) 0 0000-0000"
+                            >
+                            <label class="font-weight-bold">Endereço</label>
+                            <input
+                              type="text"
+                              class="form-control "
+                              formControlName="address"
+                            >
+                            <label class="font-weight-bold">Numero</label>
+                            <input
+                              type="text"
+                              class="form-control "
+                              formControlName="number"
+                              mask="99999999999"
+                            >
+                            <label class="font-weight-bold">CEP</label>
+                            <input
+                              type="text"
+                              class="form-control "
+                              formControlName="zipCode"
+                              mask="00000-000"
+                            >
+                            <button class="btn btn-outline-success mt-2" [disabled]="!formGroup.valid" (click)="createCompanies()">Cadastrar</button>
+                            <div>
+                            <div class="alert alert-info" role="alert" *ngIf="sucessoCriar">
+                              Empresa cadastrada com sucesso!
+                            </div>
+                            </div>
+                        </div>
                       </div>
+                    </div>
+
                   </div>
                 </div>
               </form>
