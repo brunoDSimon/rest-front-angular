@@ -128,8 +128,8 @@ export class SaidaComponent implements OnInit {
 
   public getListCompanies(){
     this.financeiroService.getCompanies().subscribe((res) =>{
-      this._listCompanies =res.data.companies;
-      this.companiesData.setCompanies(res.data.companies);
+      this._listCompanies =res.companies;
+      this.companiesData.setCompanies(res.companies);
       // console.log(this._listCompanies)
     }, (err) => {
       this._error = err.message;

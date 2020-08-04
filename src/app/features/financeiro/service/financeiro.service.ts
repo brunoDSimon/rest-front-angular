@@ -22,12 +22,13 @@ export class FinanceiroService extends Service{
 
   // CRIA UM TALAO
   public criarTalao(body): Observable<any>{
-    return this.http.post(environment.api_url+'bead', body, {headers: this.headers}).pipe(
+    return this.http.post<DefaultResponse>(environment.api_url+'bead', body, {headers: this.headers}).pipe(
       map(res =>{
-        return res
-      }),catchError((error) =>{
-        throw console.error('error ao criar talao');
-      })
+        return this.filter(res)
+      }),catchError((error: any) => {
+          throw this.handleError(error);
+        }
+      )
     )
   }
 
@@ -103,9 +104,9 @@ export class FinanceiroService extends Service{
 
   // criar empresa
   public createCompany(body){
-    return this.http.post(environment.api_url+'companies',body,{headers: this.headers}).pipe(
+    return this.http.post<DefaultResponse>(environment.api_url+'companies',body,{headers: this.headers}).pipe(
       map((res) =>{
-        return res
+        return this.filter(res);
       },catchError(
         (error: any) => {
           throw this.handleError(error);
@@ -115,9 +116,9 @@ export class FinanceiroService extends Service{
     )
   }
   public updateCompany(id,body){
-    return this.http.post(environment.api_url+`companies/update/${id}`,body,{headers: this.headers}).pipe(
+    return this.http.post<DefaultResponse>(environment.api_url+`companies/update/${id}`,body,{headers: this.headers}).pipe(
       map((res) =>{
-        return res
+        return this.filter(res);
       },catchError(
         (error: any) => {
           throw this.handleError(error);
@@ -128,9 +129,9 @@ export class FinanceiroService extends Service{
   }
   // VER EMPRESAS CADASTRADAS
   public getCompanies():Observable<any>{
-    return this.http.get(environment.api_url+'companies',{headers: this.headers}).pipe(
+    return this.http.get<DefaultResponse>(environment.api_url+'companies',{headers: this.headers}).pipe(
       map((res) =>{
-        return Object(res);
+        return this.filter(res);
       },catchError(
         (error: any) => {
           throw this.handleError(error);
@@ -147,9 +148,9 @@ export class FinanceiroService extends Service{
       companyID: companyID
     }
     const filtro = new URLSearchParams(filter).toString();
-    return this.http.get(environment.api_url+'pdf?'+filtro, {headers: this.headers}).pipe(
+    return this.http.get<DefaultResponse>(environment.api_url+'pdf?'+filtro, {headers: this.headers}).pipe(
       map((res) =>{
-        return res;
+        return this.filter(res);
       },(error)=>{
         throw this.handleError(error);
       })

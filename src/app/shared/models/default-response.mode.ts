@@ -3,7 +3,8 @@ export class DefaultResponse {
     value: string,
     valor: string,
     description: string,
-    reference: string
+    reference: string,
+    messege: string
   }
   codigo: {
     descricao: string,

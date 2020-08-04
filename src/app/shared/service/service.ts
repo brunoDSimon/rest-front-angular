@@ -18,14 +18,10 @@ export class Service {
     return this._headers;
   }
   filter(response: DefaultResponse, calllback?: any) {
-    if ((response.status && response.status.value === '0') || (response.codigo && response.codigo.valor === '0')) {
-      if (calllback) {
-        return calllback(response.data, response);
-      }
+    if ((response.data && response.status.value == "0") || (response.codigo && response.codigo.valor === '0')) {
       return response.data;
-    } else if (response.status && response.status.description) {
-      // console.log('description')
-      throw new Error(response.status.description);
+    } else if (response.status && response.status.messege) {
+      throw new Error(response.status.messege);
     } else if (response.codigo && response.codigo.descricao) {
       throw new Error(response.codigo.descricao);
     } else if (response.access_token) {

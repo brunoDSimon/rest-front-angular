@@ -5,13 +5,13 @@
         <div class="col-12">
             <form [formGroup]="formGroup" class="form-group " (ngSubmit)="getProducao()">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                         <app-date-piker
                         [init]="init"
                         (alterarPeriodo)="alterarPeriodo($event)"
                         ></app-date-piker>
                     </div>
-                    <div class="col-2">
+                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 mb-md-2 mb-sm-2">
                         <select class="custom-select" formControlName="companyID">
                             <option
                             *ngFor="let aux of listCompanies"
@@ -21,7 +21,7 @@
                             </option>
                         </select>
                     </div>
-                    <div class="col-2">
+                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 mt-md-2 mt-sm-2">
                       <button class="btn btn-info text-right" [disabled]="!formGroup.valid"  type="submit">PESQUISAR</button>
                     </div>
                 </div>
@@ -29,10 +29,10 @@
         </div>
         <div class="col-12">
           <div class="row">
-            <div class="col-6">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
               <div class="font-weight-bold h5">Quantidade total Bolsas: {{totalBolsas}}</div>
             </div>
-            <div class="col-6">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
               <div class="font-weight-bold h5">Valor total: {{valorTotal  | reais}}</div>
             </div>
           </div>
@@ -43,6 +43,9 @@
               <button class="btn btn-outline-warning bt-sm " (click)="gerarPdf()">
                 Exportar pagamento empresa
               </button>
+            </div>
+            <div class="col-12">
+              <ngb-alert [type]="ngbAlert.type" (close)="close()" >{{ ngbAlert.msg }}</ngb-alert>
             </div>
           </div>
         </div>
