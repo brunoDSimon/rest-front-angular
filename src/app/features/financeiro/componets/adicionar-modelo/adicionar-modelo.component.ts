@@ -1,5 +1,5 @@
 import { FinanceiroService } from '../../service/financeiro.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { UsersDataService } from 'src/app/shared/service/UsersData.service';
 import { CompaniesDataService } from 'src/app/shared/service/CompaniesData.service';
@@ -9,6 +9,9 @@ import { CompaniesDataService } from 'src/app/shared/service/CompaniesData.servi
   styleUrls: ['./adicionar-modelo.component.scss']
 })
 export class AdicionarModeloComponent implements OnInit {
+
+
+
   private _listCompanies: any = [];
   private _listUsers: any = [];
   private _companyID: any;
@@ -108,4 +111,6 @@ export class AdicionarModeloComponent implements OnInit {
 
     })
   }
+
+
 }

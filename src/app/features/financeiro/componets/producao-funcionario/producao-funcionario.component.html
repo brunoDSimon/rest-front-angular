@@ -4,23 +4,13 @@
       <div class="col-12">
           <form [formGroup]="formGroup" class="form-group " (ngSubmit)="getProducao()">
               <div class="row">
-                  <div class="col-6">
+                  <div class="col-xl-5">
                       <app-date-piker
                       [init]="init"
                       (alterarPeriodo)="alterarPeriodo($event)"
                       ></app-date-piker>
                   </div>
-                  <div class="col-2">
-                    <input
-                    maxlength="5"
-                    class="custom-select"
-                    type="text"
-                    formControlName="descont"
-                    currencyMask
-                    [options]="{ prefix: '', thousands: '', decimal: '.', aling: 'rigth', suffix: ' %', allowNegatve:false }"
-                    >
-                  </div>
-                  <div class="col-2">
+                  <div class="col-xl-2">
                       <select class="custom-select" formControlName="userID" >
                           <option
                           *ngFor="let aux of listUser"
@@ -30,7 +20,23 @@
                           </option>
                       </select>
                   </div>
-                  <div class="col-2">
+                  <div class="col-xl-2">
+                    <input
+                    maxlength="5"
+                    class="custom-select"
+                    type="text"
+                    formControlName="descont"
+                    currencyMask
+                    [options]="{ prefix: '', thousands: '', decimal: '.', aling: 'rigth', suffix: ' %', allowNegatve:false}"
+                    >
+                  </div>
+                  <div class="col-xl-1 col-lg-1 col-md-2 col-sm-2 col-6 align-self-center">
+                    <label class="switch">
+                      <input type="checkbox" formControlName="dateFinalNotNul" (change)="getProducao()">
+                      <span class="slider round"></span>
+                    </label>
+                  </div>
+                  <div class="col-xl-1">
                     <button class="btn btn-info text-right" [disabled]="!formGroup.valid"  type="submit">PESQUISAR</button>
                   </div>
               </div>

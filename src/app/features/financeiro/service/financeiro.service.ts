@@ -33,12 +33,12 @@ export class FinanceiroService extends Service{
   }
 
   // VER A PRODUCAO
-  public getTalao( userID: any | null, dateEntry: any, dateFinal: any,companyID: any):Observable<any>{
+  public getTalao( dateEntry: any, dateFinal: any,companyID: any,dateFinalNotNul):Observable<any>{
     const filter ={
       dateEntry: dateEntry,
       dateFinal: dateFinal,
-      userID: userID,
-      companyID: companyID
+      companyID: companyID,
+      dateFinalNotNul: dateFinalNotNul
     }
     const filtro = new URLSearchParams(filter).toString();
       return this.http.get(environment.api_url+`bead?`+filtro,{headers: this.headers}).pipe(
@@ -52,12 +52,13 @@ export class FinanceiroService extends Service{
       )
     )
   }
-  public getValoresFuncionario( userID: any | null, dateEntry: any, dateFinal: any,descont: any):Observable<any>{
+  public getValoresFuncionario( userID: any | null, dateEntry: any, dateFinal: any,descont: any,dateFinalNotNul: any):Observable<any>{
     const filter ={
       dateEntry: dateEntry,
       dateFinal: dateFinal,
       userID: userID,
-      descont: descont
+      descont: descont,
+      dateFinalNotNul:dateFinalNotNul
     }
     const filtro = new URLSearchParams(filter).toString();
       return this.http.get(environment.api_url+`bead/consultValuesPaymentUser?`+filtro,{headers: this.headers}).pipe(

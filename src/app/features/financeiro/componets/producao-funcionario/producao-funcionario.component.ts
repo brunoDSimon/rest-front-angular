@@ -110,7 +110,8 @@ export class ProducaoFuncionarioComponent implements OnInit {
   public crieFormulario(){
     this.formGroup = this.formBuilder.group({
       userID: new FormControl(this._listUser,Validators.required),
-      descont: ['',[ CustomValidators.number, Validators.required]]
+      descont: ['',[ CustomValidators.number, Validators.required]],
+      dateFinalNotNul: [false,[]]
     })
   }
 
@@ -173,9 +174,11 @@ export class ProducaoFuncionarioComponent implements OnInit {
     const dateFinal = this.dateFormatPipe.transform(this._date.toDate, 'YYYY-MM-DD');
     const userID = this.formGroup.get('userID').value.id;
     const descont = this.formGroup.get('descont').value / 100;
+    console.log(this.formGroup.get('descont').value)
+    const dateFinalNotNul = this.formGroup.get('dateFinalNotNul').value;
     console.log(dateEntry, dateFinal, userID, descont)
 
-    this.financeiroService.getValoresFuncionario(userID,dateEntry,dateFinal,descont).subscribe((res) =>{
+    this.financeiroService.getValoresFuncionario(userID,dateEntry,dateFinal,descont,dateFinalNotNul).subscribe((res) =>{
 
       this._listProducao = res.data.bead;
       this._valorTotal = res.data.sumValueTotal;
@@ -202,7 +205,6 @@ export class ProducaoFuncionarioComponent implements OnInit {
     const userID = this.formGroup.get('userID').value.id;
     const descont = this.formGroup.get('descont').value / 100;
     console.log(dateEntry,dateFinal,userID,descont)
-    console.log('entrou')
     this.financeiroService.geratePaymentUser(userID,dateEntry, dateFinal,descont).subscribe((res) =>{
      this.pdf(res.data.base64,dateEntry,dateFinal);
     },(error) =>{
