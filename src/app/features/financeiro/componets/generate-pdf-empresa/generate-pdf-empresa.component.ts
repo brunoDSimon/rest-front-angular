@@ -83,7 +83,6 @@ export class GeneratePdfEmpresaComponent implements OnInit {
       console.log(res);
       this.companiesData.setCompanies(res.companies);
       this._listCompanies = res.companies;
-      // console.log(this._listCompanies)
     }, (err) => {
       this._error = err.message;
 
