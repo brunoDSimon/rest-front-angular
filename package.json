@@ -29,11 +29,8 @@
     "angularx-qrcode": "^10.0.6",
     "bootstrap": "^4.5.2",
     "chart.js": "^2.9.3",
-<<<<<<< HEAD
     "express": "^4.17.1",
-=======
     "html2canvas": "^1.0.0-rc.6",
->>>>>>> 2ffa605972d1778628b65d348df95252864e82cf
     "jquery": "^3.5.1",
     "jwt-decode": "^2.2.0",
     "moment": "^2.27.0",
