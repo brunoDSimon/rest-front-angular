@@ -1,4 +1,4 @@
-import { Component, OnInit,Input } from '@angular/core';
+import { Component, OnInit,Input, ViewChild, ElementRef } from '@angular/core';
 import { FinanceiroService } from '../../service/financeiro.service';
 import { CompaniesDataService } from 'src/app/shared/service/CompaniesData.service';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
@@ -6,6 +6,7 @@ import { DateFormatPipe } from 'ngx-moment';
 import * as moment from 'moment';
 import { DateStruct } from 'src/app/shared/models/date-struct.model';
 import { isNull } from 'util';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-producao-empresa',
@@ -13,6 +14,10 @@ import { isNull } from 'util';
   styleUrls: ['./producao-empresa.component.scss']
 })
 export class ProducaoEmpresaComponent implements OnInit {
+  @ViewChild('screen') screen: ElementRef;
+  @ViewChild('canvas') canvas: ElementRef;
+  @ViewChild('downloadLink') downloadLink: ElementRef;
+
   public formGroup: FormGroup;
   private _date: DateStruct = {
     fromDate: moment().toDate(),
@@ -89,6 +94,7 @@ export class ProducaoEmpresaComponent implements OnInit {
   public crieFormulario(){
     this.formGroup = this.formBuilder.group({
       companyID: new FormControl(this._listCompanies, Validators.required),
+      dateFinalNotNul: [false,[]]
     })
   }
   public verifiqueSessao(){
@@ -153,10 +159,10 @@ export class ProducaoEmpresaComponent implements OnInit {
     this._totalBolsas = null;
     const dateEntry = this.dateFormatPipe.transform(this._date.fromDate, 'YYYY-MM-DD');
     const dateFinal = this.dateFormatPipe.transform(this._date.toDate, 'YYYY-MM-DD');
-    const userID = '';
     const companyID = this.formGroup.get('companyID').value.id;
+    const dateFinalNotNul = this.formGroup.get('dateFinalNotNul').value;
     // console.log(dateEntry, dateFinal, userID, companyID)
-    this.financeiroService.getTalao(userID,dateEntry,dateFinal,companyID).subscribe((res) =>{
+    this.financeiroService.getTalao(dateEntry,dateFinal,companyID,dateFinalNotNul).subscribe((res) =>{
       this._listProducao = res.data.bead;
       this._valorTotal = res.data.sumValueTotal;
       this._totalBolsas = res.data.sumBags;
@@ -190,6 +196,17 @@ export class ProducaoEmpresaComponent implements OnInit {
   public url(aux){
     let url = `https://frontend-empresa.herokuapp.com/saida/${aux}`
     return url
+  }
+  public downloadImage(){
+    html2canvas(this.screen.nativeElement).then(canvas => {
+      const parts = canvas.toDataURL('image/png').split(',')
+      const linkSource = 'data:image/png;base64,' +`${parts[1]}`;
+      const downloadLink = document.createElement("a");
+      const fileName = `teste.png`;
+      downloadLink.href = linkSource;
+      downloadLink.download = fileName;
+      downloadLink.click();
+    });
   }
 }
 

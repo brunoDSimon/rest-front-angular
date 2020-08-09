@@ -4,27 +4,33 @@
         <div class="col-12 h4">Selecione os filtros de pesquisa</div>
         <div class="col-12">
             <form [formGroup]="formGroup" class="form-group " (ngSubmit)="getProducao()">
-                <div class="row">
-                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                        <app-date-piker
-                        [init]="init"
-                        (alterarPeriodo)="alterarPeriodo($event)"
-                        ></app-date-piker>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 mb-md-2 mb-sm-2">
-                        <select class="custom-select" formControlName="companyID">
-                            <option
-                            *ngFor="let aux of listCompanies"
-                            [ngValue]="aux"
-                            >
-                            {{aux.companyName}}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 mt-md-2 mt-sm-2">
-                      <button class="btn btn-info text-right" [disabled]="!formGroup.valid"  type="submit">PESQUISAR</button>
-                    </div>
+              <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                    <app-date-piker
+                    [init]="init"
+                    (alterarPeriodo)="alterarPeriodo($event)"
+                    ></app-date-piker>
                 </div>
+                <div class="col-xl-3 col-lg-3 col-md-5 col-sm-5 col-12 mb-md-2 mb-sm-2">
+                    <select class="custom-select" formControlName="companyID">
+                        <option
+                        *ngFor="let aux of listCompanies"
+                        [ngValue]="aux"
+                        >
+                        {{aux.companyName}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-xl-1 col-lg-1 col-md-2 col-sm-2 col-6 align-self-center">
+                  <label class="switch">
+                    <input type="checkbox" formControlName="dateFinalNotNul" (change)="getProducao()">
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-5 col-sm-5 col-6">
+                  <button class="btn btn-info text-right" [disabled]="!formGroup.valid"  type="submit">PESQUISAR</button>
+                </div>
+              </div>
             </form>
         </div>
         <div class="col-12">
@@ -39,23 +45,26 @@
         </div>
         <div class="col-12 mb-2">
           <div class="row">
-            <div class="col-12" *ngIf="listProducao.length">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6" *ngIf="listProducao.length">
               <button class="btn btn-outline-warning bt-sm " (click)="gerarPdf()">
                 Exportar pagamento empresa
               </button>
             </div>
-            <div class="col-12">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6" *ngIf="listProducao.length">
+              <button class="btn btn-outline-success" (click)="downloadImage()">Exportar etique</button>
+            </div>
+            <div class="col-12" *ngIf="ngbAlert.type">
               <ngb-alert [type]="ngbAlert.type" (close)="close()" >{{ ngbAlert.msg }}</ngb-alert>
             </div>
           </div>
         </div>
-        <div class="col-12  " *ngIf="listProducao.length">
+        <div class="col-12  " *ngIf="listProducao.length"  #screen>
           <div class="card mb-2" *ngFor="let aux of listProducao">
               <div class="card-body">
                   <div class="row text-sm">
                     <div class="col-10">
                       <div class="row">
-                        <div class="col-3">
+                        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-12">
                             <div class="col-12 font-weight-bold">
                                 Solicitante
                             </div>
@@ -63,7 +72,7 @@
                                 {{aux.companies.companyName}}
                             </div>
                         </div>
-                        <div class="col-3">
+                        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-12">
                             <div class="col-12 font-weight-bold">
                                 Cortador
                             </div>
@@ -71,7 +80,7 @@
                                 {{aux.users.name}}
                             </div>
                         </div>
-                        <div class="col-3">
+                        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-12">
                             <div class="col-12 font-weight-bold">
                                 Referencia
                             </div>
@@ -79,7 +88,7 @@
                                 {{aux.reference}}
                             </div>
                         </div>
-                        <div class="col-3 ">
+                        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-12 ">
                             <div class="col-12 font-weight-bold">
                                 Talão
                             </div>
@@ -88,7 +97,7 @@
                             </div>
                         </div>
                         <hr>
-                        <div class="col-3">
+                        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-12">
                             <div class="col-12 font-weight-bold">
                                 quantidade
                             </div>
@@ -96,7 +105,7 @@
                                 {{aux.amount}}
                             </div>
                         </div>
-                        <div class="col-3">
+                        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-12">
                             <div class="col-12 font-weight-bold">
                                 Valor
                             </div>
@@ -104,7 +113,7 @@
                                 {{aux.value | reais}}
                             </div>
                         </div>
-                        <div class="col-3">
+                        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-12">
                             <div class="col-12 font-weight-bold">
                                 Valor a receber
                             </div>
@@ -112,7 +121,7 @@
                                 {{aux.valueTotal | reais}}
                             </div>
                         </div>
-                        <div class="col-3">
+                        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 col-12">
                             <div class="col-12 font-weight-bold">
                                 Data Entrada
                             </div>
@@ -122,7 +131,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-2">
+                    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12">
                       <div class="row">
                         <div class="col-12">
                           <qrcode [qrdata]="url(aux.id)" [width]="100" [errorCorrectionLevel]="'M'" [elementType]="'svg'"></qrcode>
