@@ -49,17 +49,20 @@ export class LoginComponent implements OnInit {
       "email":    this.formGroup.get('email').value,
       "password": this.formGroup.get('password').value
     }
+
     this.loginService.auth(body).subscribe((res) =>{
-      this.userData.setUserInfo(res.data.user);
-      this.userData.setAuth(res.data.token);
+      console.log(res);
+      this.userData.setUserInfo(res.user);
+      this.userData.setAuth(res.token);
       this._logado = true
       this.router.navigate(['/financeiro']);
       this._openError = false
       console.log(res)
-    },(error: Error) =>{
+    },(error) =>{
       console.log(error)
+      console.log(error.error.status.messege)
       this._openError = true
-      this._error = error.message
+      this._error = error.error.status.messege
     })
   }
 }
