@@ -4,69 +4,78 @@
             <form [formGroup]="formGroup" class="form-group">
                 <div class="card ">
                   <div class="card-body">
-                    <label >Referencia</label>
-                    <input
-                    class="form-control w-25"
-                    type="text"
-                    formControlName="reference"
-                    placeholder="EX: ABC-123"
-                    >
-                    <hr>
-                    <label >Talão</label>
-                    <input
-                    class="form-control w-25"
-                    type="text"
-                    formControlName="patch"
-                    placeholder="EX: ABC-123"
-                    >
-                    <hr>
-                    <label >Quantidade</label>
-                    <input
-                    class="form-control w-25"
-                    type="text"
-                    mask="99999"
-                    formControlName="amount"
-                    placeholder="EX: 10"
+                    <div class="row">
+                      <div class="col-xl-4 offset-xl-4 col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-12 border shadow ">
+                        <label >Referencia</label>
+                        <input
+                        class="form-control "
+                        type="text"
+                        formControlName="reference"
+                        placeholder="EX: ABC-123"
+                        >
+                        <hr>
 
-                    >
-                    <hr>
-                    <label >Valor</label>
-                    <input
-                    class="form-control w-25"
-                    currencyMask
-                    [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',', align: 'left'}"
-                    formControlName="value"
-                    >
-                    <hr>
-                    <label >Data de entrada</label>
-                    <input
-                    class="form-control w-25"
-                    type="date"
-                    formControlName="dateEntry"
-                    >
-                    <hr>
+                        <label >Talão</label>
+                        <input
+                        class="form-control "
+                        type="text"
+                        formControlName="patch"
+                        placeholder="EX: ABC-123"
+                        >
+                        <hr>
 
-                    <label >Funcionario</label>
-                    <select class="form-control w-25" formControlName="userID" autofocus>
-                      <option *ngFor="let aux of listUsers"[ngValue]="aux">{{aux.name}}</option>
-                    </select>
+                        <label >Quantidade</label>
+                        <input
+                        class="form-control "
+                        type="text"
+                        mask="99999"
+                        formControlName="amount"
+                        placeholder="EX: 10"
 
-                    <hr>
-                    <label >Cliente</label>
-                    <select class="form-control w-25"  formControlName="companyID" autofocus>
-                        <option *ngFor="let aux of listCompanies" [ngValue]="aux">{{aux.companyName}}</option>
-                    </select>
-                    <hr>
-                    <!-- <div>
-                      status {{formGroup.status}}
+                        >
+                        <hr>
+
+                        <label >Valor</label>
+                        <input
+                        class="form-control "
+                        currencyMask
+                        [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',', align: 'left'}"
+                        formControlName="value"
+                        >
+                        <hr>
+                        <label >Data de entrada</label>
+                        <input
+                        class="form-control "
+                        type="date"
+                        formControlName="dateEntry"
+                        >
+                        <hr>
+
+                        <label >Funcionario</label>
+                        <select class="form-control " formControlName="userID" autofocus>
+                          <option *ngFor="let aux of listUsers"[ngValue]="aux">{{aux.name}}</option>
+                        </select>
+
+                        <hr>
+                        <label >Cliente</label>
+                        <select class="form-control "  formControlName="companyID" autofocus>
+                            <option *ngFor="let aux of listCompanies" [ngValue]="aux">{{aux.companyName}}</option>
+                        </select>
+                        <hr>
+                        <!-- <div>
+                          status {{formGroup.status}}
+                        </div>
+                        <div>
+                          status {{formGroup.value | json}}
+                        </div> -->
+                        <button class="btn btn-primary mt-3 mb-3" (click)="enviartalao()" [disabled]="!formGroup.valid">Enviar</button>
+                        <div class="alert alert-success align-self-center text-center" role="alert" *ngIf="openSucess">
+                            Talão cadastrado com sucesso!
+                        </div>
+
+                      </div>
                     </div>
-                    <div>
-                      status {{formGroup.value | json}}
-                    </div> -->
-                    <button class="btn btn-primary mt-3" (click)="enviartalao()" [disabled]="!formGroup.valid">Enviar</button>
-                    <div class="alert alert-success" role="alert" *ngIf="openSucess">
-                        Talão cadastrado com sucesso!
-                    </div>
+
                   </div>
                 </div>
 

@@ -15,6 +15,9 @@ export class AdicionarEmpresaComponent implements OnInit {
   private _listCompanies: any = [];
   private _sucessoCriar: boolean = false;
   private _idCompany: number = null;
+
+  public ngbAlert = {type: null, msg: null}
+
   constructor(
     private financeiroService: FinanceiroService,
     private formBuilder: FormBuilder,
@@ -69,6 +72,9 @@ export class AdicionarEmpresaComponent implements OnInit {
     this.financeiroService.checkCompanie(cnpj).subscribe((response) =>{
       this._nextCreateCompanies = response.data;
       this._messeger = response.messege
+    },(error) =>{
+      this.ngbAlert.msg = error
+      this.ngbAlert.type = 'danger';
     })
   }
 
@@ -102,7 +108,8 @@ export class AdicionarEmpresaComponent implements OnInit {
         this._sucessoCriar = false
       }, 10000);
     },(err) =>{
-      console.log(err)
+      this.ngbAlert.msg = err
+      this.ngbAlert.type = 'danger';
     })
   }
 
@@ -136,10 +143,13 @@ export class AdicionarEmpresaComponent implements OnInit {
   }
   public getCompanies(){
     this.financeiroService.getCompanies().subscribe((res) =>{
-      this._listCompanies = res.data.companies
+      console.log(res)
+      this._listCompanies = res.companies;
     },(err) =>{
       alert('erro ao enviar')
     })
   }
-
+  public close(){
+    this.ngbAlert = {type: null, msg: null}
+  }
 }

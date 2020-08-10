@@ -8,7 +8,6 @@ import { NgxMaskModule} from 'ngx-mask'
 import { DatePikerComponent } from '../componets/date-piker/date-piker.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { MessengerDadosComponent } from '../componets/messenger-dados/messenger-dados.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
@@ -20,7 +19,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HttpClientModule,
     NgxMaskModule.forRoot(),
     NgbModule,
-    BrowserAnimationsModule,
   ],
   declarations: [
     DatePikerComponent,

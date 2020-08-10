@@ -1,5 +1,5 @@
 import { FinanceiroService } from '../../service/financeiro.service';
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { UsersDataService } from 'src/app/shared/service/UsersData.service';
 import { CompaniesDataService } from 'src/app/shared/service/CompaniesData.service';
@@ -10,6 +10,9 @@ import {EventEmitterService} from 'src/app/shared/service/event-emitter.service'
   styleUrls: ['./adicionar-modelo.component.scss']
 })
 export class AdicionarModeloComponent implements OnInit {
+
+
+
   private _listCompanies: any = [];
   private _listUsers: any = [];
   private _companyID: any;
@@ -71,14 +74,14 @@ export class AdicionarModeloComponent implements OnInit {
 
   public getCompanies(){
     this.financeiroService.getCompanies().subscribe((res) =>{
-      this._listCompanies = res.data.companies;
-      this.compaiesDataService.setCompanies(res.data.companies)[0];
+      this._listCompanies = res.companies;
+      this.compaiesDataService.setCompanies(res.companies);
     })
   }
   public getUsers(){
     this.financeiroService.getUser().subscribe((res) =>{
       this._listUsers = res.data.users;
-      this.compaiesDataService.setUsers(res.data.users)[0];
+      this.compaiesDataService.setUsers(res.data.users);
     },(err: Error)=>{
       console.log(err)
     })
@@ -105,10 +108,12 @@ export class AdicionarModeloComponent implements OnInit {
         this.formGroup.get('companyID').setValue('')
         this.formGroup.get('userID').setValue('')
         this._openSucess = false
-      }, 10000);
+      }, 3000);
     }, (err) => {
       this._error = err.message;
 
     })
   }
+
+
 }
