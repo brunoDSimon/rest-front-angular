@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import { DateStruct } from 'src/app/shared/models/date-struct.model';
 import { isNull } from 'util';
 import html2canvas from 'html2canvas';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-producao-empresa',
@@ -43,7 +44,7 @@ export class ProducaoEmpresaComponent implements OnInit {
     private companiesData: CompaniesDataService,
     private formBuilder: FormBuilder,
     private dateFormatPipe: DateFormatPipe,
-
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit() {
@@ -154,6 +155,7 @@ export class ProducaoEmpresaComponent implements OnInit {
   }
 
   public getProducao(){
+    this.spinner.show();
     this._listProducao = [];
     this._valorTotal = null;
     this._totalBolsas = null;
@@ -166,9 +168,10 @@ export class ProducaoEmpresaComponent implements OnInit {
       this._listProducao = res.data.bead;
       this._valorTotal = res.data.sumValueTotal;
       this._totalBolsas = res.data.sumBags;
+      this.spinner.hide();
     }, (err) => {
       this._error = err.message;
-
+      this.spinner.hide();
     } )
   }
 

@@ -1,6 +1,6 @@
 import { PipeModule } from './shared/modules/pipe.module';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, LOCALE_ID } from '@angular/core';
+import { NgModule, LOCALE_ID, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { MomentModule,DateFormatPipe } from 'ngx-moment';
@@ -20,6 +20,8 @@ import { TokenInterceptor } from './features/login/interceptor/token.interceptor
 import { RefrashTokenInterceptor } from './features/login/interceptor/RefrashToken.interceptor';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
+import { NgxSpinnerModule } from "ngx-spinner";
+
 registerLocaleData(localePt)
 
 @NgModule({
@@ -42,7 +44,8 @@ registerLocaleData(localePt)
     NgxMaskModule.forRoot(),
     MomentModule,
     WebStorageModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgxSpinnerModule
 
   ],
   providers: [
@@ -52,6 +55,7 @@ registerLocaleData(localePt)
     {provide: HTTP_INTERCEPTORS, useClass: RefrashTokenInterceptor, multi: true },
     { provide: LOCALE_ID, useValue: 'pt'}
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
