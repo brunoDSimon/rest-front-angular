@@ -6,7 +6,7 @@ import { FinanceiroService } from '../../service/financeiro.service';
 import * as moment from 'moment';
 import { DateStruct } from 'src/app/shared/models/date-struct.model';
 import {EventEmitterService} from 'src/app/shared/service/event-emitter.service'
-import { LoaderService } from 'src/app/shared/service/loader.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-generate-pdf-empresa',
@@ -28,7 +28,7 @@ export class GeneratePdfEmpresaComponent implements OnInit {
     private companiesData: CompaniesDataService,
     private formBuilder: FormBuilder,
     private dateFormatPipe: DateFormatPipe,
-    private loaderService: LoaderService
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -37,21 +37,25 @@ export class GeneratePdfEmpresaComponent implements OnInit {
   }
 
   public gerarPdf(){
+    this.spinner.show();
+
     const dateEntry = this.dateFormatPipe.transform(this._date.fromDate, 'YYYY-MM-DD');
     const dateFinal = this.dateFormatPipe.transform(this._date.toDate, 'YYYY-MM-DD');
     const companyID = this.formGroup.get('companyID').value.id;
     console.log(dateEntry, dateFinal, companyID, 'pdf empresa');
     this.financeiroService.getPdf(dateEntry, dateFinal,companyID).subscribe((res) =>{
-
+      // setTimeout(() => {this.spinner.hide(); }, 5000);
       const linkSource = 'data:application/pdf;base64,' +`${res.base64}`;
       const downloadLink = document.createElement("a");
       const fileName = `${this.formGroup.get('companyID').value.companyName}.pdf`;
       downloadLink.href = linkSource;
       downloadLink.download = fileName;
       downloadLink.click();
+      this.spinner.hide();
     },(error) =>{
-
+      // setTimeout(() => {this.spinner.hide(); }, 5000);
       console.log(error);
+      this.spinner.hide();
     })
   }
   get init(): any { return this._date; }

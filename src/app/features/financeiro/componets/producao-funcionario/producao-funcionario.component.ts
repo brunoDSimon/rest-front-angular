@@ -6,6 +6,7 @@ import { FinanceiroService } from '../../service/financeiro.service';
 import { CompaniesDataService } from 'src/app/shared/service/CompaniesData.service';
 import { DateFormatPipe } from 'ngx-moment';
 import { CustomValidators } from 'ngx-custom-validators';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-producao-funcionario',
@@ -35,6 +36,7 @@ export class ProducaoFuncionarioComponent implements OnInit {
     private companiesData: CompaniesDataService,
     private formBuilder: FormBuilder,
     private dateFormatPipe: DateFormatPipe,
+    private spinner: NgxSpinnerService
   ) {
 
    }
@@ -165,6 +167,7 @@ export class ProducaoFuncionarioComponent implements OnInit {
   }
 
   public getProducao(){
+    this.spinner.show();
     this._listProducao = [];
     this._valorTotal = null;
     this._totalBolsas = null;
@@ -179,14 +182,14 @@ export class ProducaoFuncionarioComponent implements OnInit {
     console.log(dateEntry, dateFinal, userID, descont)
 
     this.financeiroService.getValoresFuncionario(userID,dateEntry,dateFinal,descont,dateFinalNotNul).subscribe((res) =>{
-
       this._listProducao = res.data.bead;
       this._valorTotal = res.data.sumValueTotal;
       this._totalBolsas = res.data.sumBags;
       this._totalDescont = res.data.descont;
+      this.spinner.hide();
     }, (err) => {
       this._error = err.message;
-
+      this.spinner.hide();
     } )
   }
 
@@ -197,9 +200,12 @@ export class ProducaoFuncionarioComponent implements OnInit {
     downloadLink.href = linkSource;
     downloadLink.download = fileName;
     downloadLink.click();
+
+    this.spinner.hide();
   }
 
   public geratePaymentUser(){
+    this.spinner.show();
     const dateEntry = this.dateFormatPipe.transform(this._date.fromDate, 'YYYY-MM-DD');
     const dateFinal = this.dateFormatPipe.transform(this._date.toDate, 'YYYY-MM-DD');
     const userID = this.formGroup.get('userID').value.id;
@@ -209,6 +215,7 @@ export class ProducaoFuncionarioComponent implements OnInit {
      this.pdf(res.data.base64,dateEntry,dateFinal);
     },(error) =>{
       console.log(error);
+      this.spinner.hide();
     })
   }
 

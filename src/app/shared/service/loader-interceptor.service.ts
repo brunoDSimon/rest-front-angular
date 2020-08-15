@@ -5,11 +5,30 @@ import { finalize } from "rxjs/operators";
 import { LoaderService } from './loader.service';
 @Injectable()
 export class LoaderInterceptor implements HttpInterceptor {
+  activeRequests = 0;
     constructor(public loaderService: LoaderService) { }
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        this.loaderService.show();
-        return next.handle(req).pipe(
-            finalize(() => this.loaderService.hide())
-        );
+      if(this.activeRequests ===0){
+        this.showLoader()
+      }
+      this.activeRequests++;
+      return next.handle(req).pipe(finalize(() =>{
+        this.activeRequests--;
+        if(this.activeRequests === 0){
+          this.hideLoader();
+        }
+      }))
+    }
+
+    private onEnd(){
+      this.hideLoader();
+    }
+
+    private showLoader(){
+      this.loaderService.show();
+    }
+
+    private hideLoader(){
+      this.loaderService.hide();
     }
 }
