@@ -4,6 +4,7 @@ import { FinanceiroService } from '../../service/financeiro.service';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { CompaniesDataService } from 'src/app/shared/service/CompaniesData.service';
 import { DateFormatPipe } from 'ngx-moment';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-saida',
@@ -16,14 +17,17 @@ export class SaidaComponent implements OnInit {
   private _listCompanies: any = [];
   private _error: any;
   private _idTalao: any;
+
   public formGroup: FormGroup;
+  public ngbAlert = {type: null, msg: null}
+
   constructor(
     private route: ActivatedRoute,
     private financeiroService: FinanceiroService,
     private formBuilder: FormBuilder,
     private dateFormatPipe: DateFormatPipe,
     private companiesData: CompaniesDataService,
-
+    private spinner: NgxSpinnerService
     ) { }
 
   ngOnInit() {
@@ -46,14 +50,14 @@ export class SaidaComponent implements OnInit {
 
   public crieFormulario(){
     this.formGroup = this.formBuilder.group({
-      amount: ['', Validators.required],
-      companyID: new FormControl('', Validators.required),
-      userID:new FormControl('', Validators.required),
-      dateEntry: ['', Validators.required],
-      dateFinal: ['', Validators.required],
-      patch: ['', Validators.required],
-      reference: ['', Validators.required],
-      value: ['', Validators.required]
+      amount: ['', [Validators.required]],
+      companyID: new FormControl('', [Validators.required]),
+      userID:new FormControl('', [Validators.required]),
+      dateEntry: ['', [Validators.required]],
+      dateFinal: ['', [Validators.required]],
+      patch: ['', [Validators.required]],
+      reference: ['', [Validators.required]],
+      value: ['', [Validators.required]]
     });
   }
 
@@ -117,36 +121,48 @@ export class SaidaComponent implements OnInit {
   }
 
   public getListUser(){
+    this.spinner.show();
     this.financeiroService.getUser().subscribe((res) =>{
       this._listUser = res.data.users;
       this.companiesData.setUsers(res.data.users);
+      this.spinner.hide();
     }, (err) => {
       this._error = err.message;
-
+      this.spinner.hide();
+      this.ngbAlert.msg = err
+      this.ngbAlert.type = 'danger';
     })
   }
 
   public getListCompanies(){
+    this.spinner.show();
     this.financeiroService.getCompanies().subscribe((res) =>{
       this._listCompanies =res.companies;
       this.companiesData.setCompanies(res.companies);
       // console.log(this._listCompanies)
+      this.spinner.hide();
     }, (err) => {
-      this._error = err.message;
-
+      this.spinner.hide();
+      this.ngbAlert.msg = err
+      this.ngbAlert.type = 'danger';
     })
   }
 
   public getTalao(id){
+    this.spinner.show();
     this.financeiroService.getBeadOne(id).subscribe((res) =>{
       console.log(res.bead)
       this.crieFormularioEditar(res.bead)
+      this.spinner.hide();
     },(error: Error) =>{
-      console.log(error)
+      this.spinner.hide();
+      this.ngbAlert.msg = error
+      this.ngbAlert.type = 'danger';
     })
   }
 
   public update(){
+    this.spinner.show();
     let body ={
       "reference": this.formGroup.get('reference').value,
       "value": this.formGroup.get('value').value,
@@ -159,9 +175,16 @@ export class SaidaComponent implements OnInit {
     }
     console.log(body)
     this.financeiroService.updateTalao(this._idTalao, body).subscribe((res) =>{
-      console.log(res);
+      this.ngbAlert.msg = 'Alterado com sucesso!'
+      this.ngbAlert.type = 'success';
+      this.spinner.hide();
     },(erro: Error) =>{
-      console.log(erro)
+      this.ngbAlert.msg = erro
+      this.ngbAlert.type = 'danger';
+      this.spinner.hide();
     })
+  }
+  public close(){
+    this.ngbAlert = {type: null, msg: null}
   }
 }

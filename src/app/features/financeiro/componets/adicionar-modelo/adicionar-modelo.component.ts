@@ -3,6 +3,8 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { UsersDataService } from 'src/app/shared/service/UsersData.service';
 import { CompaniesDataService } from 'src/app/shared/service/CompaniesData.service';
+import {EventEmitterService} from 'src/app/shared/service/event-emitter.service'
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-adicionar-modelo',
   templateUrl: './adicionar-modelo.component.html',
@@ -21,7 +23,8 @@ export class AdicionarModeloComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private financeiroService: FinanceiroService,
-    private compaiesDataService: CompaniesDataService
+    private compaiesDataService: CompaniesDataService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -57,6 +60,7 @@ export class AdicionarModeloComponent implements OnInit {
   }
 
   public verificarSessao(){
+    EventEmitterService.get('showLoader').emit();
     if(this.compaiesDataService.companies.length){
       this._listCompanies = this.compaiesDataService.companies[0]
     }else{
@@ -67,6 +71,7 @@ export class AdicionarModeloComponent implements OnInit {
     }else{
       this.getUsers();
     }
+    EventEmitterService.get('hideLoader').emit();
   }
 
   public getCompanies(){
@@ -84,6 +89,7 @@ export class AdicionarModeloComponent implements OnInit {
     })
   }
   public enviartalao(){
+    this.spinner.show();
     let body: any= {
       "reference":     this.formGroup.get('reference').value,
       "value":         this.formGroup.get('value').value,
@@ -96,17 +102,14 @@ export class AdicionarModeloComponent implements OnInit {
     this.financeiroService.criarTalao(body).subscribe((res) =>{
       console.log(res)
        this._openSucess = true
+       this.spinner.hide();
       setTimeout((openSucess) => {
-        this.formGroup.get('reference').setValue('')
-        this.formGroup.get('value').setValue('')
-        this.formGroup.get('amount').setValue('')
-        this.formGroup.get('patch').setValue('')
-        this.formGroup.get('dateEntry').setValue('')
-        this.formGroup.get('companyID').setValue('')
-        this.formGroup.get('userID').setValue('')
+        this.formGroup.reset();
         this._openSucess = false
       }, 3000);
+
     }, (err) => {
+      this.spinner.hide();
       this._error = err.message;
 
     })

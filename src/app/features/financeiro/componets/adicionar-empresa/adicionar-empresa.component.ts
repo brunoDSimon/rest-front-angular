@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FinanceiroService } from '../../service/financeiro.service';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-adicionar-empresa',
   templateUrl: './adicionar-empresa.component.html',
@@ -22,7 +23,8 @@ export class AdicionarEmpresaComponent implements OnInit {
     private financeiroService: FinanceiroService,
     private formBuilder: FormBuilder,
     private config: NgbModalConfig,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -32,12 +34,12 @@ export class AdicionarEmpresaComponent implements OnInit {
 
   public crieFormulario(){
     this.formGroup = this.formBuilder.group({
-      cnpj: ['' ,Validators.required],
-      companyName: ['', Validators.required],
-      telephone: ['', Validators.required],
-      address: ['', Validators.required],
-      number: ['', Validators.required],
-      zipCode: ['', Validators.required]
+      cnpj: ['' ,[Validators.required]],
+      companyName: ['', [Validators.required]],
+      telephone: ['', [Validators.required, Validators.min(10)]],
+      address: ['', [Validators.required]],
+      number: ['', [Validators.required]],
+      zipCode: ['', [Validators.required]]
     })
   }
   public crieFormularioEditar(aux){
@@ -68,13 +70,16 @@ export class AdicionarEmpresaComponent implements OnInit {
     this._createCompany = !this._createCompany;
   }
   public verificarCNPJ(){
+    this.spinner.show();
     let cnpj = this.formGroup.get('cnpj').value;
     this.financeiroService.checkCompanie(cnpj).subscribe((response) =>{
       this._nextCreateCompanies = response.data;
       this._messeger = response.messege
+      this.spinner.hide();
     },(error) =>{
       this.ngbAlert.msg = error
       this.ngbAlert.type = 'danger';
+      this.spinner.hide();
     })
   }
 
@@ -86,6 +91,7 @@ export class AdicionarEmpresaComponent implements OnInit {
   }
 
   public createCompanies(){
+    this.spinner.show();
     const body: any={
       "companyName": this.formGroup.get('companyName').value,
       "cnpj": this.formGroup.get('cnpj').value,
@@ -99,17 +105,14 @@ export class AdicionarEmpresaComponent implements OnInit {
       console.log(res)
       this._sucessoCriar = true;
       setTimeout((sucessoCriar) => {
-        this.formGroup.get('companyName').setValue('')
-        this.formGroup.get('cnpj').setValue('')
-        this.formGroup.get('telephone').setValue('')
-        this.formGroup.get('address').setValue('')
-        this.formGroup.get('zipCode').setValue('')
-        this.formGroup.get('number').setValue('')
+        this.formGroup.reset();
         this._sucessoCriar = false
       }, 10000);
+      this.spinner.hide();
     },(err) =>{
       this.ngbAlert.msg = err
       this.ngbAlert.type = 'danger';
+      this.spinner.hide();
     })
   }
 
@@ -142,11 +145,14 @@ export class AdicionarEmpresaComponent implements OnInit {
     })
   }
   public getCompanies(){
+    this.spinner.show();
     this.financeiroService.getCompanies().subscribe((res) =>{
       console.log(res)
       this._listCompanies = res.companies;
+      this.spinner.hide()
     },(err) =>{
       alert('erro ao enviar')
+      this.spinner.hide();
     })
   }
   public close(){

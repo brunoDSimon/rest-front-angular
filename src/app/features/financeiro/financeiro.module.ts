@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PipeModule } from 'src/app/shared/modules/pipe.module';
 import { FinanceiroRoutingModule } from './financeiro-routing.module';
@@ -22,6 +22,8 @@ import { CardTotalizadorComponent } from './componets/card-totalizador/card-tota
 import { ProducaoEmpresaComponent } from './componets/producao-empresa/producao-empresa.component';
 import { ProducaoFuncionarioComponent } from './componets/producao-funcionario/producao-funcionario.component';
 import { SaidaComponent } from './componets/saida/saida.component';
+import { NgxSpinnerModule } from "ngx-spinner";
+
 @NgModule({
   imports: [
     CommonModule,
@@ -35,7 +37,8 @@ import { SaidaComponent } from './componets/saida/saida.component';
     SharedModule,
     CustomFormsModule,
     NgbModule,
-    QRCodeModule
+    QRCodeModule,
+    NgxSpinnerModule
   ],
   declarations: [
     FinanceiroComponent,
@@ -47,6 +50,7 @@ import { SaidaComponent } from './componets/saida/saida.component';
     ProducaoEmpresaComponent,
     ProducaoFuncionarioComponent,
     SaidaComponent
-  ]
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class FinanceiroModule { }

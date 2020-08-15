@@ -55,6 +55,9 @@
               </div>
             </div>
           </form>
+          <div class="col-12" *ngIf="ngbAlert.type">
+            <ngb-alert [type]="ngbAlert.type" (close)="close()" >{{ ngbAlert.msg }}</ngb-alert>
+          </div>
         </div>
       </div>
     </div>
