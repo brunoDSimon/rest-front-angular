@@ -52,18 +52,18 @@ export class LoginComponent implements OnInit {
       "email":    this.formGroup.get('email').value,
       "password": this.formGroup.get('password').value
     }
-
     this.loginService.auth(body).subscribe((res) =>{
       this.userData.setUserInfo(res.user);
       this.userData.setAuth(res.token);
       this._logado = true
       this.router.navigate(['/financeiro']);
       this._openError = false
-      this.spinner.hide();
+      // this.spinner.hide();
+      setTimeout(() => {this.spinner.hide();}, 5000);
     },(error) =>{
       this._openError = true
       this._error = error.error.status.messege
-      this.spinner.hide();
+      setTimeout(() => {this.spinner.hide();}, 5000);
     })
   }
 }

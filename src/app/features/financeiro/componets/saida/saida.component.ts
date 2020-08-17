@@ -153,9 +153,10 @@ export class SaidaComponent implements OnInit {
     this.financeiroService.getBeadOne(id).subscribe((res) =>{
       console.log(res.bead)
       this.crieFormularioEditar(res.bead)
-      this.spinner.hide();
+      setTimeout(() => {this.spinner.hide();}, 5000);
+
     },(error: Error) =>{
-      this.spinner.hide();
+      setTimeout(() => {this.spinner.hide();}, 5000);
       this.ngbAlert.msg = error
       this.ngbAlert.type = 'danger';
     })
@@ -177,11 +178,11 @@ export class SaidaComponent implements OnInit {
     this.financeiroService.updateTalao(this._idTalao, body).subscribe((res) =>{
       this.ngbAlert.msg = 'Alterado com sucesso!'
       this.ngbAlert.type = 'success';
-      this.spinner.hide();
+      setTimeout(() => {this.spinner.hide();}, 5000);
     },(erro: Error) =>{
       this.ngbAlert.msg = erro
       this.ngbAlert.type = 'danger';
-      this.spinner.hide();
+      setTimeout(() => {this.spinner.hide();}, 5000);
     })
   }
   public close(){
