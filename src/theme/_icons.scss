@@ -53,10 +53,9 @@
       background-image: url('/assets/refrescar.svg');
       background-position: center;
       background-repeat: no-repeat;
-      padding: 20px;
+      padding: 8px;
       cursor: pointer;
-      background-size: 20px;
-      display: block;
+      display: inline;
   }
   &-trash{
     background-image: url('/assets/excluir.svg');
