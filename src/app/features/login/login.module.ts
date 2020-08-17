@@ -11,7 +11,6 @@ import { NgxSpinnerModule } from "ngx-spinner";
 
 import { LoginComponent } from './componets/login.component';
 import { LoginRoutingModule } from './login-routing.module';
-import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   imports: [
@@ -31,9 +30,5 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     LoginComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-<<<<<<< HEAD
-
-=======
->>>>>>> a705155c9025ad5ba59932deb759f6435af80891
 })
 export class LoginModule { }
