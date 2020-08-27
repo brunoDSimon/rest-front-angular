@@ -1,0 +1,68 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Saida de produto</h5>
+          <form [formGroup]="formGroup" class="form-group" (ngSubmit)="update()">
+            <div class="row">
+              <div class="col-xl-6 offset-xl-3 col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-sm-8 offset-sm-2 col-12 text-left">
+                <div class="col-12">
+                  <div>Compania</div>
+                  <select formControlName="companyID" class="form-control">
+                    <option *ngFor="let aux of listCompanies"[ngValue]="aux">{{aux.companyName}}</option>
+                  </select>
+                </div>
+
+                <div class="col-12">
+                  <div>Funcionario</div>
+                  <select formControlName="userID" class="form-control">
+                    <option *ngFor="let aux of listUser"[ngValue]="aux">{{aux.name}}</option>
+                  </select>
+                </div>
+
+                <div class="col-12">
+                  <div>Talão</div>
+                  <input class="form-control" type="text" formControlName="patch">
+                </div>
+
+                <div class="col-12">
+                  <div>Referencia</div>
+                  <input class="form-control" type="text" formControlName="reference">
+                </div>
+
+                <div class="col-12">
+                  <div>Data de entrada</div>
+                  <input class="form-control" type="date" formControlName="dateEntry" >
+                </div>
+
+                <div class="col-12">
+                  <div>Data de saida</div>
+                  <input class="form-control" type="date"  formControlName="dateFinal">
+                </div>
+
+                <div class="col-12">
+                  <div>Valor</div>
+                  <input class="form-control" type="text" formControlName="value">
+                </div>
+
+                <div class="col-12">
+                  <div>Quantidade</div>
+                  <input class="form-control" type="text" formControlName="amount">
+                </div>
+
+                <div class="col-12 mt-2">
+                  <button class="btn btn-outline-success" type="submit" [disabled]="!formGroup.valid">ALTERAR</button>
+                </div>
+
+              </div>
+            </div>
+          </form>
+          <div class="col-12" *ngIf="ngbAlert.type">
+            <ngb-alert [type]="ngbAlert.type" (close)="close()" >{{ ngbAlert.msg }}</ngb-alert>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -5,6 +5,8 @@ import { CompaniesDataService } from 'src/app/shared/service/CompaniesData.servi
 import { FinanceiroService } from '../../service/financeiro.service';
 import * as moment from 'moment';
 import { DateStruct } from 'src/app/shared/models/date-struct.model';
+import {EventEmitterService} from 'src/app/shared/service/event-emitter.service'
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-generate-pdf-empresa',
@@ -26,40 +28,35 @@ export class GeneratePdfEmpresaComponent implements OnInit {
     private companiesData: CompaniesDataService,
     private formBuilder: FormBuilder,
     private dateFormatPipe: DateFormatPipe,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
-    if(!this.companiesData.companies.length){
-      this.getListCompanies();
-    }else{
-      console.log(this.companiesData.companies[0])
-      this._listCompanies = this.companiesData.companies[0]
-    }
-    this.formGroup = this.formBuilder.group({
-      companyID: new FormControl(['', Validators.required]),
-      userID: new FormControl(['']),
-    })
-    this._date = {
-      fromDate: moment(moment().toDate()).subtract(30, 'days').toDate(),
-      toDate: moment(moment().toDate()).subtract(1, 'days').toDate(),
-  };
+    this.crieFormulario();
+    this.verifiqueSessao();
   }
 
   public gerarPdf(){
+    this.spinner.show();
+
     const dateEntry = this.dateFormatPipe.transform(this._date.fromDate, 'YYYY-MM-DD');
     const dateFinal = this.dateFormatPipe.transform(this._date.toDate, 'YYYY-MM-DD');
-    const companyID = this.formGroup.get('companyID').value;
+    const companyID = this.formGroup.get('companyID').value.id;
     console.log(dateEntry, dateFinal, companyID, 'pdf empresa');
-    // this.financeiroService.getPdf(dateEntry, dateFinal,companyID).subscribe((res) =>{
-    //   const linkSource = 'data:application/pdf;base64,' +`${res.base64}`;
-    //   const downloadLink = document.createElement("a");
-    //   const fileName = "sample.pdf";
-    //   downloadLink.href = linkSource;
-    //   downloadLink.download = fileName;
-    //   downloadLink.click();
-    // },(error) =>{
-    //   console.log(error);
-    // })
+    this.financeiroService.getPdf(dateEntry, dateFinal,companyID).subscribe((res) =>{
+      // setTimeout(() => {this.spinner.hide(); }, 5000);
+      const linkSource = 'data:application/pdf;base64,' +`${res.base64}`;
+      const downloadLink = document.createElement("a");
+      const fileName = `${this.formGroup.get('companyID').value.companyName}.pdf`;
+      downloadLink.href = linkSource;
+      downloadLink.download = fileName;
+      downloadLink.click();
+      this.spinner.hide();
+    },(error) =>{
+      // setTimeout(() => {this.spinner.hide(); }, 5000);
+      console.log(error);
+      this.spinner.hide();
+    })
   }
   get init(): any { return this._date; }
 
@@ -76,21 +73,25 @@ export class GeneratePdfEmpresaComponent implements OnInit {
   public alterarPeriodo(datas){
     this._date = datas
   }
-  public getListUser(){
-    this.financeiroService.getUser().subscribe((res) =>{
-      this._listUser = res.data;
-      // console.log(this._listUser)
-    }, (err) => {
-      this._error = err.message;
-
+  public crieFormulario(){
+    this.formGroup = this.formBuilder.group({
+      companyID: new FormControl(this._listCompanies, Validators.required),
     })
   }
+  public verifiqueSessao(){
+    if(!this.companiesData.companies.length){
+      this.getListCompanies();
+    }else{
+      console.log(this.companiesData.companies[0])
+      this._listCompanies = this.companiesData.companies[0]
+    }
+  }
+
   public getListCompanies(){
     this.financeiroService.getCompanies().subscribe((res) =>{
-      console.log();
-      this.companiesData.setCompanies(res.data);
-      this._listCompanies =res.data;
-      // console.log(this._listCompanies)
+      console.log(res);
+      this.companiesData.setCompanies(res.companies);
+      this._listCompanies = res.companies;
     }, (err) => {
       this._error = err.message;
 

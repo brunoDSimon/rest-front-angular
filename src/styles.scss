@@ -47,6 +47,22 @@ body{
     padding-top:70px;
     background-color: $bg-cinza;
     font-family: Calibri, KievitOT;
+    background-image: url('/assets/fundo.jpg');
+    background-repeat: no-repeat;
+    background-position:center;
+
+    @media (max-width: 540px) {
+      font-size: 10px !important;
+    }
+    @media (max-width: 720px) {
+      font-size: 12px !important;
+    }
+    @media (max-width: 960px) {
+      font-size: 13px !important;
+    }
+    @media (max-width: 1140px) {
+      font-size: 14px !important;
+    }
 }
 
 

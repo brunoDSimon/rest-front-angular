@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { SumGroupCompaniesComponent } from './sum-group-companies.component';
+import { LoaderComponent } from './loader.component';
 
-describe('SumGroupCompaniesComponent', () => {
-  let component: SumGroupCompaniesComponent;
-  let fixture: ComponentFixture<SumGroupCompaniesComponent>;
+describe('LoaderComponent', () => {
+  let component: LoaderComponent;
+  let fixture: ComponentFixture<LoaderComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SumGroupCompaniesComponent ]
+      declarations: [ LoaderComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SumGroupCompaniesComponent);
+    fixture = TestBed.createComponent(LoaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

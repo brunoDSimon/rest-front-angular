@@ -5,6 +5,7 @@ import {map, catchError} from 'rxjs/operators'
 import { Service } from 'src/app/shared/service/service';
 import { DateFormatPipe } from 'ngx-moment';
 import { environment } from '../../../../environments/environment';
+import { DefaultResponse } from 'src/app/shared/models/default-response.mode';
 
 @Injectable({
   providedIn: 'root'
@@ -21,22 +22,23 @@ export class FinanceiroService extends Service{
 
   // CRIA UM TALAO
   public criarTalao(body): Observable<any>{
-    return this.http.post(environment.api_url+'bead', body, {headers: this.headers}).pipe(
+    return this.http.post<DefaultResponse>(environment.api_url+'bead', body, {headers: this.headers}).pipe(
       map(res =>{
-        return res
-      }),catchError((error) =>{
-        throw console.error('error ao criar talao');
-      })
+        return this.filter(res)
+      }),catchError((error: any) => {
+          throw this.handleError(error);
+        }
+      )
     )
   }
 
   // VER A PRODUCAO
-  public getTalao( userID: any | null, dateEntry: any, dateFinal: any,companyID: any):Observable<any>{
+  public getTalao( dateEntry: any, dateFinal: any,companyID: any,dateFinalNotNul):Observable<any>{
     const filter ={
       dateEntry: dateEntry,
       dateFinal: dateFinal,
-      userID: userID,
-      companyID: companyID
+      companyID: companyID,
+      dateFinalNotNul: dateFinalNotNul
     }
     const filtro = new URLSearchParams(filter).toString();
       return this.http.get(environment.api_url+`bead?`+filtro,{headers: this.headers}).pipe(
@@ -50,12 +52,13 @@ export class FinanceiroService extends Service{
       )
     )
   }
-  public getValoresFuncionario( userID: any | null, dateEntry: any, dateFinal: any,descont: any):Observable<any>{
+  public getValoresFuncionario( userID: any | null, dateEntry: any, dateFinal: any,descont: any,dateFinalNotNul: any):Observable<any>{
     const filter ={
       dateEntry: dateEntry,
       dateFinal: dateFinal,
       userID: userID,
-      descont: descont
+      descont: descont,
+      dateFinalNotNul:dateFinalNotNul
     }
     const filtro = new URLSearchParams(filter).toString();
       return this.http.get(environment.api_url+`bead/consultValuesPaymentUser?`+filtro,{headers: this.headers}).pipe(
@@ -102,9 +105,21 @@ export class FinanceiroService extends Service{
 
   // criar empresa
   public createCompany(body){
-    return this.http.post(environment.api_url+'companies',body,{headers: this.headers}).pipe(
+    return this.http.post<DefaultResponse>(environment.api_url+'companies',body,{headers: this.headers}).pipe(
       map((res) =>{
-        return res
+        return this.filter(res);
+      },catchError(
+        (error: any) => {
+          throw this.handleError(error);
+        }
+      )
+      )
+    )
+  }
+  public updateCompany(id,body){
+    return this.http.post<DefaultResponse>(environment.api_url+`companies/update/${id}`,body,{headers: this.headers}).pipe(
+      map((res) =>{
+        return this.filter(res);
       },catchError(
         (error: any) => {
           throw this.handleError(error);
@@ -115,9 +130,9 @@ export class FinanceiroService extends Service{
   }
   // VER EMPRESAS CADASTRADAS
   public getCompanies():Observable<any>{
-    return this.http.get(environment.api_url+'companies',{headers: this.headers}).pipe(
+    return this.http.get<DefaultResponse>(environment.api_url+'companies',{headers: this.headers}).pipe(
       map((res) =>{
-        return Object(res);
+        return this.filter(res);
       },catchError(
         (error: any) => {
           throw this.handleError(error);
@@ -134,9 +149,9 @@ export class FinanceiroService extends Service{
       companyID: companyID
     }
     const filtro = new URLSearchParams(filter).toString();
-    return this.http.get(environment.api_url+'pdf?'+filtro, {headers: this.headers}).pipe(
+    return this.http.get<DefaultResponse>(environment.api_url+'pdf?'+filtro, {headers: this.headers}).pipe(
       map((res) =>{
-        return res;
+        return this.filter(res);
       },(error)=>{
         throw this.handleError(error);
       })
@@ -172,6 +187,32 @@ export class FinanceiroService extends Service{
         }
       )
       )
+    )
+  }
+
+  public getBeadOne(id: any):Observable<any>{
+    const filter ={
+      id: id
+    }
+    return this.http.get<DefaultResponse>(environment.api_url+'bead/pesquisaID',{params: filter}).pipe(
+      map((response) =>{
+        return this.filter(response);
+      },catchError(
+        (error: any) => {
+          throw this.handleError(error);
+        }
+      )
+      )
+    )
+  }
+
+  public updateTalao(id,body): Observable<any>{
+    return this.http.post(environment.api_url+`bead/update/${id}`, body, {headers: this.headers}).pipe(
+      map(res =>{
+        return res
+      }),catchError((error) =>{
+        throw console.error('error ao criar talao');
+      })
     )
   }
 }

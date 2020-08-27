@@ -4,28 +4,40 @@
       <div class="col-12">
           <form [formGroup]="formGroup" class="form-group " (ngSubmit)="getProducao()">
               <div class="row">
-                  <div class="col-6">
+                  <div class="col-xl-5">
                       <app-date-piker
                       [init]="init"
                       (alterarPeriodo)="alterarPeriodo($event)"
                       ></app-date-piker>
                   </div>
-                  <div class="col-2">
-                    <input class="custom-select" type="number" formControlName="descont" placeholder="desconto %">
-                  </div>
-                  <div class="col-2">
+                  <div class="col-xl-2">
                       <select class="custom-select" formControlName="userID" >
                           <option
                           *ngFor="let aux of listUser"
-                          [ngValue]="aux.id"
+                          [ngValue]="aux"
                           >
                           {{aux.name}}
                           </option>
                       </select>
                   </div>
-                  <div class="col-2">
+                  <div class="col-xl-2">
+                    <input
+                    maxlength="5"
+                    class="custom-select"
+                    type="text"
+                    formControlName="descont"
+                    currencyMask
+                    [options]="{ prefix: '', thousands: '', decimal: '.', aling: 'rigth', suffix: ' %', allowNegatve:false}"
+                    >
+                  </div>
+                  <div class="col-xl-1 col-lg-1 col-md-2 col-sm-2 col-6 align-self-center">
+                    <label class="switch">
+                      <input type="checkbox" formControlName="dateFinalNotNul" (change)="getProducao()">
+                      <span class="slider round"></span>
+                    </label>
+                  </div>
+                  <div class="col-xl-1">
                     <button class="btn btn-info text-right" [disabled]="!formGroup.valid"  type="submit">PESQUISAR</button>
-                    {{formGroup.valid }}
                   </div>
               </div>
           </form>
@@ -41,13 +53,13 @@
           <div class="col-4">
             <div class="font-weight-bold h5"> porcentagem desconto: {{totalDescont  | percent}}</div>
           </div>
-          <div class="col-12">
+          <div class="col-12" *ngIf="listProducao.length">
             <button class="text-sm btn btn-outline-warning" (click)="geratePaymentUser()">exportar pagamento</button>
           </div>
         </div>
       </div>
-      <div class="col-12 mb-2 " *ngFor="let aux of listProducao">
-        <div class="card">
+      <div class="col-12" *ngIf="listProducao.length">
+        <div class="card mb-2" *ngFor="let aux of listProducao">
             <div class="card-body">
                 <div class="row text-sm">
                     <div class="col-3">
@@ -55,7 +67,7 @@
                             Solicitante
                         </div>
                         <div class="col-12">
-                            {{aux.companies.companyName}}
+                            {{aux?.companies?.companyName}}
                         </div>
                     </div>
                     <div class="col-3">
@@ -119,5 +131,11 @@
             </div>
         </div>
       </div>
+      <div class="col-12" *ngIf="!listProducao.length">
+        <app-messenger-dados></app-messenger-dados>
+      </div>
   </div>
+  <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white">Loading...</p>
+  </ngx-spinner>
 </div>

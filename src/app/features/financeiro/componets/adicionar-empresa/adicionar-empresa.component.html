@@ -1,127 +1,225 @@
 <div class="container">
   <div class="row">
     <div class="col-12">
-      <div class="card">
+      <div class="card ">
         <div class="card-body">
             <div class="col-12">
-              <button class="btn btn-success" (click)="openCreate();" *ngIf="!createCompany">Adicionar nova empresa</button>
-              <button class="btn btn-success" (click)="openCreate();" *ngIf="createCompany">Ver empresa cadastradas</button>
-              <form class="form-group" [formGroup]="formGroup" *ngIf="createCompany"> 
+              <button class="btn btn-success mb-2" (click)="openCreate();" *ngIf="!createCompany">Adicionar nova empresa</button>
+              <button class="btn btn-success mb-2" (click)="openCreate();" *ngIf="createCompany">Ver empresa cadastradas</button>
+              <form class="form-group" [formGroup]="formGroup" *ngIf="createCompany">
                 <div class="card">
                   <div class="card-body">
-                      <label>CNPJ</label>
-                      <input 
-                      type="text"
-                      class="form-control w-25"
-                      formControlName="cnpj"
-                      mask="000.000.000-00"
-                      [ngClass]="{'is-invalid': formGroup.get('cnpj').touched && 
-                      formGroup.get('cnpj').hasError('required') && formGroup.get('cnpj').hasError('hasNumber') }"
-                      >
-                      <div class="alert alert-danger w-25" role="alert"  *ngIf="formGroup.get('cnpj').hasError('hasNumber') " >
-                          CNPJ CONTEM APENAS NUMERO
+                    <div class="row">
+                      <div class="col-xl-4 offset-xl-4 col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-12">
+                        <label class="font-weight-bold">CNPJ</label>
+                        <input
+                          type="text"
+                          class="form-control "
+                          formControlName="cnpj"
+                          mask="000.000.000-00||00.000.000/0000-00"
+                        >
+                        <div class="col-12" *ngIf="ngbAlert.type">
+                          <ngb-alert [type]="ngbAlert.type" (close)="close()" >{{ ngbAlert.msg }}</ngb-alert>
                         </div>
-                        <div class="alert alert-danger w-25" role="alert"  *ngIf="!nextCreateCompanies && messeger == 'Compania existente'" >
-                          CNPJ JA EM USO
+                        <button class="btn btn-outline-warning mt-2" (click)="verificarCNPJ();" [disabled]="!formGroup.get('cnpj').value">VERIFICAR CNPJ</button>
+                        <div *ngIf="nextCreateCompanies">
+                            <label class="font-weight-bold">Nome da empresa</label>
+                            <input
+                            type="text"
+                            class="form-control "
+                            formControlName="companyName"
+                            >
+                            <label class="font-weight-bold">Telefone</label>
+                            <input
+                              type="text"
+                              class="form-control "
+                              formControlName="telephone"
+                              mask="(00) 0000-0000||(00) 0 0000-0000"
+                            >
+                            <label class="font-weight-bold">Endereço</label>
+                            <input
+                              type="text"
+                              class="form-control "
+                              formControlName="address"
+                            >
+                            <label class="font-weight-bold">Numero</label>
+                            <input
+                              type="text"
+                              class="form-control "
+                              formControlName="number"
+                              mask="99999999999"
+                            >
+                            <label class="font-weight-bold">CEP</label>
+                            <input
+                              type="text"
+                              class="form-control "
+                              formControlName="zipCode"
+                              mask="00000-000"
+                            >
+                            <button class="btn btn-outline-success mt-2" [disabled]="!formGroup.valid" (click)="createCompanies()">Cadastrar</button>
+                            <div>
+                            <div class="alert alert-info" role="alert" *ngIf="sucessoCriar">
+                              Empresa cadastrada com sucesso!
+                            </div>
+                            </div>
                         </div>
-                      <button class="btn btn-outline-warning" (click)="verificarCNPJ();" >VERIFICAR CNPJ</button>
-                      <div *ngIf="nextCreateCompanies">
-                          <label>Nome da empresa</label>
-                          <input 
-                          type="text"
-                          class="form-control w-25"
-                          formControlName="companyName"
-                          >
-                          <label>Telefone</label>
-                          <input 
-                          type="text"
-                          class="form-control w-25"
-                          formControlName="telephone"
-                          mask='(00) 00000-0000'
-                          >
-                          <label>Endereço</label>
-                          <input 
-                          type="text"
-                          class="form-control w-25"
-                          formControlName="address"
-                          >
-                          <label>Numero</label>
-                          <input 
-                          type="text"
-                          class="form-control w-25"
-                          formControlName="number"
-                          >
-                          <label>CEP</label>
-                          <input 
-                          type="text"
-                          class="form-control w-25"
-                          formControlName="zipCode"
-                          >
-                          <button class="btn btn-outline-success" [disabled]="!formGroup.valid" (click)="createCompanies()">Cadastrar</button>
                       </div>
+                    </div>
+
                   </div>
                 </div>
               </form>
             </div>
-            <div class="col-12" *ngIf="!createCompany">
+            <div class="col-12" *ngIf="!createCompany && listCompanies.length">
               <h3 class="">Vejá as companias cadastradas</h3>
               <div class="card mb-2" *ngFor="let aux of listCompanies">
-                <div class="card-body">
-                 <div class="row text-sm">
-                   <div class="col">
-                     <div class="col-12">
-                       Compania
-                     </div>
-                     <div class="col-12">
-                       {{aux.companyName}}
-                     </div>
-                   </div>
-                   <div class="col">
-                     <div class="col-12">
-                       CNPJ
-                     </div>
-                     <div class="col-12">
-                       {{aux.cnpj | mask: '000.000.000-00'}}
-                     </div>
-                   </div>
-                   <div class="col">
-                     <div class="col-12">
-                       Telefone
-                     </div>
-                     <div class="col-12">
-                       {{aux.telephone | mask: '(00) 00000-0000'}}
+                <div class="card-body shadow">
+                 <div class="row text-sm align-self-center">
+                   <div class="col-xl-4 col-lg-4">
+                     <div class="row">
+                       <div class="col-12 font-weight-bold">
+                         Compania
+                       </div>
+                       <div class="col-12 text-xs">
+                         {{aux.companyName}}
+                       </div>
+                       <div class="col-12 font-weight-bold">
+                        CNPJ
+                      </div>
+                      <div class="col-12 text-xs">
+                        {{aux.cnpj | mask: '000.000.000-00||00.000.000/0000-00'}}
+                      </div>
                      </div>
                    </div>
-                   <div class="col">
-                     <div class="col-12">
-                       Endereço
-                     </div>
-                     <div class="col-12">
-                       {{aux.address}}
+                   <div class="col-xl-3 col-lg-3">
+                     <div class="row">
+                       <div class="col-12 font-weight-bold">
+                         Telefone
+                       </div>
+                       <div class="col-12 text-xs">
+                         {{aux.telephone | mask: '(00) 0000-0000||(00) 0 0000-0000'}}
+                       </div>
+                       <div class="col-12 font-weight-bold">
+                        CEP
+                      </div>
+                      <div class="col-12 text-xs">
+                        {{aux.zipCode | mask: '00000-000'}}
+                      </div>
                      </div>
                    </div>
-                   <div class="col">
-                     <div class="col-12">
-                       Numero 
-                     </div>
-                     <div class="col-12">
-                       {{aux.number}}
+                   <div class="col-xl-3 col-lg-3">
+                     <div class="row">
+                       <div class="col-12 font-weight-bold">
+                         Endereço
+                       </div>
+                       <div class="col-12 text-xs">
+                         {{aux.address}}
+                       </div>
+                       <div class="col-12 font-weight-bold">
+                        Numero
+                      </div>
+                      <div class="col-12 text-xs">
+                        {{aux.number}}
+                      </div>
                      </div>
                    </div>
-                   <div class="col">
-                     <div class="col-12">
-                       CEP
-                     </div>
-                     <div class="col-12">
-                       {{aux.zipCode | mask: '00000-000'}}
+                   <div class="col-xl-2 col-lg-2">
+                     <div class="row">
+                       <div class="col-12">
+                         <button class="btn btn-outline-info" (click)="open(content, aux)">
+                          <i class="ic-update mr-1" ></i>
+                          Editar
+                          </button>
+                       </div>
+                       <!-- <div class="col-12">
+                        <i class="ic-trash"></i>
+                       </div> -->
                      </div>
                    </div>
                  </div>
                 </div>
               </div>
             </div>
+            <div class="col-12" *ngIf="!createCompany && !listCompanies.length">
+              <app-messenger-dados></app-messenger-dados>
+            </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Editar compania</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+   <div class="row">
+     <div class="col-12">
+      <form class="form-group" [formGroup]="formGroup">
+        <div class="card">
+          <div class="card-body">
+              <label>CNPJ</label>
+              <input
+                type="text"
+                class="form-control "
+                formControlName="cnpj"
+                mask="000.000.000-00||00.000.000/0000-00"
+              >
+
+              <label>Nome da empresa</label>
+              <input
+              type="text"
+              class="form-control "
+              formControlName="companyName"
+              >
+
+              <label>Telefone</label>
+              <input
+                type="text"
+                class="form-control "
+                formControlName="telephone"
+                mask="(00) 0000-0000||(00) 0 0000-0000"
+              >
+
+              <label>Endereço</label>
+              <input
+                type="text"
+                class="form-control "
+                formControlName="address"
+              >
+
+              <label>Numero</label>
+              <input
+                type="text"
+                class="form-control "
+                formControlName="number"
+                mask="99999999999"
+              >
+
+              <label>CEP</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="zipCode"
+                mask="00000-000"
+              >
+
+              <button class="btn btn-outline-success mt-2" [disabled]="!formGroup.valid" (click)="updateCompania()">Alterar</button>
+              <!-- <div>
+                {{formGroup.valid}}<br>
+                {{formGroup.value | json}}<br>
+                {{formGroup.status}}
+              </div> -->
+              <div class="alert alert-info" role="alert" *ngIf="sucessoCriar">
+                Empresa alterada com sucesso!
+              </div>
+          </div>
+        </div>
+      </form>
+     </div>
+   </div>
+  </div>
+</ng-template>
