@@ -14,7 +14,7 @@
         <tbody>
           <tr *ngFor="let aux of response; index as i">
             <th scope="row">{{ i+1 }}</th>
-            <td>{{aux?.periodo }}</td>
+            <td>{{aux?.periodo | date:'MMMM/yyy'}}</td>
             <td>{{aux?.resultGroup | reais}}</td>
           </tr>
         </tbody>

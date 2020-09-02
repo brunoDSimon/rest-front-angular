@@ -89,6 +89,9 @@ export class ProducaoEmpresaComponent implements OnInit {
   get error(){
     return this._error;
   }
+  get value(){
+    return this.formGroup.get('dateFinalNotNul').value
+  }
   public alterarPeriodo(datas){
     this._date = datas
   }
