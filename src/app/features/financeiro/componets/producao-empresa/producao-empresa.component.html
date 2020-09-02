@@ -24,7 +24,6 @@
                     <input type="checkbox" formControlName="dateFinalNotNul" (change)="getProducao()">
                     <span class="slider round"></span>
                   </label>
-                  {{formGroup.get('dateFinalNotNul').value}}
                 </div>
                 <div class="col-xl-2 col-lg-2 col-md-5 col-sm-5 col-6">
                   <button class="btn btn-info text-right" [disabled]="!formGroup.valid"  type="submit">PESQUISAR</button>
