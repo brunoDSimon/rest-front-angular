@@ -53,13 +53,13 @@ export class LoginComponent implements OnInit {
       "password": this.formGroup.get('password').value
     }
     this.loginService.auth(body).subscribe((res) =>{
+      setTimeout(() => {this.spinner.hide();}, 5000);
       this.userData.setUserInfo(res.user);
       this.userData.setAuth(res.token);
       this._logado = true
       this.router.navigate(['/financeiro']);
       this._openError = false
       // this.spinner.hide();
-      setTimeout(() => {this.spinner.hide();}, 5000);
     },(error) =>{
       this._openError = true
       this._error = error.error.status.messege
