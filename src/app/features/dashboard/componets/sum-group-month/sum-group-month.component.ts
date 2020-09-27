@@ -3,6 +3,7 @@ import { DashboardService } from '../../service/dashboard.service';
 import Chart from 'chart.js';
 import { ReaisPipe } from 'src/app/shared/pipe/reais.pipe';
 import { MesAnoPipe } from 'src/app/shared/pipe/mes-ano.pipe';
+import { DateFormatPipe } from 'ngx-moment';
 @Component({
   selector: 'app-sum-group-month',
   templateUrl: './sum-group-month.component.html',
@@ -16,7 +17,9 @@ export class SumGroupMonthComponent implements OnInit {
   constructor(
     private dashboardService: DashboardService,
     private reais:ReaisPipe,
-    private mesAno:MesAnoPipe
+    private mesAno:MesAnoPipe,
+    private dateFormatPipe: DateFormatPipe,
+
   ) { }
 
   ngOnInit() {
@@ -40,7 +43,6 @@ export class SumGroupMonthComponent implements OnInit {
   }
 
   public render(){
-    const meses = this.getMesesSigla();
     // console.log(meses)
     this.myChart = new Chart(document.getElementById("bar-chart"), {
       type: 'bar',
@@ -86,7 +88,7 @@ export class SumGroupMonthComponent implements OnInit {
   }
   private getMesesSigla() {
     const meses = [];
-    const periodo = this._month;
+    const periodo = this._month.substring(5,7);
     const lengthPeriodo = this._month.length;
     if (lengthPeriodo) {
       periodo.map((mes) => {
@@ -97,4 +99,11 @@ export class SumGroupMonthComponent implements OnInit {
     return meses;
   }
 
+  public transfor(aux){
+    const date =  new Date(aux)
+    const month = date.getMonth();
+    const year = date.getFullYear()
+    const newDate = new Date(year, month+1, 1)
+    return  this.dateFormatPipe.transform(newDate, 'YYYY-MM-DD')
+  }
 }
