@@ -71,7 +71,7 @@
               </form>
             </div>
             <div class="col-12" *ngIf="!createCompany && listCompanies.length">
-              <h3 class="">Vejá as companias cadastradas</h3>
+              <h4 class="fon">Vejá as companias cadastradas</h4>
               <div class="card mb-2" *ngFor="let aux of listCompanies">
                 <div class="card-body shadow">
                  <div class="row text-sm align-self-center">
@@ -80,13 +80,13 @@
                        <div class="col-12 font-weight-bold">
                          Compania
                        </div>
-                       <div class="col-12 text-xs">
+                       <div class="col-12 text-xs text-muted">
                          {{aux.companyName}}
                        </div>
                        <div class="col-12 font-weight-bold">
                         CNPJ
                       </div>
-                      <div class="col-12 text-xs">
+                      <div class="col-12 text-xs text-muted">
                         {{aux.cnpj | mask: '000.000.000-00||00.000.000/0000-00'}}
                       </div>
                      </div>
@@ -96,13 +96,13 @@
                        <div class="col-12 font-weight-bold">
                          Telefone
                        </div>
-                       <div class="col-12 text-xs">
+                       <div class="col-12 text-xs text-muted">
                          {{aux.telephone | mask: '(00) 0000-0000||(00) 0 0000-0000'}}
                        </div>
                        <div class="col-12 font-weight-bold">
                         CEP
                       </div>
-                      <div class="col-12 text-xs">
+                      <div class="col-12 text-xs text-muted">
                         {{aux.zipCode | mask: '00000-000'}}
                       </div>
                      </div>
@@ -112,24 +112,21 @@
                        <div class="col-12 font-weight-bold">
                          Endereço
                        </div>
-                       <div class="col-12 text-xs">
+                       <div class="col-12 text-xs text-muted">
                          {{aux.address}}
                        </div>
                        <div class="col-12 font-weight-bold">
                         Numero
                       </div>
-                      <div class="col-12 text-xs">
+                      <div class="col-12 text-xs text-muted">
                         {{aux.number}}
                       </div>
                      </div>
                    </div>
-                   <div class="col-xl-2 col-lg-2">
+                   <div class="col-xl-2 col-lg-2 align-self-center">
                      <div class="row">
                        <div class="col-12">
-                         <button class="btn btn-outline-info" (click)="open(content, aux)">
-                          <i class="ic-update mr-1" ></i>
-                          Editar
-                          </button>
+                          <i class="ic-update mr-1 cursor-pointer" (click)="open(content, aux)"></i>
                        </div>
                        <!-- <div class="col-12">
                         <i class="ic-trash"></i>
