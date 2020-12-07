@@ -17,6 +17,12 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies":[
+              "lodash",
+              "chart.js",
+              "ngx-store-9",
+              "qrcode"
+            ],
             "outputPath": "dist/projectAngular",
             "index": "src/index.html",
             "main": "src/main.ts",
