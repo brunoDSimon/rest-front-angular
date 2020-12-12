@@ -19,6 +19,7 @@ export class GeneratePdfEmpresaComponent implements OnInit {
   private _listCompanies: any[];
   private _error: any;
   private _resultRes: any = [];
+  private _typeError: any = null;
   private _date: DateStruct = {
     fromDate: moment().toDate(),
     toDate: moment().toDate(),
@@ -36,28 +37,7 @@ export class GeneratePdfEmpresaComponent implements OnInit {
     this.verifiqueSessao();
   }
 
-  public gerarPdf(){
-    this.spinner.show();
 
-    const dateEntry = this.dateFormatPipe.transform(this._date.fromDate, 'YYYY-MM-DD');
-    const dateFinal = this.dateFormatPipe.transform(this._date.toDate, 'YYYY-MM-DD');
-    const companyID = this.formGroup.get('companyID').value.id;
-    console.log(dateEntry, dateFinal, companyID, 'pdf empresa');
-    this.financeiroService.getPdf(dateEntry, dateFinal,companyID).subscribe((res) =>{
-      // setTimeout(() => {this.spinner.hide(); }, 5000);
-      const linkSource = 'data:application/pdf;base64,' +`${res.base64}`;
-      const downloadLink = document.createElement("a");
-      const fileName = `${this.formGroup.get('companyID').value.companyName}.pdf`;
-      downloadLink.href = linkSource;
-      downloadLink.download = fileName;
-      downloadLink.click();
-      this.spinner.hide();
-    },(error) =>{
-      // setTimeout(() => {this.spinner.hide(); }, 5000);
-      console.log(error);
-      this.spinner.hide();
-    })
-  }
   get init(): any { return this._date; }
 
   get error(){
@@ -67,17 +47,25 @@ export class GeneratePdfEmpresaComponent implements OnInit {
   get listUser(){
     return this._listUser
   }
+
+  get typeError() {
+    return this._typeError;
+  }
+
   get listCompanies(){
     return this._listCompanies;
   }
+
   public alterarPeriodo(datas){
     this._date = datas
   }
+
   public crieFormulario(){
     this.formGroup = this.formBuilder.group({
-      companyID: new FormControl(this._listCompanies, Validators.required),
+      companyID: new FormControl('', Validators.required),
     })
   }
+
   public verifiqueSessao(){
     if(!this.companiesData.companies.length){
       this.getListCompanies();
@@ -94,7 +82,37 @@ export class GeneratePdfEmpresaComponent implements OnInit {
       this._listCompanies = res.companies;
     }, (err) => {
       this._error = err.message;
+      this._typeError = 'danger'
+    })
+  }
 
+  public clearError() {
+    this._error = null;
+    this._typeError = null;
+  }
+
+  public gerarPdf(){
+    this.clearError();
+    this.spinner.show();
+
+    const dateEntry = this.dateFormatPipe.transform(this._date.fromDate, 'YYYY-MM-DD');
+    const dateFinal = this.dateFormatPipe.transform(this._date.toDate, 'YYYY-MM-DD');
+    const companyID = this.formGroup.get('companyID').value.id;
+    console.log(dateEntry, dateFinal, companyID, 'pdf empresa');
+    this.financeiroService.getPdf(dateEntry, dateFinal,companyID).subscribe((res) =>{
+      // setTimeout(() => {this.spinner.hide(); }, 5000);
+      const linkSource = 'data:application/pdf;base64,' +`${res.base64}`;
+      const downloadLink = document.createElement("a");
+      const fileName = `${this.formGroup.get('companyID').value.companyName}.pdf`;
+      downloadLink.href = linkSource;
+      downloadLink.download = fileName;
+      downloadLink.click();
+      this.spinner.hide();
+    },(error) =>{
+      this._error = error.message;
+      this._typeError = 'danger'
+      console.log(error);
+      this.spinner.hide();
     })
   }
 

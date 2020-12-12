@@ -2,31 +2,39 @@
   <div class="col-12">
     <div class="card shadow">
       <div class="card-body">
-        <h6 class="card-title font-weight-bold">
+        <h6 class="card-title font-weight-bold text-dark">
           <span>
-            <i class="ic-dinheiro"></i>
+            <i class="ic-dinheiro mr-2"></i>
           </span>
-          Gerar cobrança</h6>
+          Gerar Cobrança
+        </h6>
+
         <form class="form-group" [formGroup]="formGroup" (ngSubmit)="gerarPdf()">
-          <div class="col-12">
-            <div>Data</div>
-            <app-date-piker
-            [init]="init"
-            (alterarPeriodo)="alterarPeriodo($event)"
-            ></app-date-piker>
+          <div class="row">
+            <div class="col-12">
+              <div class="row">
+                <div class="col-12 text-muted">Data</div>
+                <app-date-piker
+                [init]="init"
+                (alterarPeriodo)="alterarPeriodo($event)"
+                ></app-date-piker>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="row">
+                <div class="col-12 text-muted">Empresa</div>
+                <select class="form-control w-75" formControlName="companyID" *ngIf="listCompanies.length">
+                    <option selected value="" disabled class="text-muted" >Selecione a empresa</option>
+                    <option *ngFor="let aux of listCompanies"[ngValue]="aux">
+                    {{aux.companyName}}
+                    </option>
+                </select>
+                <app-messenger-dados *ngIf="!listCompanies.length"></app-messenger-dados>
+              </div>
+            </div>
+            <button class="btn btn-block btn-outline-success mt-3 mb-2" type="submit" [disabled]="!formGroup.valid">Gerar pdf</button>
+            <app-messenger-error [msg]="error" [type]="typeError"></app-messenger-error>
           </div>
-          <div class="col-12">
-            <div>Empresa</div>
-            <select class="custom-select w-75" formControlName="companyID">
-                <option
-                *ngFor="let aux of listCompanies"
-                [ngValue]="aux"
-                >
-                {{aux.companyName}}
-                </option>
-            </select>
-          </div>
-          <button class="btn btn-block btn-outline-success mt-3" type="submit" [disabled]="!formGroup.valid">Gerar pdf</button>
         </form>
       </div>
     </div>
