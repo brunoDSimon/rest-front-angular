@@ -25,21 +25,22 @@ export class AdicionarModeloComponent implements OnInit {
     private financeiroService: FinanceiroService,
     private compaiesDataService: CompaniesDataService,
     private spinner: NgxSpinnerService
-  ) { }
+  ) {
+    this.formulario();
+   }
 
   ngOnInit() {
-    this.formulario();
     this.verificarSessao();
   }
   public formulario(){
     this.formGroup = this.formBuilder.group({
-      reference: ['', Validators.required],
-      patch: ['', Validators.required],
-      amount: ['', Validators.required],
-      value: ['', Validators.required],
-      dateEntry: ['', Validators.required],
-      companyID: new FormControl(this._companyID, Validators.required),
-      userID:    new FormControl(this._listUsers, Validators.required)
+      reference: ['', [Validators.required]],
+      patch: ['', [Validators.required]],
+      amount: ['', [Validators.required]],
+      value: ['', [Validators.required]],
+      dateEntry: ['', [Validators.required]],
+      companyID: new FormControl('', [Validators.required]),
+      userID:    new FormControl('', [Validators.required])
     })
   }
 
