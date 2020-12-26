@@ -16,12 +16,12 @@
                           type="text"
                           class="form-control "
                           formControlName="cnpj"
-                          mask="000.000.000-00||00.000.000/0000-00"
+                          mask="000.000.000-00 || 00.000.000/0000-00"
                         >
                         <div class="col-12" *ngIf="ngbAlert.type">
                           <ngb-alert [type]="ngbAlert.type" (close)="close()" >{{ ngbAlert.msg }}</ngb-alert>
                         </div>
-                        <button class="btn btn-outline-warning mt-2" (click)="verificarCNPJ();" [disabled]="!formGroup.get('cnpj').value">VERIFICAR CNPJ</button>
+                        <button class="btn btn-outline-warning mt-2" (click)="verificarCNPJ();" [disabled]="!formGroup.get('cnpj').valid">VERIFICAR CNPJ</button>
                         <div *ngIf="nextCreateCompanies">
                             <label class="font-weight-bold">Nome da empresa</label>
                             <input
