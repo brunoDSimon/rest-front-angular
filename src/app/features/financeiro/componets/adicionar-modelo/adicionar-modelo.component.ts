@@ -30,8 +30,10 @@ export class AdicionarModeloComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.verificarSessao();
+    this.getUsers();
+    this.getCompanies();
   }
+
   public formulario(){
     this.formGroup = this.formBuilder.group({
       reference: ['', [Validators.required]],
@@ -60,35 +62,23 @@ export class AdicionarModeloComponent implements OnInit {
     return this._openSucess;
   }
 
-  public verificarSessao(){
-    EventEmitterService.get('showLoader').emit();
-    if(this.compaiesDataService.companies.length){
-      this._listCompanies = this.compaiesDataService.companies[0]
-    }else{
-      this.getCompanies();
-    }
-    if(this.compaiesDataService.users.length){
-      this._listUsers = this.compaiesDataService.users[0]
-    }else{
-      this.getUsers();
-    }
-    EventEmitterService.get('hideLoader').emit();
-  }
 
   public getCompanies(){
     this.financeiroService.getCompanies().subscribe((res) =>{
       this._listCompanies = res.companies;
-      this.compaiesDataService.setCompanies(res.companies);
-    })
+    },(err: Error)=>{
+      console.log(err)
+    });
   }
+
   public getUsers(){
     this.financeiroService.getUser().subscribe((res) =>{
       this._listUsers = res.data.users;
-      this.compaiesDataService.setUsers(res.data.users);
     },(err: Error)=>{
       console.log(err)
     })
   }
+
   public enviartalao(){
     this.spinner.show();
     let body: any= {

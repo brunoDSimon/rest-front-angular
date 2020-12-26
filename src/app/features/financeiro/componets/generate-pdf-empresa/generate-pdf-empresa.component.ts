@@ -15,8 +15,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class GeneratePdfEmpresaComponent implements OnInit {
   public formGroup: FormGroup
-  private _listUser: any[];
-  private _listCompanies: any[];
+  private _listUser: any =[];
+  private _listCompanies: any =[];
   private _error: any;
   private _resultRes: any = [];
   private _typeError: any = null;
@@ -34,7 +34,7 @@ export class GeneratePdfEmpresaComponent implements OnInit {
 
   ngOnInit() {
     this.crieFormulario();
-    this.verifiqueSessao();
+    this.getListCompanies();
   }
 
 
@@ -66,19 +66,9 @@ export class GeneratePdfEmpresaComponent implements OnInit {
     })
   }
 
-  public verifiqueSessao(){
-    if(!this.companiesData.companies.length){
-      this.getListCompanies();
-    }else{
-      console.log(this.companiesData.companies[0])
-      this._listCompanies = this.companiesData.companies[0]
-    }
-  }
-
   public getListCompanies(){
     this.financeiroService.getCompanies().subscribe((res) =>{
       console.log(res);
-      this.companiesData.setCompanies(res.companies);
       this._listCompanies = res.companies;
     }, (err) => {
       this._error = err.message;

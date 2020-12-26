@@ -5,9 +5,9 @@ import { SessionStorageService, SessionStorage } from 'ngx-store-9';
   providedIn: 'root'
 })
 export class CompaniesDataService {
-  @SessionStorage()
+  // @SessionStorage()
   private _companies:any =[];
-  @SessionStorage()
+  // @SessionStorage()
   private _users:any =[];
 constructor(
   private session: SessionStorageService,

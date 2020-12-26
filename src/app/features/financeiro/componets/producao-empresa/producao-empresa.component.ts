@@ -49,7 +49,8 @@ export class ProducaoEmpresaComponent implements OnInit {
 
   ngOnInit() {
     this.crieFormulario();
-    this.verifiqueSessao();
+    this.getListCompanies();
+    this.getListUser();
   }
   get init(): any { return this._date; }
 
@@ -101,19 +102,6 @@ export class ProducaoEmpresaComponent implements OnInit {
       dateFinalNotNul: [false,[]]
     })
   }
-  public verifiqueSessao(){
-    if(this.companiesData.companies.length){
-      this._listCompanies = this.companiesData.companies[0];
-    }else{
-      this.getListCompanies();
-    }
-
-    if(this.companiesData.users.length){
-      this._listUser = this.companiesData.users[0];
-    }else{
-      this.getListUser();
-    }
-  }
   // private filterYear(){
   //   const date = new Date(new Date().setFullYear(new Date().getFullYear()));
   //   let filter = {year: date.getFullYear()};
@@ -140,7 +128,6 @@ export class ProducaoEmpresaComponent implements OnInit {
   public getListUser(){
     this.financeiroService.getUser().subscribe((res) =>{
       this._listUser = res.data.users;
-      this.companiesData.setUsers(res.data.users);
     }, (err) => {
       this._error = err.message;
 
@@ -149,7 +136,6 @@ export class ProducaoEmpresaComponent implements OnInit {
   public getListCompanies(){
     this.financeiroService.getCompanies().subscribe((res) =>{
       this._listCompanies =res.companies;
-      this.companiesData.setCompanies(res.companies);
       // console.log(this._listCompanies)
     }, (err) => {
       this._error = err.message;

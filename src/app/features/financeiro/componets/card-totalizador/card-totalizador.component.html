@@ -1,8 +1,8 @@
 <div class="card h-100 shadow">
   <div class="card-body">
-    <h6 class="card-title font-weight-bold">
+    <h6 class="card-title font-weight-bold clearfix">
       <span>
-        <i class="ic-bag"></i>
+        <em class="ic-bag"></em>
       </span>
       Ganhos por periodo
       <div ngbDropdown class="float-right">
@@ -21,13 +21,13 @@
           Valor bruto:
         </div>
         <div class="col-12 h4 font-weight-bold">
-          {{totalizadores[0]?.valueTotal | reais}}
+          {{totalizadores?.valueTotal | reais}}
         </div>
         <div class="col-12 text-muted">
           Peças produzidas:
         </div>
         <div class="col-12 h4 font-weight-bold">
-          {{totalizadores[0]?.sumBags}}
+          {{(totalizadores?.sumBags  != null) ? totalizadores?.sumBags : 0}}
         </div>
       </div>
   </div>

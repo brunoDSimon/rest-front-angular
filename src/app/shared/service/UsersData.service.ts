@@ -13,18 +13,22 @@ export class UsersDataService {
   constructor(
    private router: Router,
   ) { }
-  get userInfo(){
+
+  get userInfo() {
     return this._userInfo
   }
-  get auth(){
+  get auth() {
     return this._auth
   }
-  public setAuth(_auth){
+
+  public setAuth(_auth) {
     this._auth.push(_auth);
   }
-  public setUserInfo(_userInfo){
+
+  public setUserInfo(_userInfo) {
     this._userInfo.push(_userInfo)
   }
+
   public clearAll(){
     this._auth = []
     this._userInfo = []
