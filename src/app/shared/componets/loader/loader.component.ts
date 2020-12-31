@@ -1,8 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import {Subscription} from 'rxjs'
-import { LoaderService } from '../../service/loader.service';
-import {LoaderState} from '../../models/loader.mode'
-import { state } from '@angular/animations';
+import { EventEmitterService } from '../../service/event-emitter.service';
 @Component({
   selector: 'app-loader',
   templateUrl: './loader.component.html',
@@ -10,15 +8,18 @@ import { state } from '@angular/animations';
 })
 export class LoaderComponent implements OnInit, OnDestroy {
   show = false;
-  private subscription: Subscription
+  private subscription
   constructor(
-    private loaderService: LoaderService
   ) { }
 
   ngOnInit() {
-    this.subscription = this.loaderService.loaderState.subscribe((state:LoaderState) =>{
-      this.show = state.show
-    })
+    this.subscription = EventEmitterService.get('showLoader').subscribe(() =>{
+      this.show = true;
+    });
+
+    this.subscription = EventEmitterService.get('hideLoader').subscribe(() =>{
+      this.show = false;
+    });
   }
   ngOnDestroy(){
     this.subscription.unsubscribe();
