@@ -9,7 +9,7 @@ import { DatePikerComponent } from '../componets/date-piker/date-piker.component
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { MessengerDadosComponent } from '../componets/messenger-dados/messenger-dados.component';
 import { MessengerErrorComponent } from '../componets/messenger-error/messenger-error.component';
-
+import { DatePikerListPrevComponent } from '../componets/date-piker-list-prev/date-piker-list-prev.component'
 @NgModule({
   imports: [
     CommonModule,
@@ -24,12 +24,14 @@ import { MessengerErrorComponent } from '../componets/messenger-error/messenger-
   declarations: [
     DatePikerComponent,
     MessengerDadosComponent,
-    MessengerErrorComponent
+    MessengerErrorComponent,
+    DatePikerListPrevComponent,
   ],
   exports:[
     DatePikerComponent,
     MessengerDadosComponent,
-    MessengerErrorComponent
+    MessengerErrorComponent,
+    DatePikerListPrevComponent,
   ],
   providers:[
 

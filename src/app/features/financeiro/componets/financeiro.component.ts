@@ -13,7 +13,6 @@ export class FinanceiroComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.userData.auth[0])
   }
 
 }
