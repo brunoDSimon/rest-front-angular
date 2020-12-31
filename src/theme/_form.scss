@@ -52,3 +52,20 @@
   background-color: #eee;
   cursor: not-allowed;
 }
+::-webkit-input-placeholder { /* Edge */
+  color:#DCDCDC;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+:-ms-input-placeholder { /* Internet Explorer */
+  color:#DCDCDC;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+::placeholder {
+  color:#DCDCDC;
+  font-size: 10px;
+  text-transform: uppercase;
+}
