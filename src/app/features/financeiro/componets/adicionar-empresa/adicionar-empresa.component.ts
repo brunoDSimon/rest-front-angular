@@ -3,6 +3,7 @@ import { FinanceiroService } from '../../service/financeiro.service';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { CpfCnpjValidator } from 'src/app/shared/validators/cpf-cnpj.validator.ts';
 @Component({
   selector: 'app-adicionar-empresa',
   templateUrl: './adicionar-empresa.component.html',
@@ -25,16 +26,17 @@ export class AdicionarEmpresaComponent implements OnInit {
     private config: NgbModalConfig,
     private modalService: NgbModal,
     private spinner: NgxSpinnerService
-  ) { }
+  ) {
+    this.crieFormulario();
+  }
 
   ngOnInit() {
-    this.crieFormulario()
     this.getCompanies();
   }
 
   public crieFormulario(){
     this.formGroup = this.formBuilder.group({
-      cnpj: ['' ,[Validators.required]],
+      cnpj: ['' ,[Validators.required, CpfCnpjValidator.validate]],
       companyName: ['', [Validators.required]],
       telephone: ['', [Validators.required, Validators.min(10)]],
       address: ['', [Validators.required]],
@@ -43,6 +45,7 @@ export class AdicionarEmpresaComponent implements OnInit {
     })
   }
   public crieFormularioEditar(aux){
+    this.formGroup.reset();
     this.formGroup.get('cnpj').setValue(aux.cnpj);
     this.formGroup.get('companyName').setValue(aux.companyName);
     this.formGroup.get('telephone').setValue(aux.telephone);
@@ -69,6 +72,7 @@ export class AdicionarEmpresaComponent implements OnInit {
   public openCreate(){
     this._createCompany = !this._createCompany;
   }
+
   public verificarCNPJ(){
     this.spinner.show();
     let cnpj = this.formGroup.get('cnpj').value;

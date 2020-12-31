@@ -33,7 +33,6 @@ export class SaidaComponent implements OnInit {
   ngOnInit() {
     this.init();
     this.crieFormulario();
-    this.verifiqueSessao();
   }
 
   get list(){
@@ -106,25 +105,11 @@ export class SaidaComponent implements OnInit {
     });
   }
 
-  public verifiqueSessao(){
-    if(this.companiesData.companies.length){
-      this._listCompanies = this.companiesData.companies[0];
-    }else{
-      this.getListCompanies();
-    }
-
-    if(this.companiesData.users.length){
-      this._listUser = this.companiesData.users[0];
-    }else{
-      this.getListUser();
-    }
-  }
 
   public getListUser(){
     this.spinner.show();
     this.financeiroService.getUser().subscribe((res) =>{
       this._listUser = res.data.users;
-      this.companiesData.setUsers(res.data.users);
       this.spinner.hide();
     }, (err) => {
       this._error = err.message;
@@ -138,7 +123,6 @@ export class SaidaComponent implements OnInit {
     this.spinner.show();
     this.financeiroService.getCompanies().subscribe((res) =>{
       this._listCompanies =res.companies;
-      this.companiesData.setCompanies(res.companies);
       // console.log(this._listCompanies)
       this.spinner.hide();
     }, (err) => {

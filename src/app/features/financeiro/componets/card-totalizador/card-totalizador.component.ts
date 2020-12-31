@@ -23,7 +23,7 @@ export class CardTotalizadorComponent implements OnInit {
 
   ngOnInit() {
     this.filterMonhts('pt-br');
-    this.changeFilter(this._currentMonth, this._currentYear)   
+    this.changeFilter(this._currentMonth, this._currentYear)
   }
 
   get totalizadores(){
@@ -33,12 +33,13 @@ export class CardTotalizadorComponent implements OnInit {
     const dateEntry = this.dateFormatPipe.transform(this._dateMin, 'YYYY-MM-DD');
     const dateFinal = this.dateFormatPipe.transform(this._dateMax, 'YYYY-MM-DD');
     this.financeiroService.totalSumPeriod(dateEntry,dateFinal ).subscribe((res) =>{
-      this._totalizades = res.data.totalSumPeriod
+      this._totalizades = res.data.totalSumPeriod[0];
       console.log(this._totalizades)
     },(error: Error)=>{
       console.log(error)
     })
   }
+
   get months() {
     return this._listMonth;
   }
@@ -64,6 +65,7 @@ export class CardTotalizadorComponent implements OnInit {
     this._currentMonthDescription  = date.toLocaleString('pt-br', { month: 'long' });
     this.getTotalSumPeriod();
   }
+
   private filterMonhts(locale) {
     const date = new Date();
     for (let i = 0; i < 12; i++) {
@@ -72,7 +74,8 @@ export class CardTotalizadorComponent implements OnInit {
       const filter = { month: date.toLocaleString(locale, { month: 'long' }), valor: date.getMonth(), year: date.getFullYear() };
       this._listMonth.push(filter);
     }
-    this._listMonth = this._listMonth.sort((a, b) => {
+
+    this._listMonth.sort((a, b) => {
       if (a.valor > b.valor) {
         return 1;
       } else if (a.valor < b.valor) {

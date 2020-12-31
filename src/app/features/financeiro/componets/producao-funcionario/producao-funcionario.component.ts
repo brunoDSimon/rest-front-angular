@@ -38,13 +38,14 @@ export class ProducaoFuncionarioComponent implements OnInit {
     private dateFormatPipe: DateFormatPipe,
     private spinner: NgxSpinnerService
   ) {
-
+    this.crieFormulario();
    }
 
   ngOnInit(){
-    this.crieFormulario();
-    this.verifiqueSessao();
+    this.getListUser();
+    this.getListCompanies();
   }
+
   get init(): any { return this._date; }
 
   get totalDescont(){
@@ -95,19 +96,6 @@ export class ProducaoFuncionarioComponent implements OnInit {
     this._date = datas
   }
 
-  public verifiqueSessao(){
-    if(this.companiesData.companies.length){
-      this._listCompanies = this.companiesData.companies[0];
-    }else{
-      this.getListCompanies();
-    }
-
-    if(this.companiesData.users.length){
-      this._listUser = this.companiesData.users[0];
-    }else{
-      this.getListUser();
-    }
-  }
 
   public crieFormulario(){
     this.formGroup = this.formBuilder.group({
@@ -148,7 +136,6 @@ export class ProducaoFuncionarioComponent implements OnInit {
   public getListUser(){
     this.financeiroService.getUser().subscribe((res) =>{
       this._listUser = res.data.users;
-      this.companiesData.setUsers(res.data.users);
       // console.log(this._listUser)
     }, (err) => {
       this._error = err.message;
@@ -159,8 +146,7 @@ export class ProducaoFuncionarioComponent implements OnInit {
   public getListCompanies(){
     this.financeiroService.getCompanies().subscribe((res) =>{
       this._listCompanies =res.companies;
-      this.companiesData.setCompanies(res.companies);
-    }, (err) => {
+    }, (err: Error) => {
       this._error = err.message;
 
     })
