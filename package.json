@@ -33,6 +33,7 @@
     "chart.js": "^2.9.4",
     "cordova": "^10.0.0",
     "cordova-browser": "6.0.0",
+    "express": "^4.17.1",
     "html2canvas": "^1.0.0-rc.7",
     "jquery": "^3.5.1",
     "jwt-decode": "^3.1.1",
