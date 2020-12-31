@@ -1,35 +1,36 @@
-.hidden{
-  visibility: hidden;
-}
-.loader-overlay{
-  position: absolute;
+.fundo {
   width: 100%;
-  z-index: 50000;
+  height: 100%;
+  z-index: 9999999;
+  background-color: rgb(255, 2555, 255, 0.6);
+  position: fixed;
+  left: 0;
   top: 0;
-}
-.loader{
-  height: 4px;
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-  background: #FFF;
-}
 
-.loader::before{
-  display: block;
-  position: absolute;
-  content: "";
-  left: -200px;
-  width: 200px;
-  height: 4px;
-  background-color: red;
-  animation: loading 2s linear infinite;
-}
-@keyframes loading{
-  form {left: -200px; width: 30%;}
-  50% {width: 30%;}
-  70% {width: 70%;}
-  80% {width: 50%;}
-  95% {width: 120%;}
-  to {left: 100%;}
+  .loader {
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid blue;
+    border-right: 16px solid green;
+    border-bottom: 16px solid red;
+    border-left: 16px solid pink;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+    margin-left: 50%;
+    margin-right: 50%;
+    margin-top: 20%;
+  }
+
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
 }

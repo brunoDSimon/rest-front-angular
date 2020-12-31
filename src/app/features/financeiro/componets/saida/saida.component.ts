@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { CompaniesDataService } from 'src/app/shared/service/CompaniesData.service';
 import { DateFormatPipe } from 'ngx-moment';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { EventEmitterService } from 'src/app/shared/service/event-emitter.service';
 
 @Component({
   selector: 'app-saida',
@@ -61,7 +62,7 @@ export class SaidaComponent implements OnInit {
   }
 
   public crieFormularioEditar(aux){
-    const date = Date()
+    const date = new Date()
     let atual = this.dateFormatPipe.transform(date, 'YYYY-MM-DD');
 
     let amount = typeof aux.amount != 'undefined' ? aux.amount: '';
@@ -96,6 +97,8 @@ export class SaidaComponent implements OnInit {
         console.log(parametros.id)
         console.log()
         if(typeof parametros.id != 'undefined'){
+          this.getListUser();
+          this.getListCompanies();
           this.getTalao(parametros.id)
           this._idTalao = parametros.id
         }else{
@@ -107,47 +110,45 @@ export class SaidaComponent implements OnInit {
 
 
   public getListUser(){
-    this.spinner.show();
+    EventEmitterService.get('showLoader').emit();
     this.financeiroService.getUser().subscribe((res) =>{
-      this._listUser = res.data.users;
-      this.spinner.hide();
+      this._listUser = res.user;
+      console.log(this._listUser);
+      EventEmitterService.get('hideLoader').emit();
     }, (err) => {
       this._error = err.message;
-      this.spinner.hide();
+      EventEmitterService.get('hideLoader').emit();
       this.ngbAlert.msg = err
       this.ngbAlert.type = 'danger';
     })
   }
 
   public getListCompanies(){
-    this.spinner.show();
+    EventEmitterService.get('showLoader').emit();
     this.financeiroService.getCompanies().subscribe((res) =>{
       this._listCompanies =res.companies;
-      // console.log(this._listCompanies)
-      this.spinner.hide();
+      EventEmitterService.get('hideLoader').emit();
     }, (err) => {
-      this.spinner.hide();
+      EventEmitterService.get('hideLoader').emit();
       this.ngbAlert.msg = err
       this.ngbAlert.type = 'danger';
     })
   }
 
   public getTalao(id){
-    this.spinner.show();
+    EventEmitterService.get('showLoader').emit();
     this.financeiroService.getBeadOne(id).subscribe((res) =>{
-      console.log(res.bead)
       this.crieFormularioEditar(res.bead)
-      setTimeout(() => {this.spinner.hide();}, 5000);
-
+      setTimeout(() => {EventEmitterService.get('hideLoader').emit();}, 5000);
     },(error: Error) =>{
-      setTimeout(() => {this.spinner.hide();}, 5000);
+      setTimeout(() => {EventEmitterService.get('hideLoader').emit();}, 5000);
       this.ngbAlert.msg = error
       this.ngbAlert.type = 'danger';
     })
   }
 
   public update(){
-    this.spinner.show();
+    EventEmitterService.get('showLoader').emit();
     let body ={
       "reference": this.formGroup.get('reference').value,
       "value": this.formGroup.get('value').value,
@@ -162,11 +163,11 @@ export class SaidaComponent implements OnInit {
     this.financeiroService.updateTalao(this._idTalao, body).subscribe((res) =>{
       this.ngbAlert.msg = 'Alterado com sucesso!'
       this.ngbAlert.type = 'success';
-      setTimeout(() => {this.spinner.hide();}, 5000);
+      setTimeout(() => {EventEmitterService.get('hideLoader').emit();}, 5000);
     },(erro: Error) =>{
       this.ngbAlert.msg = erro
       this.ngbAlert.type = 'danger';
-      setTimeout(() => {this.spinner.hide();}, 5000);
+      setTimeout(() => {EventEmitterService.get('hideLoader').emit();}, 5000);
     })
   }
   public close(){

@@ -1,3 +1,4 @@
+import { LoaderComponent } from './shared/componets/loader/loader.component';
 import { PipeModule } from './shared/modules/pipe.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, LOCALE_ID, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -27,6 +28,7 @@ registerLocaleData(localePt)
 @NgModule({
   declarations: [
     AppComponent,
+    LoaderComponent,
     HeaderComponent,
     FooterComponent,
 

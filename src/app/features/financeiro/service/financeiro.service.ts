@@ -77,9 +77,9 @@ export class FinanceiroService extends Service{
 
   // VER USUARIOS DISPONIVEIS
   public getUser():Observable<any>{
-    return this.http.get(environment.api_url+'user',{headers: this.headers}).pipe(
+    return this.http.get<DefaultResponse>(environment.api_url+'user',{headers: this.headers}).pipe(
       map((res) =>{
-        return res;
+        return this.filter(res);
       },catchError(
         (error: any) => {
           throw this.handleError(error);
