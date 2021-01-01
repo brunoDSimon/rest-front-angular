@@ -67,10 +67,12 @@ export class GeneratePdfEmpresaComponent implements OnInit {
   }
 
   public getListCompanies(){
+    EventEmitterService.get('showLoader').emit();
     this.financeiroService.getCompanies().subscribe((res) =>{
-      console.log(res);
       this._listCompanies = res.companies;
+      setTimeout(() => {EventEmitterService.get('hideLoader').emit();}, 500);
     }, (err) => {
+      setTimeout(() => {EventEmitterService.get('hideLoader').emit();}, 500);
       this._error = err.message;
       this._typeError = 'danger'
     })
@@ -83,26 +85,25 @@ export class GeneratePdfEmpresaComponent implements OnInit {
 
   public gerarPdf(){
     this.clearError();
-    this.spinner.show();
+    EventEmitterService.get('showLoader').emit();
 
     const dateEntry = this.dateFormatPipe.transform(this._date.fromDate, 'YYYY-MM-DD');
     const dateFinal = this.dateFormatPipe.transform(this._date.toDate, 'YYYY-MM-DD');
     const companyID = this.formGroup.get('companyID').value.id;
     console.log(dateEntry, dateFinal, companyID, 'pdf empresa');
     this.financeiroService.getPdf(dateEntry, dateFinal,companyID).subscribe((res) =>{
-      // setTimeout(() => {this.spinner.hide(); }, 5000);
       const linkSource = 'data:application/pdf;base64,' +`${res.base64}`;
       const downloadLink = document.createElement("a");
       const fileName = `${this.formGroup.get('companyID').value.companyName}.pdf`;
       downloadLink.href = linkSource;
       downloadLink.download = fileName;
       downloadLink.click();
-      this.spinner.hide();
+      setTimeout(() => {EventEmitterService.get('hideLoader').emit();}, 500);
     },(error) =>{
       this._error = error.message;
       this._typeError = 'danger'
       console.log(error);
-      this.spinner.hide();
+      setTimeout(() => {EventEmitterService.get('hideLoader').emit();}, 500);
     })
   }
 

@@ -139,9 +139,9 @@ export class SaidaComponent implements OnInit {
     EventEmitterService.get('showLoader').emit();
     this.financeiroService.getBeadOne(id).subscribe((res) =>{
       this.crieFormularioEditar(res.bead)
-      setTimeout(() => {EventEmitterService.get('hideLoader').emit();}, 5000);
+      setTimeout(() => {EventEmitterService.get('hideLoader').emit();}, 500);
     },(error: Error) =>{
-      setTimeout(() => {EventEmitterService.get('hideLoader').emit();}, 5000);
+      setTimeout(() => {EventEmitterService.get('hideLoader').emit();}, 500);
       this.ngbAlert.msg = error
       this.ngbAlert.type = 'danger';
     })
@@ -163,11 +163,11 @@ export class SaidaComponent implements OnInit {
     this.financeiroService.updateTalao(this._idTalao, body).subscribe((res) =>{
       this.ngbAlert.msg = 'Alterado com sucesso!'
       this.ngbAlert.type = 'success';
-      setTimeout(() => {EventEmitterService.get('hideLoader').emit();}, 5000);
+      setTimeout(() => {EventEmitterService.get('hideLoader').emit();}, 500);
     },(erro: Error) =>{
       this.ngbAlert.msg = erro
       this.ngbAlert.type = 'danger';
-      setTimeout(() => {EventEmitterService.get('hideLoader').emit();}, 5000);
+      setTimeout(() => {EventEmitterService.get('hideLoader').emit();}, 500);
     })
   }
   public close(){
