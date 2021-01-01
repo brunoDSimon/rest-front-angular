@@ -22,6 +22,7 @@ import { RefrashTokenInterceptor } from './features/login/interceptor/RefrashTok
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { ToastrModule } from 'ngx-toastr';
 
 registerLocaleData(localePt)
 
@@ -47,7 +48,7 @@ registerLocaleData(localePt)
     MomentModule,
     WebStorageModule,
     BrowserAnimationsModule,
-    NgxSpinnerModule
+    ToastrModule.forRoot()
 
   ],
   providers: [

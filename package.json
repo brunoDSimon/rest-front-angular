@@ -11,7 +11,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "~11.0.5",
+    "@angular/animations": "^11.0.5",
     "@angular/common": "~11.0.5",
     "@angular/compiler": "~11.0.5",
     "@angular/core": "~11.0.5",
@@ -45,6 +45,7 @@
     "ngx-moment": "^5.0.0",
     "ngx-spinner": "^10.0.1",
     "ngx-store-9": "^9.0.1",
+    "ngx-toastr": "^13.2.0",
     "popper.js": "^1.16.1",
     "rxjs": "~6.6.3",
     "tslib": "^2.0.3",
