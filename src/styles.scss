@@ -110,3 +110,6 @@ $container-max-widths: (
   xl: 1140px
 );
 
+.dark-modal {
+  z-index: 500;
+}

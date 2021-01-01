@@ -27,7 +27,7 @@ export class CpfCnpjValidator implements Validator {
      * Valida um CPF ou CNPJ de acordo com seu dígito verificador.
      */
     static validate(c: AbstractControl): ValidationErrors | null {
-
+      if (c.value) {
         const cpfCnpj = c.value.replace(/\D/g, '');
 
         // Verifica o tamanho da string.
@@ -51,7 +51,10 @@ export class CpfCnpjValidator implements Validator {
             return { digit: true };
         }
 
+      } else {
         return null;
+      }
+
     }
 
     /**

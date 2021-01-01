@@ -4,14 +4,15 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CpfCnpjValidator } from 'src/app/shared/validators/cpf-cnpj.validator.ts';
+import { ToastrService } from 'ngx-toastr';
+import { EventEmitterService } from 'src/app/shared/service/event-emitter.service';
 @Component({
   selector: 'app-adicionar-empresa',
   templateUrl: './adicionar-empresa.component.html',
   styleUrls: ['./adicionar-empresa.component.css']
 })
 export class AdicionarEmpresaComponent implements OnInit {
-  public formGroup: FormGroup;
-  private _nextCreateCompanies: any;
+  private _nextCreateCompanies: boolean = false;
   private _messeger: any;
   private _createCompany: boolean = false;
   private _listCompanies: any = [];
@@ -19,13 +20,15 @@ export class AdicionarEmpresaComponent implements OnInit {
   private _idCompany: number = null;
 
   public ngbAlert = {type: null, msg: null}
+  public formGroup: FormGroup;
 
   constructor(
     private financeiroService: FinanceiroService,
     private formBuilder: FormBuilder,
     private config: NgbModalConfig,
     private modalService: NgbModal,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private toastr: ToastrService,
   ) {
     this.crieFormulario();
   }
@@ -34,25 +37,6 @@ export class AdicionarEmpresaComponent implements OnInit {
     this.getCompanies();
   }
 
-  public crieFormulario(){
-    this.formGroup = this.formBuilder.group({
-      cnpj: ['' ,[Validators.required, CpfCnpjValidator.validate]],
-      companyName: ['', [Validators.required]],
-      telephone: ['', [Validators.required, Validators.min(10)]],
-      address: ['', [Validators.required]],
-      number: ['', [Validators.required]],
-      zipCode: ['', [Validators.required]]
-    })
-  }
-  public crieFormularioEditar(aux){
-    this.formGroup.reset();
-    this.formGroup.get('cnpj').setValue(aux.cnpj);
-    this.formGroup.get('companyName').setValue(aux.companyName);
-    this.formGroup.get('telephone').setValue(aux.telephone);
-    this.formGroup.get('address').setValue(aux.address);
-    this.formGroup.get('number').setValue(aux.number);
-    this.formGroup.get('zipCode').setValue(aux.zipCode);
-  }
   get sucessoCriar(){
     return this._sucessoCriar
   }
@@ -60,67 +44,95 @@ export class AdicionarEmpresaComponent implements OnInit {
   get nextCreateCompanies(){
     return this._nextCreateCompanies
   }
+
   get messeger(){
     return this._messeger;
   }
+
   get createCompany(){
     return this._createCompany;
   }
+
   get listCompanies(){
     return this._listCompanies
   }
+
+  public crieFormulario(){
+    this.formGroup = this.formBuilder.group({
+      cnpj: ['' ,[Validators.required, CpfCnpjValidator.validate] ],
+      companyName: ['', [Validators.required]],
+      telephone: ['', [Validators.required, Validators.min(10)]],
+      address: ['', [Validators.required]],
+      number: ['', [Validators.required]],
+      zipCode: ['', [Validators.required]]
+    })
+  }
+
+  public crieFormularioEditar(aux){
+    this.formGroup.get('cnpj').setValue(aux.cnpj);
+    this.formGroup.get('cnpj').disable();
+    this.formGroup.get('companyName').setValue(aux.companyName);
+    this.formGroup.get('telephone').setValue(aux.telephone);
+    this.formGroup.get('address').setValue(aux.address);
+    this.formGroup.get('number').setValue(aux.number);
+    this.formGroup.get('zipCode').setValue(aux.zipCode);
+  }
+
   public openCreate(){
     this._createCompany = !this._createCompany;
   }
 
   public verificarCNPJ(){
-    this.spinner.show();
+    EventEmitterService.get('showLoader').emit();
     let cnpj = this.formGroup.get('cnpj').value;
     this.financeiroService.checkCompanie(cnpj).subscribe((response) =>{
-      this._nextCreateCompanies = response.data;
-      this._messeger = response.messege
-      this.spinner.hide();
+      if (response.data) {
+        this._nextCreateCompanies = true;
+        this.formGroup.get('cnpj').disable();
+      } else {
+        this.toastr.error(`CNPJ EXISTENTE`);
+      }
+      EventEmitterService.get('hideLoader').emit();
     },(error) =>{
-      this.ngbAlert.msg = error
-      this.ngbAlert.type = 'danger';
-      this.spinner.hide();
+      this.toastr.error(`Não foi possivel verificar o CNPJ/CPF`);
+      EventEmitterService.get('hideLoader').emit();
     })
   }
 
   public open(content, aux) {
-    console.log(aux)
-    this.modalService.open(content);
+    this.formGroup.reset();
+    this.modalService.open(content,{
+        centered: true,
+        size: 'md',
+        windowClass: 'dark-modal',
+      });
     this.crieFormularioEditar(aux)
     this._idCompany = aux.id;
   }
 
   public createCompanies(){
-    this.spinner.show();
-    const body: any={
+    EventEmitterService.get('showLoader').emit();
+    const body: any = {
       "companyName": this.formGroup.get('companyName').value,
       "cnpj": this.formGroup.get('cnpj').value,
       "telephone": this.formGroup.get('telephone').value,
       "address": this.formGroup.get('address').value,
       "zipCode": this.formGroup.get('zipCode').value,
       "number": this.formGroup.get('number').value
-    }
-    console.log(body)
+    };
     this.financeiroService.createCompany(body).subscribe((res) =>{
-      console.log(res)
-      this._sucessoCriar = true;
-      setTimeout((sucessoCriar) => {
-        this.formGroup.reset();
-        this._sucessoCriar = false
-      }, 10000);
-      this.spinner.hide();
+      this.toastr.success(`Empresa cadastrada com sucesso`);
+      this.getCompanies();
+      EventEmitterService.get('hideLoader').emit();
+      this.resetAll();
     },(err) =>{
-      this.ngbAlert.msg = err
-      this.ngbAlert.type = 'danger';
-      this.spinner.hide();
+      this.toastr.error(`Não foi possivel cadastrar a empresa!`);
+      EventEmitterService.get('hideLoader').emit();
     })
   }
 
   public updateCompania(){
+    EventEmitterService.get('showLoader').emit();
     const body: any={
       "companyName": this.formGroup.get('companyName').value,
       "cnpj": this.formGroup.get('cnpj').value,
@@ -129,37 +141,38 @@ export class AdicionarEmpresaComponent implements OnInit {
       "zipCode": this.formGroup.get('zipCode').value,
       "number": this.formGroup.get('number').value
     }
-    console.log(body)
     this.financeiroService.updateCompany(this._idCompany,body).subscribe((res) =>{
-      console.log(res)
-      this._sucessoCriar = true;
-      setTimeout((sucessoCriar) => {
-        this.formGroup.get('companyName').setValue('')
-        this.formGroup.get('cnpj').setValue('')
-        this.formGroup.get('telephone').setValue('')
-        this.formGroup.get('address').setValue('')
-        this.formGroup.get('zipCode').setValue('')
-        this.formGroup.get('number').setValue('')
-        this._sucessoCriar = false
-        this._idCompany = null;
-        this.modalService.dismissAll()
-      }, 10000);
+      this.toastr.success(`Alterado com sucesso`);
+      EventEmitterService.get('hideLoader').emit();
+      setTimeout(() => { this.modalService.dismissAll()}, 500);
+      this.getCompanies();
+      this.resetAll();
     },(err) =>{
-      console.log(err)
+      this.toastr.error(`Não foi possivel alterar`);
+      EventEmitterService.get('hideLoader').emit();
     })
   }
+
   public getCompanies(){
-    this.spinner.show();
+    this._listCompanies = [];
+    EventEmitterService.get('showLoader').emit();
     this.financeiroService.getCompanies().subscribe((res) =>{
-      console.log(res)
       this._listCompanies = res.companies;
-      this.spinner.hide()
+      EventEmitterService.get('hideLoader').emit();
     },(err) =>{
-      alert('erro ao enviar')
-      this.spinner.hide();
+      this.toastr.error(`Não foi possivel consultar as empresas`);
+      EventEmitterService.get('hideLoader').emit();
     })
   }
+
+  public resetAll() {
+    this._nextCreateCompanies = false;
+    this.formGroup.get('cnpj').enable();
+    this.formGroup.reset();
+  }
+
   public close(){
     this.ngbAlert = {type: null, msg: null}
   }
+
 }
