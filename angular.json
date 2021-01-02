@@ -45,7 +45,8 @@
                         "lodash",
                         "chart.js",
                         "ngx-store-9",
-                        "qrcode"
+                        "qrcode",
+                        "html2PDF"
                     ],
                     "aot": true,
                     "assets": [
@@ -57,6 +58,9 @@
                       "outputPath": "www",
                       "polyfills": "src/polyfills.ts",
                       "scripts": [
+                        "./node_modules/jquery/dist/jquery.js",
+                        "node_modules/popper.js/dist/umd/popper.min.js",
+                        "./node_modules/bootstrap/dist/js/bootstrap.js"
                       ],
                       "styles": [
                           "src/styles.scss",

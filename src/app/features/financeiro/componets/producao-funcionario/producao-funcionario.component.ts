@@ -7,6 +7,8 @@ import { CompaniesDataService } from 'src/app/shared/service/CompaniesData.servi
 import { DateFormatPipe } from 'ngx-moment';
 import { CustomValidators } from 'ngx-custom-validators';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { EventEmitterService } from 'src/app/shared/service/event-emitter.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-producao-funcionario',
@@ -36,7 +38,8 @@ export class ProducaoFuncionarioComponent implements OnInit {
     private companiesData: CompaniesDataService,
     private formBuilder: FormBuilder,
     private dateFormatPipe: DateFormatPipe,
-    private spinner: NgxSpinnerService
+    private toastr: ToastrService,
+
   ) {
     this.crieFormulario();
    }
@@ -46,19 +49,14 @@ export class ProducaoFuncionarioComponent implements OnInit {
     this.getListCompanies();
   }
 
-  get init(): any { return this._date; }
+  get init(): any {
+    return this._date;
+  }
 
   get totalDescont(){
     return this._totalDescont;
   }
 
-  get year(){
-    return this._listYear;
-  }
-
-  get currentYear(){
-    return this._currentYear
-  }
 
   get listUser(){
     return this._listUser
@@ -105,55 +103,31 @@ export class ProducaoFuncionarioComponent implements OnInit {
     })
   }
 
-  private filterYear(){
-    const date = new Date(new Date().setFullYear(new Date().getFullYear()));
-    let filter = {year: date.getFullYear()};
-    this._listYear.push(filter);
-
-    for(let i = 0; i < 4; i++){
-      date.setFullYear(date.getFullYear() -1);
-      filter = {year: date.getFullYear()};
-      this._listYear.push(filter);
-    }
-  }
-
-  public changeFilterYear(year){
-    // console.log(year);
-    const date = new Date;
-    date.setFullYear(year);
-    this._currentYear = year
-  }
-
-  public changeFilterName(name){
-    // console.log(name);
-    this._name = name;
-  }
-
-  public changeFilterCompanyName(companyName){
-    this._nameCompany = companyName
-  }
 
   public getListUser(){
+    EventEmitterService.get('showLoader').emit();
     this.financeiroService.getUser().subscribe((res) =>{
-      this._listUser = res.data.users;
-      // console.log(this._listUser)
+      this._listUser = res.user;
+      EventEmitterService.get('hideLoader').emit();
     }, (err) => {
-      this._error = err.message;
-
+      this.toastr.error(`Falha interna`);
+      EventEmitterService.get('hideLoader').emit();
     })
   }
 
   public getListCompanies(){
+    EventEmitterService.get('showLoader').emit();
     this.financeiroService.getCompanies().subscribe((res) =>{
-      this._listCompanies =res.companies;
+      this._listCompanies = res.companies;
+      EventEmitterService.get('hideLoader').emit();
     }, (err: Error) => {
-      this._error = err.message;
-
+      this.toastr.error(`Falha interna`);
+      EventEmitterService.get('hideLoader').emit();
     })
   }
 
   public getProducao(){
-    this.spinner.show();
+    EventEmitterService.get('showLoader').emit();
     this._listProducao = [];
     this._valorTotal = null;
     this._totalBolsas = null;
@@ -172,10 +146,11 @@ export class ProducaoFuncionarioComponent implements OnInit {
       this._valorTotal = res.data.sumValueTotal;
       this._totalBolsas = res.data.sumBags;
       this._totalDescont = res.data.descont;
-      this.spinner.hide();
+      EventEmitterService.get('hideLoader').emit();
     }, (err) => {
       this._error = err.message;
-      this.spinner.hide();
+      EventEmitterService.get('hideLoader').emit();
+      this.toastr.error(`Falha interna`);
     } )
   }
 
@@ -186,12 +161,11 @@ export class ProducaoFuncionarioComponent implements OnInit {
     downloadLink.href = linkSource;
     downloadLink.download = fileName;
     downloadLink.click();
-
-    this.spinner.hide();
+    EventEmitterService.get('hideLoader').emit();
   }
 
   public geratePaymentUser(){
-    this.spinner.show();
+    EventEmitterService.get('showLoader').emit();
     const dateEntry = this.dateFormatPipe.transform(this._date.fromDate, 'YYYY-MM-DD');
     const dateFinal = this.dateFormatPipe.transform(this._date.toDate, 'YYYY-MM-DD');
     const userID = this.formGroup.get('userID').value.id;
@@ -201,7 +175,8 @@ export class ProducaoFuncionarioComponent implements OnInit {
      this.pdf(res.data.base64,dateEntry,dateFinal);
     },(error) =>{
       console.log(error);
-      this.spinner.hide();
+      EventEmitterService.get('hideLoader').emit();
+      this.toastr.error(`Não foi possivel gerar o pdf ${error}`);
     })
   }
 

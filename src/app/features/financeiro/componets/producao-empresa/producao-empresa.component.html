@@ -1,153 +1,172 @@
-<div class="card">
-  <div class="card-body w-100 h-100">
-    <div class="row">
-        <div class="col-12 h4">Selecione os filtros de pesquisa</div>
-        <div class="col-12">
-            <form [formGroup]="formGroup" class="form-group " (ngSubmit)="getProducao()">
-              <div class="row">
-                <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12">
-                    <app-date-piker
-                    [init]="init"
-                    (alterarPeriodo)="alterarPeriodo($event)"
-                    ></app-date-piker>
-                </div>
-                <div class="col-xl-3 col-lg-3 col-md-5 col-sm-5 col-12 mb-md-2 mb-sm-2">
-                    <select class="custom-select" formControlName="companyID">
-                      <option value="" selected disabled>Selecione a empresa</option>
-                        <option *ngFor="let aux of listCompanies" [ngValue]="aux">
-                        {{aux.companyName}}
-                        </option>
-                    </select>
-                </div>
-                <div class="col-xl-1 col-lg-1 col-md-2 col-sm-2 col-6 align-self-center">
-                  <label class="switch">
-                    <input type="checkbox" formControlName="dateFinalNotNul" (change)="getProducao()">
-                    <span class="slider round"></span>
-                  </label>
-                </div>
-                <div class="col-xl-2 col-lg-2 col-md-5 col-sm-5 col-6">
-                  <button class="btn btn-info text-right" [disabled]="!formGroup.valid"  type="submit">PESQUISAR</button>
-                </div>
-              </div>
-            </form>
-        </div>
-        <div class="col-12" *ngIf="listProducao.length">
-          <div class="row">
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-              <div class="font-weight-bold h5" *ngIf="value">Quantidade total de bolsas prontas: {{totalBolsas}}</div>
-              <div class="font-weight-bold h5" *ngIf="!value">Quantidade total de bolsas a entregar: {{totalBolsas}}</div>
-            </div>
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-              <div class="font-weight-bold h5" *ngIf="value">Valor total ganho: {{valorTotal  | reais}}</div>
-              <div class="font-weight-bold h5" *ngIf="!value">Valor total para receber: {{valorTotal  | reais}}</div>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 mb-2">
-          <div class="row">
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6" *ngIf="listProducao.length && value">
-              <button class="btn btn-outline-warning bt-sm " (click)="gerarPdf()">
-                Exportar pagamento empresa
-              </button>
-            </div>
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6" *ngIf="listProducao.length">
-              <button class="btn btn-outline-success" (click)="downloadImage()">Exportar etique</button>
-            </div>
-            <div class="col-12" *ngIf="ngbAlert.type">
-              <ngb-alert [type]="ngbAlert.type" (close)="close()" >{{ ngbAlert.msg }}</ngb-alert>
-            </div>
-          </div>
-        </div>
-        <div class="col-12  " *ngIf="listProducao.length"  #screen>
-          <div class="card mb-2" *ngFor="let aux of listProducao">
-              <div class="card-body">
-                  <div class="row text-sm">
-                    <div class="col-10">
-                      <div class="row">
-                        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-12">
-                            <div class="col-12 font-weight-bold">
-                                Solicitante
-                            </div>
-                            <div class="col-12">
-                                {{aux.companies.companyName}}
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-12">
-                            <div class="col-12 font-weight-bold">
-                                Cortador
-                            </div>
-                            <div class="col-12">
-                                {{aux.users.name}}
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-12">
-                            <div class="col-12 font-weight-bold">
-                                Referencia
-                            </div>
-                            <div class="col-12">
-                                {{aux.reference}}
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-12 ">
-                            <div class="col-12 font-weight-bold">
-                                Talão
-                            </div>
-                            <div class="col-12">
-                                {{aux.patch}}
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-12">
-                            <div class="col-12 font-weight-bold">
-                                quantidade
-                            </div>
-                            <div class="col-12 text-success">
-                                {{aux.amount}}
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-12">
-                            <div class="col-12 font-weight-bold">
-                                Valor
-                            </div>
-                            <div class="col-12 text-success">
-                                {{aux.value | reais}}
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-12">
-                            <div class="col-12 font-weight-bold">
-                                Valor a receber
-                            </div>
-                            <div class="col-12 text-danger">
-                                {{aux.valueTotal | reais}}
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 col-12">
-                            <div class="col-12 font-weight-bold">
-                                Data Entrada
-                            </div>
-                            <div class="col-12">
-                                {{aux.dateEntry | date:'dd/MM/yyy'}}
-                            </div>
-                        </div>
+<div class="container-centralized">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row" [ngClass]="{'fixed': showSize}">
+              <div class="col-12 h4">Selecione os filtros de pesquisa</div>
+
+              <div class="col-12">
+                  <form [formGroup]="formGroup" class="form-group " (ngSubmit)="getProducao()">
+                    <div class="row">
+                      <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12">
+                          <app-date-piker
+                          [init]="init"
+                          (alterarPeriodo)="alterarPeriodo($event)"
+                          ></app-date-piker>
+                      </div>
+                      <div class="col-xl-3 col-lg-3 col-md-5 col-sm-5 col-12 mb-md-2 mb-sm-2">
+                          <select class="custom-select" formControlName="companyID">
+                            <option value="" selected disabled>Selecione a empresa</option>
+                              <option *ngFor="let aux of listCompanies" [ngValue]="aux">
+                              {{aux.companyName}}
+                              </option>
+                          </select>
+                      </div>
+                      <div class="col-xl-1 col-lg-1 col-md-2 col-sm-2 col-6 align-self-center">
+                        <label class="switch">
+                          <input type="checkbox" formControlName="dateFinalNotNul">
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                      <div class="col-xl-2 col-lg-2 col-md-5 col-sm-5 col-6">
+                        <button class="btn btn-info text-right" [disabled]="!formGroup.valid"  type="submit">PESQUISAR</button>
                       </div>
                     </div>
-                    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12">
-                      <div class="row">
-                        <div class="col-12">
-                          <qrcode [qrdata]="url(aux.id)" [width]="100" [errorCorrectionLevel]="'M'" [elementType]="'svg'"></qrcode>
+                  </form>
+              </div>
+
+              <div class="col-12" *ngIf="listProducao.length">
+                <div class="row">
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="font-weight-bold h5" *ngIf="value">Quantidade total de bolsas prontas: {{totalBolsas}}</div>
+                    <div class="font-weight-bold h5" *ngIf="!value">Quantidade total de bolsas a entregar: {{totalBolsas}}</div>
+                  </div>
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="font-weight-bold h5" *ngIf="value">Valor total ganho: {{valorTotal  | reais}}</div>
+                    <div class="font-weight-bold h5" *ngIf="!value">Valor total para receber: {{valorTotal  | reais}}</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 mb-2">
+                <div class="row">
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12" *ngIf="listProducao.length && value">
+                    <button class="btn btn-outline-warning bt-sm " (click)="gerarPdf()">
+                      Exportar pagamento empresa
+                    </button>
+                  </div>
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12" *ngIf="listProducao.length">
+                    <button class="btn btn-outline-success" (click)="setWidth()">Exportar etiqueta</button>
+                  </div>
+                  <div class="col-12" *ngIf="ngbAlert.type">
+                    <ngb-alert [type]="ngbAlert.type" (close)="close()" >{{ ngbAlert.msg }}</ngb-alert>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 " *ngIf="listProducao.length" #screen (window:resize)="onResize($event)"  >
+                <div class="card mb-2" *ngFor="let aux of listProducao">
+                  <div class="card-body" [ngClass]="{'list': !showSize}">
+                    <div class="row text-sm" >
+                      <div class="" [ngClass]="{'setcol-12': showSize, 'col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12' : !showSize}">
+                        <div class="row" >
+
+                          <div class="" [ngClass]="{'col-xl-3 col-lg-3 col-md-4 col-sm-4 col-6': !showSize, 'setWidth' : showSize }">
+                              <div class="col-12 font-weight-bold">
+                                  Solicitante
+                              </div>
+                              <div class="col-12">
+                                  {{aux.companies.companyName}}
+                              </div>
+                          </div>
+
+                          <div class="" [ngClass]="{'col-xl-3 col-lg-3 col-md-4 col-sm-4 col-6': !showSize, 'setWidth' : showSize }">
+                              <div class="col-12 font-weight-bold">
+                                  Cortador
+                              </div>
+                              <div class="col-12">
+                                  {{aux.users.name}}
+                              </div>
+                          </div>
+
+                          <div class="" [ngClass]="{'col-xl-3 col-lg-3 col-md-4 col-sm-4 col-6': !showSize, 'setWidth' : showSize }">
+                              <div class="col-12 font-weight-bold">
+                                  Referencia
+                              </div>
+                              <div class="col-12">
+                                  {{aux.reference}}
+                              </div>
+                          </div>
+
+                          <div class=" " [ngClass]="{'col-xl-3 col-lg-3 col-md-4 col-sm-4 col-6': !showSize, 'setWidth' : showSize }">
+                              <div class="col-12 font-weight-bold">
+                                  Talão
+                              </div>
+                              <div class="col-12">
+                                  {{aux.patch}}
+                              </div>
+                          </div>
+
+                          <div class="" [ngClass]="{'col-xl-3 col-lg-3 col-md-4 col-sm-4 col-6': !showSize, 'setWidth' : showSize }">
+                              <div class="col-12 font-weight-bold">
+                                  quantidade
+                              </div>
+                              <div class="col-12 text-success">
+                                  {{aux.amount}}
+                              </div>
+                          </div>
+
+                          <div class="" [ngClass]="{'col-xl-3 col-lg-3 col-md-4 col-sm-4 col-6': !showSize, 'setWidth' : showSize }">
+                              <div class="col-12 font-weight-bold">
+                                  Valor
+                              </div>
+                              <div class="col-12 text-success">
+                                  {{aux.value | reais}}
+                              </div>
+                          </div>
+
+                          <div class="" [ngClass]="{'col-xl-3 col-lg-3 col-md-4 col-sm-4 col-6': !showSize, 'setWidth' : showSize }">
+                              <div class="col-12 font-weight-bold">
+                                  Valor a receber
+                              </div>
+                              <div class="col-12 text-danger">
+                                  {{aux.valueTotal | reais}}
+                              </div>
+                          </div>
+
+                          <div class="" [ngClass]="{'col-xl-3 col-lg-3 col-md-4 col-sm-4 col-6': !showSize, 'setWidth' : showSize }">
+                              <div class="col-12 font-weight-bold">
+                                  Data Entrada
+                              </div>
+                              <div class="col-12">
+                                  {{aux.dateEntry | date:'dd/MM/yyy'}}
+                              </div>
+                          </div>
+
                         </div>
                       </div>
+
+                      <div class="" [ngClass]="{'col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12': !showSize, 'setWidthQrCode' : showSize }">
+                        <div class="row">
+                          <div class="col-12">
+                            <qrcode [qrdata]="url(aux.id)" [width]="100" [errorCorrectionLevel]="'M'" [elementType]="'svg'"></qrcode>
+                          </div>
+                        </div>
+                      </div>
+
                     </div>
                   </div>
+                </div>
               </div>
+
+              <div class="col-12" *ngIf="!listProducao.length">
+                <app-messenger-dados></app-messenger-dados>
+              </div>
+
           </div>
         </div>
-        <div class="col-12" *ngIf="!listProducao.length">
-          <app-messenger-dados></app-messenger-dados>
-        </div>
+      </div>
     </div>
   </div>
-  <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
-    <p style="font-size: 20px; color: white">Loading...</p>
-  </ngx-spinner>
 </div>

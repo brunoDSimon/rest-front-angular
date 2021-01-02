@@ -48,7 +48,7 @@
 body{
     font-family:'Montserrat' !important;
     width: 100%;
-    padding-top:70px;
+    padding-top:100px;
     background-color: $bg-cinza;
     background-image: url('/assets/fundo.jpg');
     background-repeat: no-repeat;
@@ -63,7 +63,7 @@ body{
     @media (max-width: 960px) {
       font-size: 13px !important;
     }
-    @media (max-width: 1140px) {
+    @media (max-width: 1200px) {
       font-size: 14px !important;
     }
     @font-face {
