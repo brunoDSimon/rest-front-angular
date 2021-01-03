@@ -56,3 +56,29 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+
+.setWidth {
+  flex: 0 0 25%;
+  max-width: 25%;
+}
+.setcol-12 {
+  flex: 0 0 83.333333%;
+  max-width: 83.333333%;
+}
+.setWidthQrCode {
+  flex: 0 0 16.666667%;
+  max-width: 16.666667%;
+}
+.fixed {
+  position: fixed;
+  width: 21cm !important;
+}
+
+.card {
+  .list {
+    @media (max-width: 450px) {
+      padding: 0 !important;
+    }
+  }
+}

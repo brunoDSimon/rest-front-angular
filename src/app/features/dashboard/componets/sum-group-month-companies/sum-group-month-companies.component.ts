@@ -59,8 +59,10 @@ export class SumGroupMonthCompaniesComponent implements OnInit {
     this.dashboardService.sumGroupMonthCompanies().subscribe((res) =>{
       this.response = res.data;
 
-      this.response.map((item) =>{if(this._monthsChart.indexOf(item.periodo) ==-1){this._monthsChart.push(item.periodo)}});
-      this.response.map((res) => {
+      this.response.forEach((item) =>{if (this._monthsChart.indexOf(item.periodo) ==-1){
+        this._monthsChart.push(item.periodo)
+      }});
+      this.response.forEach((res) => {
         if (this._conteudoChart.length) {
           const index = this._conteudoChart.findIndex((t)=>t.label == res.companies.companyName)
           if(index != -1){
@@ -73,8 +75,8 @@ export class SumGroupMonthCompaniesComponent implements OnInit {
         }
       });
 
-      this._conteudoChart.map((aux, i) =>{
-        this._monthsChart.map((periodo) => {
+      this._conteudoChart.forEach((aux, i) =>{
+        this._monthsChart.forEach((periodo) => {
           let itemEncontrado = aux.dataValorPeriodo.findIndex((item) =>{
             return item.periodo == periodo;
           });

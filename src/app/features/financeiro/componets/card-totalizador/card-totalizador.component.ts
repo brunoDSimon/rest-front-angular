@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FinanceiroService } from '../../service/financeiro.service';
 import { DateFormatPipe } from 'ngx-moment';
-
+import { EventEmitterService } from 'src/app/shared/service/event-emitter.service';
+import * as moment from 'moment';
 @Component({
   selector: 'app-card-totalizador',
   templateUrl: './card-totalizador.component.html',
@@ -15,6 +16,7 @@ export class CardTotalizadorComponent implements OnInit {
   private _currentMonthDescription = new Date(new Date().setMonth(new Date().getMonth() - 1)).toLocaleString('pt-br', { month: 'long' });
   private _dateMin: any;
   private _dateMax: any;
+  private _dateAtual = new Date()
   private _listMonth: any[] = [];
   constructor(
     private financeiroService: FinanceiroService,
@@ -23,19 +25,22 @@ export class CardTotalizadorComponent implements OnInit {
 
   ngOnInit() {
     this.filterMonhts('pt-br');
-    this.changeFilter(this._currentMonth, this._currentYear)
+    this.changeFilter(this._dateAtual.getMonth(), this._dateAtual.getFullYear());
   }
 
   get totalizadores(){
     return this._totalizades;
   }
   public getTotalSumPeriod(){
+    EventEmitterService.get('showLoader').emit();
+
     const dateEntry = this.dateFormatPipe.transform(this._dateMin, 'YYYY-MM-DD');
     const dateFinal = this.dateFormatPipe.transform(this._dateMax, 'YYYY-MM-DD');
     this.financeiroService.totalSumPeriod(dateEntry,dateFinal ).subscribe((res) =>{
       this._totalizades = res.data.totalSumPeriod[0];
-      console.log(this._totalizades)
+      setTimeout(() => {EventEmitterService.get('hideLoader').emit();}, 500);
     },(error: Error)=>{
+      setTimeout(() => {EventEmitterService.get('hideLoader').emit();}, 500);
       console.log(error)
     })
   }
@@ -59,8 +64,8 @@ export class CardTotalizadorComponent implements OnInit {
   public changeFilter(month, year) {
     this._currentYear   = year;
     this._currentMonth  = month;
-    this._dateMax = new Date(year, month+1,1);
-    this._dateMin = new Date(year, month,1);
+    this._dateMax = new Date(year, month +1, 0);
+    this._dateMin = new Date(year, month, 1);
     const date = new Date(year, month,1);
     this._currentMonthDescription  = date.toLocaleString('pt-br', { month: 'long' });
     this.getTotalSumPeriod();
@@ -71,14 +76,14 @@ export class CardTotalizadorComponent implements OnInit {
     for (let i = 0; i < 12; i++) {
       date.setDate(1);
       date.setMonth(date.getMonth() - 1);
-      const filter = { month: date.toLocaleString(locale, { month: 'long' }), valor: date.getMonth(), year: date.getFullYear() };
+      const filter = { month: date.toLocaleString(locale, { month: 'long' }), valor: date.getMonth(), year: date.getFullYear(), monthFormat: moment(date, 'MMYYYY') };
       this._listMonth.push(filter);
     }
 
     this._listMonth.sort((a, b) => {
-      if (a.valor > b.valor) {
+      if (a.monthFormat < b.monthFormat) {
         return 1;
-      } else if (a.valor < b.valor) {
+      } else if (a.monthFormat > b.monthFormat) {
         return -1;
       } else {
         return 0;

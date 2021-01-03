@@ -24,18 +24,23 @@ export class HeaderComponent implements OnInit {
       this._logado = false;
     }
   }
+
   get logado(){
     return this._logado
   }
+
   get open(){
     return this._open
   }
+
   public abri(){
     return this._open =! this._open
   }
+
   public sair(){
     this.companiesService.clear();
     this.userData.clearAll();
     this.router.navigate(['/login']);
   }
+
 }

@@ -5,22 +5,7 @@
   &.card-odd {
     background-color: #efefef;
   }
-  &.card-odd-custom {
-    background-color: #f7f7f7!important;
-    border: 1px solid #fefefe!important;
-  }
-  &.card-no-border {
-    border: none;
-  }
-  &.card-no-radius {
-    border-radius: 0;
-    &-bottom {
-      border-radius: 0.5rem 0.5rem 0 0;
-    }
-    &-top {
-      border-radius: 0 0 0.5rem 0.5rem;
-    }
-  }
+
   .card-title {
     padding-bottom: 15px;
     margin: 0 0 15px;
@@ -31,44 +16,7 @@
     vertical-align: middle;
   }
 }
-.card-body {
-  padding: 15px;
-  &.odd {
-    background-color: #efefef;
-  }
 
-  &.produtos-servicos {
-    padding-bottom: 10px;
-    padding-top: 40px;
-  }
-}
-.card .card-title,
-.card .card-title:not(.period-title) {
-  padding-bottom: 15px;
-  margin: 0 0 15px;
-  border-bottom: 1px solid #e7e7e7;
-  // color: ;
-  font-size: 18px;
-  line-height: 20px;
-  vertical-align: middle;
-}
-.card-subtitle{
-  color: $cinza-light;
-}
-
-.card-hover {
-  cursor: pointer;
-  -webkit-transition: all ease 0.4s;
-  -o-transition: all ease 0.4s;
-  transition: all ease 0.4s;
-  &:hover {
-    -webkit-transform: scale(1.1);
-    -ms-transform: scale(1.1);
-    -o-transform: scale(1.1);
-    transform: scale(1.1);
-    z-index: 100;
-  }
-}
 
 .card-special-padding-left-mobile {
   @media (max-width: 1339px) {
@@ -145,16 +93,4 @@
   padding: 15px 0 0;
   border-top: 1px solid #e7e7e7;
   background: none;
-}
-
-.card-alternatly-background {
-  > .row:nth-child(even) {
-    background: #e7e7e7;
-  }
-}
-
-@media (min-width: 768px) {
-  .col-right-border {
-    border-right: 1px solid #eee;
-  }
 }

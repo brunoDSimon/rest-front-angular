@@ -5,65 +5,104 @@
         <div class="card-body">
             <div class="col-12">
               <button class="btn btn-success mb-2" (click)="openCreate();" *ngIf="!createCompany">Adicionar nova empresa</button>
-              <button class="btn btn-success mb-2" (click)="openCreate();" *ngIf="createCompany">Ver empresa cadastradas</button>
+              <button class="btn btn-success mb-2" (click)="openCreate(); resetAll();" *ngIf="createCompany">Ver empresa cadastradas</button>
               <form class="form-group" [formGroup]="formGroup" *ngIf="createCompany">
                 <div class="card">
                   <div class="card-body">
                     <div class="row">
                       <div class="col-xl-4 offset-xl-4 col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-12">
-                        <label class="font-weight-bold">CNPJ</label>
-                        <input
-                          type="text"
-                          class="form-control "
-                          formControlName="cnpj"
-                          mask="000.000.000-00 || 00.000.000/0000-00"
-                        >
-                        <div class="col-12" *ngIf="ngbAlert.type">
-                          <ngb-alert [type]="ngbAlert.type" (close)="close()" >{{ ngbAlert.msg }}</ngb-alert>
+                        <div class="col-12 font-weight-bolder">CNPJ</div>
+                        <div class="col-12 font-weight-bolder">
+                          <input type="text" class="form-control form-control-sm" formControlName="cnpj" mask="000.000.000-00 || 00.000.000/0000-00"
+                          [ngClass]="{'error': formGroup.get('cnpj').touched && formGroup.get('cnpj').hasError('required')}">
+                          <div class="col-12" class="mt-2 error" *ngIf="formGroup.get('cnpj').touched && formGroup.get('cnpj').hasError('required')">
+                            CNPJ Necessario
+                          </div>
+                          <div class="col-12" class=" mt-2 error" *ngIf="formGroup.get('cnpj').hasError('digit')">
+                            CNPJ/CPF Invalido
+                          </div>
+                          <div class="col-12" *ngIf="ngbAlert.type">
+                            <ngb-alert [type]="ngbAlert.type" (close)="close()" >{{ ngbAlert.msg }}</ngb-alert>
+                          </div>
+                          <button class="btn btn-outline-warning mt-2" (click)="verificarCNPJ();" [disabled]="!formGroup.get('cnpj').valid" *ngIf="!nextCreateCompanies">VERIFICAR CNPJ</button>
                         </div>
-                        <button class="btn btn-outline-warning mt-2" (click)="verificarCNPJ();" [disabled]="!formGroup.get('cnpj').valid">VERIFICAR CNPJ</button>
-                        <div *ngIf="nextCreateCompanies">
-                            <label class="font-weight-bold">Nome da empresa</label>
-                            <input
-                            type="text"
-                            class="form-control "
-                            formControlName="companyName"
-                            >
-                            <label class="font-weight-bold">Telefone</label>
-                            <input
-                              type="text"
-                              class="form-control "
-                              formControlName="telephone"
-                              mask="(00) 0000-0000||(00) 0 0000-0000"
-                            >
-                            <label class="font-weight-bold">Endereço</label>
-                            <input
-                              type="text"
-                              class="form-control "
-                              formControlName="address"
-                            >
-                            <label class="font-weight-bold">Numero</label>
-                            <input
-                              type="text"
-                              class="form-control "
-                              formControlName="number"
-                              mask="99999999999"
-                            >
-                            <label class="font-weight-bold">CEP</label>
-                            <input
-                              type="text"
-                              class="form-control "
-                              formControlName="zipCode"
-                              mask="00000-000"
-                            >
-                            <button class="btn btn-outline-success mt-2" [disabled]="!formGroup.valid" (click)="createCompanies()">Cadastrar</button>
-                            <div>
-                            <div class="alert alert-info" role="alert" *ngIf="sucessoCriar">
-                              Empresa cadastrada com sucesso!
+
+                      </div>
+
+                      <div *ngIf="nextCreateCompanies" class="col-12">
+                        <div class="row">
+                          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+                            <div class="row">
+                              <div class="col-12 font-weight-bolder">Nome da empresa</div>
+                              <div class="col-12">
+                                <input type="text" class="form-control " formControlName="companyName"
+                                [ngClass]="{'error': formGroup.get('companyName').touched && formGroup.get('companyName').hasError('required')}">
+                              </div>
+                              <div class="col-12 error mt-2" *ngIf="formGroup.get('companyName').touched && formGroup.get('companyName').hasError('required')">
+                                Digite o nome da empresa!
+                              </div>
                             </div>
+                          </div>
+
+                          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+                            <div class="row">
+                              <div class="col-12 font-weight-bolder">Telefone</div>
+                              <div class="col-12">
+                                <input type="text" class="form-control " formControlName="telephone" mask="(00) 0000-0000||(00) 0 0000-0000"
+                                [ngClass]="{'error': formGroup.get('telephone').touched && formGroup.get('telephone').hasError('required')}">
+                              </div>
+                              <div class="col-12 error mt-2" *ngIf="formGroup.get('telephone').touched && formGroup.get('telephone').hasError('required')">
+                                Digite o telefone!
+                              </div>
                             </div>
+                          </div>
+
+                          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+                            <div class="row">
+                              <div class="col-12 font-weight-bolder">Endereço</div>
+                              <div class="col-12">
+                                <input type="text" type="text" class="form-control " formControlName="address"
+                                [ngClass]="{'error': formGroup.get('address').touched && formGroup.get('address').hasError('required')}">
+                              </div>
+                              <div class="col-12 error mt-2" *ngIf="formGroup.get('address').touched && formGroup.get('address').hasError('required')">
+                                Digite o endereço!
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+                            <div class="row">
+                              <div class="col-12 font-weight-bolder">Numero</div>
+                              <div class="col-12">
+                                <input type="text" class="form-control " formControlName="number" mask="99999999999"
+                                [ngClass]="{'error': formGroup.get('number').touched && formGroup.get('number').hasError('required')}">
+                              </div>
+                              <div class="col-12 error mt-2" *ngIf="formGroup.get('number').touched && formGroup.get('number').hasError('required')">
+                                Digite o numero!
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+                            <div class="row">
+                              <div class="col-12 font-weight-bolder">CEP</div>
+                              <div class="col-12">
+                                <input type="text" class="form-control " formControlName="zipCode" mask="00000-000"
+                                [ngClass]="{'error': formGroup.get('zipCode').touched && formGroup.get('zipCode').hasError('required')}">
+                              </div>
+                              <div class="col-12 error mt-2" *ngIf="formGroup.get('zipCode').touched && formGroup.get('zipCode').hasError('required')">
+                                Digite o numero!
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+
+                        <div class="col-12 text-center align-self-center">
+                          <button class="btn btn-outline-success mt-2" [disabled]="!formGroup.valid" (click)="createCompanies()">Cadastrar</button>
                         </div>
                       </div>
+
                     </div>
 
                   </div>
@@ -71,9 +110,9 @@
               </form>
             </div>
             <div class="col-12" *ngIf="!createCompany && listCompanies.length">
-              <h4 class="fon">Vejá as companias cadastradas</h4>
-              <div class="card mb-2" *ngFor="let aux of listCompanies">
-                <div class="card-body shadow">
+              <h4 class="font-weight-bold">Vejá as companias cadastradas</h4>
+              <div class="card mb-2" *ngFor="let aux of listCompanies; index as i" [ngClass]="{'card-odd': i % 2 === 0}">
+                <div class="card-body shadow" >
                  <div class="row text-sm align-self-center">
                    <div class="col-xl-4 col-lg-4">
                      <div class="row">
@@ -155,67 +194,99 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
+
+
   <div class="modal-body">
    <div class="row">
      <div class="col-12">
       <form class="form-group" [formGroup]="formGroup">
         <div class="card">
           <div class="card-body">
-              <label>CNPJ</label>
-              <input
-                type="text"
-                class="form-control "
-                formControlName="cnpj"
-                mask="000.000.000-00||00.000.000/0000-00"
-              >
+            <div class="row">
 
-              <label>Nome da empresa</label>
-              <input
-              type="text"
-              class="form-control "
-              formControlName="companyName"
-              >
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-12 font-weight-bolder">CNPJ</div>
+                  <div class="col-12">
+                    <input type="text" class="form-control form-control-sm" formControlName="cnpj" mask="000.000.000-00||00.000.000/0000-00"
+                    [ngClass]="{'error': formGroup.get('cnpj').touched && formGroup.get('cnpj').hasError('required')}">
+                  </div>
+                  <div class="col-12" class="" *ngIf="formGroup.get('cnpj').touched && formGroup.get('cnpj').hasError('required')">
+                    CNPJ invalido
+                  </div>
 
-              <label>Telefone</label>
-              <input
-                type="text"
-                class="form-control "
-                formControlName="telephone"
-                mask="(00) 0000-0000||(00) 0 0000-0000"
-              >
-
-              <label>Endereço</label>
-              <input
-                type="text"
-                class="form-control "
-                formControlName="address"
-              >
-
-              <label>Numero</label>
-              <input
-                type="text"
-                class="form-control "
-                formControlName="number"
-                mask="99999999999"
-              >
-
-              <label>CEP</label>
-              <input
-                type="text"
-                class="form-control"
-                formControlName="zipCode"
-                mask="00000-000"
-              >
-
-              <button class="btn btn-outline-success mt-2" [disabled]="!formGroup.valid" (click)="updateCompania()">Alterar</button>
-              <!-- <div>
-                {{formGroup.valid}}<br>
-                {{formGroup.value | json}}<br>
-                {{formGroup.status}}
-              </div> -->
-              <div class="alert alert-info" role="alert" *ngIf="sucessoCriar">
-                Empresa alterada com sucesso!
+                </div>
               </div>
+
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+                <div class="row">
+                  <div class="col-12 font-weight-bolder">Nome da empresa</div>
+                  <div class="col-12">
+                    <input type="text" class="form-control form-control-sm" formControlName="companyName"
+                    [ngClass]="{'error': formGroup.get('companyName').touched && formGroup.get('companyName').hasError('required')}">
+                  </div>
+                  <div class="col-12 error mt-2" *ngIf="formGroup.get('companyName').touched && formGroup.get('companyName').hasError('required')">
+                    Digite o nome da empresa!
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+                <div class="row">
+                  <div class="col-12 font-weight-bolder">Telefone</div>
+                  <div class="col-12">
+                    <input type="text" class="form-control form-control-sm" formControlName="telephone" mask="(00) 0000-0000||(00) 0 0000-0000"
+                    [ngClass]="{'error': formGroup.get('telephone').touched && formGroup.get('telephone').hasError('required')}">
+                  </div>
+                  <div class="col-12 error mt-2" *ngIf="formGroup.get('telephone').touched && formGroup.get('telephone').hasError('required')">
+                    Digite o telefone!
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+                <div class="row">
+                  <div class="col-12 font-weight-bolder">Endereço</div>
+                  <div class="col-12">
+                    <input type="text" type="text" class="form-control form-control-sm" formControlName="address"
+                    [ngClass]="{'error': formGroup.get('address').touched && formGroup.get('address').hasError('required')}">
+                  </div>
+                  <div class="col-12 error mt-2" *ngIf="formGroup.get('address').touched && formGroup.get('address').hasError('required')">
+                    Digite o endereço!
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+                <div class="row">
+                  <div class="col-12 font-weight-bolder">Numero</div>
+                  <div class="col-12">
+                    <input type="text" class="form-control form-control-sm" formControlName="number" mask="99999999999"
+                    [ngClass]="{'error': formGroup.get('number').touched && formGroup.get('number').hasError('required')}">
+                  </div>
+                  <div class="col-12 error mt-2" *ngIf="formGroup.get('number').touched && formGroup.get('number').hasError('required')">
+                    Digite o numero!
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+                <div class="row">
+                  <div class="col-12 font-weight-bolder">CEP</div>
+                  <div class="col-12">
+                    <input type="text" class="form-control form-control-sm" formControlName="zipCode" mask="00000-000"
+                    [ngClass]="{'error': formGroup.get('zipCode').touched && formGroup.get('zipCode').hasError('required')}">
+                  </div>
+                  <div class="col-12 error mt-2" *ngIf="formGroup.get('zipCode').touched && formGroup.get('zipCode').hasError('required')">
+                    Digite o numero!
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 text-center align-self-center">
+              <button class="btn btn-outline-success mt-2" [disabled]="!formGroup.valid" (click)="updateCompania()">Alterar</button>
+              </div>
+            </div>
           </div>
         </div>
       </form>
