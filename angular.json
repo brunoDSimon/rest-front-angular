@@ -46,7 +46,7 @@
                         "chart.js",
                         "ngx-store-9",
                         "qrcode",
-                        "html2PDF"
+                        "jspdf-html2canvas"
                     ],
                     "aot": true,
                     "assets": [

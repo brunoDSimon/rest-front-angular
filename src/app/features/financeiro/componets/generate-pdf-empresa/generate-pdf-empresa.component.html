@@ -23,8 +23,8 @@
               </div>
               <div class="col-12">
                 <div class="row">
-                  <div class="col-12 text-muted">Empresa</div>
-                  <select class="form-control w-75" formControlName="companyID" *ngIf="listCompanies.length">
+                  <div class="col-xl-10 offset-xl-1 col-lg-10 offset-lg-1 col-md-12 col-sm-12 col-12 text-muted">Empresa</div>
+                  <select class="form-control" formControlName="companyID" *ngIf="listCompanies.length">
                       <option selected value="" disabled class="text-muted" >Selecione a empresa</option>
                       <option *ngFor="let aux of listCompanies"[ngValue]="aux">
                       {{aux.companyName}}

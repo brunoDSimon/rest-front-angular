@@ -18,8 +18,6 @@
         background-repeat: no-repeat;
         padding: 10px;
         cursor: pointer;
-        width: 100%;
-        height: 100%;
     }
     &-conta{
         background-image: url('/assets/conta.svg');
@@ -68,10 +66,9 @@
   }
   &-logo {
     background-image: url('/assets/logo.svg');
-    background-position: center;
+    background-position: left;
     background-repeat: no-repeat;
-    width: 100%;
-    height: 100%;
+    width: 40%;
     padding: 20px;
     cursor: pointer;
     background-size: 130px;
