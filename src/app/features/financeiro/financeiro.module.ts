@@ -23,6 +23,7 @@ import { ProducaoEmpresaComponent } from './componets/producao-empresa/producao-
 import { ProducaoFuncionarioComponent } from './componets/producao-funcionario/producao-funcionario.component';
 import { SaidaComponent } from './componets/saida/saida.component';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { IonicModule } from '@ionic/angular';
 
 @NgModule({
   imports: [
@@ -38,7 +39,8 @@ import { NgxSpinnerModule } from "ngx-spinner";
     CustomFormsModule,
     NgbModule,
     QRCodeModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    IonicModule.forRoot()
   ],
   declarations: [
     FinanceiroComponent,

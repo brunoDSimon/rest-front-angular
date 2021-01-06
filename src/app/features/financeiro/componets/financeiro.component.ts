@@ -14,11 +14,10 @@ export class FinanceiroComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  doRefresh(event) {
-    console.log('Begin async operation');
-
+  public doRefresh(event) {
     setTimeout(() => {
       console.log('Async operation has ended');
+      window.location.reload();
       event.target.complete();
     }, 2000);
   }
