@@ -237,7 +237,9 @@ export class ProducaoEmpresaComponent implements OnInit {
       output: 'jspdf-generate.pdf',
       init: function() {},
       success: function(pdf) {
-        pdf.save(this.output);
+        var blob = pdf.output();
+        window.open(URL.createObjectURL(blob));
+        // pdf.save(this.output);
       }
     }
     EventEmitterService.get('showLoader').emit();
