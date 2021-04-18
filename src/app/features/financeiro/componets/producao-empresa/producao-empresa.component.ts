@@ -155,6 +155,7 @@ export class ProducaoEmpresaComponent implements OnInit {
   public changeFilterName(name){
     this._name = name;
   }
+
   public changeFilterCompanyName(companyName){
     this._nameCompany = companyName
   }
@@ -169,6 +170,7 @@ export class ProducaoEmpresaComponent implements OnInit {
       EventEmitterService.get('hideLoader').emit();
     })
   }
+
   public getListCompanies(){
     EventEmitterService.get('showLoader').emit();
     this.financeiroService.getCompanies().subscribe((res) =>{
@@ -288,7 +290,7 @@ export class ProducaoEmpresaComponent implements OnInit {
         // downloadLink.href = linkSource;
         // downloadLink.download = fileName;
         // downloadLink.click();
-        this.saveAndOpenPdf(linkSource, fileName)
+        this.saveAsIMG(linkSource)
         EventEmitterService.get('hideLoader').emit();
       });
     }
@@ -309,6 +311,7 @@ export class ProducaoEmpresaComponent implements OnInit {
     const customeWidth = '1200px';
     return customeWidth;
   }
+
   convertBase64ToBlob(b64Data, contentType): Blob {
     contentType = contentType || '';
     const sliceSize = 512;
@@ -340,6 +343,40 @@ export class ProducaoEmpresaComponent implements OnInit {
       .catch(() => {
         this.toastr.error('Error writing pdf file');
       });
+  }
+
+  public saveAsIMG(url) {
+     // imagen = data:image/jpeg;base64,/9j/4........
+     const writeDirectory = this.platform.is('ios') ? this.file.dataDirectory : this.file.externalDataDirectory;
+     let UUID = 'criado-' + (new Date().getTime()).toString(16);
+     this.file.writeFile(writeDirectory, UUID, this.convertBase64ToBlob(url, 'image/jpeg'), {replace: true})
+     .then(() => {
+      this.fileOpener.open(writeDirectory + UUID, 'image/jpeg')
+          .catch(() => {
+              this.toastr.error('Error opening pdf file');
+          });
+    })
+    .catch(() => {
+      this.toastr.error('Error writing pdf file');
+    });
+  }
+  getMIMEtype(extn){
+    let ext=extn.toLowerCase();
+    let MIMETypes={
+      'txt' :'text/plain',
+      'docx':'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'doc' : 'application/msword',
+      'pdf' : 'application/pdf',
+      'jpg' : 'image/jpeg',
+      'bmp' : 'image/bmp',
+      'png' : 'image/png',
+      'xls' : 'application/vnd.ms-excel',
+      'xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'rtf' : 'application/rtf',
+      'ppt' : 'application/vnd.ms-powerpoint',
+      'pptx': 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+    }
+    return MIMETypes[ext];
   }
 }
 
