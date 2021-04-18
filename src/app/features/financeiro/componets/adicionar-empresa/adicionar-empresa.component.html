@@ -3,6 +3,8 @@
     <div class="col-12">
       <div class="card ">
         <div class="card-body">
+        <app-breadcrumb></app-breadcrumb>
+
             <div class="col-12">
               <button class="btn btn-success mb-2" (click)="openCreate();" *ngIf="!createCompany">Adicionar nova empresa</button>
               <button class="btn btn-success mb-2" (click)="openCreate(); resetAll();" *ngIf="createCompany">Ver empresa cadastradas</button>
@@ -114,7 +116,7 @@
               <div class="card mb-2" *ngFor="let aux of listCompanies; index as i" [ngClass]="{'card-odd': i % 2 === 0}">
                 <div class="card-body shadow" >
                  <div class="row text-sm align-self-center">
-                   <div class="col-xl-4 col-lg-4">
+                   <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-6">
                      <div class="row">
                        <div class="col-12 font-weight-bold">
                          Compania
@@ -130,7 +132,7 @@
                       </div>
                      </div>
                    </div>
-                   <div class="col-xl-3 col-lg-3">
+                   <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6">
                      <div class="row">
                        <div class="col-12 font-weight-bold">
                          Telefone
@@ -146,7 +148,7 @@
                       </div>
                      </div>
                    </div>
-                   <div class="col-xl-3 col-lg-3">
+                   <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6">
                      <div class="row">
                        <div class="col-12 font-weight-bold">
                          Endereço
@@ -162,7 +164,7 @@
                       </div>
                      </div>
                    </div>
-                   <div class="col-xl-2 col-lg-2 align-self-center">
+                   <div class="col-xl-2 col-lg-2 col-md-6 col-sm-6 col-6 align-self-center">
                      <div class="row">
                        <div class="col-12" >
                          <button type="button" class="btn btn-outline-danger btn-sm" (click)="open(content, aux)">

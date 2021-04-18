@@ -5,6 +5,7 @@ import { LoginService } from '../service/login.service';
 import { UsersDataService } from 'src/app/shared/service/UsersData.service';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { EventEmitterService } from 'src/app/shared/service/event-emitter.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -47,23 +48,23 @@ export class LoginComponent implements OnInit {
     return this._error;
   }
   public login(){
-    this.spinner.show();
+    EventEmitterService.get('showLoader').emit();
     const body ={
       "email":    this.formGroup.get('email').value,
       "password": this.formGroup.get('password').value
     }
     this.loginService.auth(body).subscribe((res) =>{
-      setTimeout(() => {this.spinner.hide();}, 5000);
+
       this.userData.setUserInfo(res.user);
       this.userData.setAuth(res.token);
       this._logado = true
       this.router.navigate(['/financeiro']);
       this._openError = false
-      // this.spinner.hide();
+      EventEmitterService.get('hideLoader').emit();
     },(error) =>{
       this._openError = true
       this._error = error.error.status.messege
-      setTimeout(() => {this.spinner.hide();}, 5000);
+      EventEmitterService.get('hideLoader').emit();
     })
   }
 }

@@ -74,4 +74,19 @@
     background-size: 130px;
     display: inline;
   }
+  &-qrcode {
+    background-image: url('/assets/qr-code-scan.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 80px;
+    cursor: pointer;
+    background-size: 130px;
+    display: block;
+    &.logo {
+      background-position: left;
+      padding: 20px;
+      display: inline;
+      background-size: 30px;
+    }
+  }
 }

@@ -23,6 +23,8 @@ import { ProducaoEmpresaComponent } from './componets/producao-empresa/producao-
 import { ProducaoFuncionarioComponent } from './componets/producao-funcionario/producao-funcionario.component';
 import { SaidaComponent } from './componets/saida/saida.component';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { IonicModule } from '@ionic/angular';
+import { LeitorQrcodeComponent } from './componets/leitor-qrcode/leitor-qrcode.component';
 
 @NgModule({
   imports: [
@@ -38,7 +40,8 @@ import { NgxSpinnerModule } from "ngx-spinner";
     CustomFormsModule,
     NgbModule,
     QRCodeModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    IonicModule.forRoot()
   ],
   declarations: [
     FinanceiroComponent,
@@ -49,7 +52,8 @@ import { NgxSpinnerModule } from "ngx-spinner";
     CardTotalizadorComponent,
     ProducaoEmpresaComponent,
     ProducaoFuncionarioComponent,
-    SaidaComponent
+    SaidaComponent,
+    LeitorQrcodeComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

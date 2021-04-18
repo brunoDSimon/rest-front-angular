@@ -1,42 +1,28 @@
+<!-- <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      src="../../../../assets/bootstrap-icons-1.2.0/arrow-down-circle-fill.svg"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+
+    </ion-refresher-content>
+  </ion-refresher>
+</ion-content> -->
+
 <div class="container container-centralized" #container>
-    <div class="row">
-        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mb-2">
-            <app-generate-pdf-empresa></app-generate-pdf-empresa>
-        </div>
-        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mb-2">
-            <app-card-totalizador></app-card-totalizador>
-        </div>
-        <!-- <div class="col-6 mb-2">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Title</h5>
-                    <p class="card-text">Content</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-6 mb-2">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Title</h5>
-                    <p class="card-text">Content</p>
-                </div>
-            </div>
-        </div> -->
-        <!-- <div class="col-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Title</h5>
-                    <p class="card-text">Content</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Title</h5>
-                    <p class="card-text">Content</p>
-                </div>
-            </div>
-        </div> -->
-    </div>
+  <div class="row">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mb-2">
+          <app-generate-pdf-empresa></app-generate-pdf-empresa>
+      </div>
+
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mb-2">
+          <app-card-totalizador></app-card-totalizador>
+      </div>
+
+      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-2">
+        <app-leitor-qrcode></app-leitor-qrcode>
+      </div>
+
+  </div>
 </div>

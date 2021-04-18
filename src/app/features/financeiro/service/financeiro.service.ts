@@ -90,10 +90,10 @@ export class FinanceiroService extends Service{
   }
 
   // verificar se empresa é existente
-  public checkCompanie(cnpj: any){
-    return this.http.get(environment.api_url+'companies/verificarCNPJ/'+cnpj).pipe(
+  public checkCompanie(cnpj: any): Observable<any>{
+    return this.http.get<DefaultResponse>(environment.api_url+'companies/verificarCNPJ/'+cnpj).pipe(
       map((res) =>{
-        return Object(res);
+        return this.filter(res);
       },catchError(
         (error: any) => {
           throw this.handleError(error);
@@ -104,7 +104,7 @@ export class FinanceiroService extends Service{
   }
 
   // criar empresa
-  public createCompany(body){
+  public createCompany(body): Observable<any>{
     return this.http.post<DefaultResponse>(environment.api_url+'companies',body,{headers: this.headers}).pipe(
       map((res) =>{
         return this.filter(res);
@@ -116,7 +116,7 @@ export class FinanceiroService extends Service{
       )
     )
   }
-  public updateCompany(id,body){
+  public updateCompany(id,body):Observable<any>{
     return this.http.post<DefaultResponse>(environment.api_url+`companies/update/${id}`,body,{headers: this.headers}).pipe(
       map((res) =>{
         return this.filter(res);

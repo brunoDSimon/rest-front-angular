@@ -6,9 +6,11 @@ import { FinanceiroService } from '../../service/financeiro.service';
 import { CompaniesDataService } from 'src/app/shared/service/CompaniesData.service';
 import { DateFormatPipe } from 'ngx-moment';
 import { CustomValidators } from 'ngx-custom-validators';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { EventEmitterService } from 'src/app/shared/service/event-emitter.service';
 import { ToastrService } from 'ngx-toastr';
+import { Platform } from '@ionic/angular';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { File } from '@ionic-native/file/ngx';
 
 @Component({
   selector: 'app-producao-funcionario',
@@ -20,6 +22,9 @@ export class ProducaoFuncionarioComponent implements OnInit {
   private _date: DateStruct = {
     fromDate: moment().toDate(),
     toDate: moment().toDate(),
+    period: 30,
+    custom: true,
+    label: ''
   };
   private _listUser: any =[];
   private _listCompanies: any =[];
@@ -39,9 +44,18 @@ export class ProducaoFuncionarioComponent implements OnInit {
     private formBuilder: FormBuilder,
     private dateFormatPipe: DateFormatPipe,
     private toastr: ToastrService,
-
+    private file: File,
+    private platform: Platform,
+    private fileOpener: FileOpener
   ) {
     this.crieFormulario();
+    this._date ={
+      fromDate: moment(moment().toDate()).subtract(30, 'days').toDate(),
+      toDate: moment(moment().toDate()).subtract(1, 'days').toDate(),
+      period: 30,
+      custom: true,
+      label: '30 dias'
+    }
    }
 
   ngOnInit(){
@@ -88,6 +102,14 @@ export class ProducaoFuncionarioComponent implements OnInit {
 
   get error(){
     return this._error;
+  }
+
+  get valueFormat (){
+    if (this.formGroup.get('dateFinalNotNul').value) {
+      return 'Itens em aberto'
+    } else {
+      return 'Itens fechados'
+    }
   }
 
   public alterarPeriodo(datas){
@@ -155,12 +177,18 @@ export class ProducaoFuncionarioComponent implements OnInit {
   }
 
   public pdf(res,dateEntry,dateFinal){
+
     const linkSource = 'data:application/pdf;base64,' +`${res}`;
     const downloadLink = document.createElement("a");
     const fileName =`${dateEntry}_a_+${dateFinal}.pdf`;
-    downloadLink.href = linkSource;
-    downloadLink.download = fileName;
-    downloadLink.click();
+    if(this.platform.is('desktop')) {
+      downloadLink.href = linkSource;
+      downloadLink.download = fileName;
+      downloadLink.click();
+    } else {
+      this.saveAndOpenPdf(linkSource, fileName)
+    }
+
     EventEmitterService.get('hideLoader').emit();
   }
 
@@ -179,5 +207,36 @@ export class ProducaoFuncionarioComponent implements OnInit {
       this.toastr.error(`Não foi possivel gerar o pdf ${error}`);
     })
   }
+  convertBase64ToBlob(b64Data, contentType): Blob {
+    contentType = contentType || '';
+    const sliceSize = 512;
+    b64Data = b64Data.replace(/^[^,]+,/, '');
+    b64Data = b64Data.replace(/\s/g, '');
+    const byteCharacters = window.atob(b64Data);
+    const byteArrays = [];
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+         const slice = byteCharacters.slice(offset, offset + sliceSize);
+         const byteNumbers = new Array(slice.length);
+         for (let i = 0; i < slice.length; i++) {
+             byteNumbers[i] = slice.charCodeAt(i);
+         }
+         const byteArray = new Uint8Array(byteNumbers);
+         byteArrays.push(byteArray);
+    }
+   return new Blob(byteArrays, {type: contentType});
+  }
 
+  saveAndOpenPdf(pdf: string, filename: string) {
+    const writeDirectory = this.platform.is('ios') ? this.file.dataDirectory : this.file.externalDataDirectory;
+    this.file.writeFile(writeDirectory, filename, this.convertBase64ToBlob(pdf, 'data:application/pdf;base64'), {replace: true})
+      .then(() => {
+        this.fileOpener.open(writeDirectory + filename, 'application/pdf')
+            .catch(() => {
+                this.toastr.error('Error opening pdf file');
+            });
+      })
+      .catch(() => {
+        this.toastr.error('Error writing pdf file');
+      });
+  }
 }

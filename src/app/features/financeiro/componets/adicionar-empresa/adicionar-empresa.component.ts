@@ -70,7 +70,6 @@ export class AdicionarEmpresaComponent implements OnInit {
 
   public crieFormularioEditar(aux){
     this.formGroup.get('cnpj').setValue(aux.cnpj);
-    this.formGroup.get('cnpj').disable();
     this.formGroup.get('companyName').setValue(aux.companyName);
     this.formGroup.get('telephone').setValue(aux.telephone);
     this.formGroup.get('address').setValue(aux.address);
@@ -86,7 +85,8 @@ export class AdicionarEmpresaComponent implements OnInit {
     EventEmitterService.get('showLoader').emit();
     let cnpj = this.formGroup.get('cnpj').value;
     this.financeiroService.checkCompanie(cnpj).subscribe((response) =>{
-      if (response.data) {
+      console.log(response)
+      if (response) {
         this._nextCreateCompanies = true;
         this.formGroup.get('cnpj').disable();
       } else {

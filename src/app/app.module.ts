@@ -23,6 +23,14 @@ import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { ToastrModule } from 'ngx-toastr';
+import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { RouteReuseStrategy } from '@angular/router';
+// import { RefrashPageComponent } from './shared/componets/refrash-page/refrash-page.component';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { File } from '@ionic-native/file/ngx';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
+import { Platform } from '@ionic/angular';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
 
 registerLocaleData(localePt)
 
@@ -32,7 +40,7 @@ registerLocaleData(localePt)
     LoaderComponent,
     HeaderComponent,
     FooterComponent,
-
+    // RefrashPageComponent
   ],
   imports: [
     FormsModule,
@@ -48,15 +56,28 @@ registerLocaleData(localePt)
     MomentModule,
     WebStorageModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot()
-
+    ToastrModule.forRoot(),
+    IonicModule.forRoot()
+  ],
+  entryComponents: [
+    AppComponent,
+    LoaderComponent,
+    HeaderComponent,
+    FooterComponent,
+    // RefrashPageComponent
   ],
   providers: [
     DateFormatPipe,
     LoginService,
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     {provide: HTTP_INTERCEPTORS, useClass: RefrashTokenInterceptor, multi: true },
-    { provide: LOCALE_ID, useValue: 'pt'}
+    { provide: LOCALE_ID, useValue: 'pt'},
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    BarcodeScanner,
+    FileTransfer,
+    File,
+    Platform,
+    FileOpener
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]

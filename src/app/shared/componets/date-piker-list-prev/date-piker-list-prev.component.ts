@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, HostListener } from '@angular/core';
 import { NgbDate, NgbCalendar, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import {DateStruct} from '../../models/date-struct.model';
 import * as moment from 'moment';
@@ -9,6 +9,8 @@ import * as moment from 'moment';
   styleUrls: ['./date-piker-list-prev.component.scss']
 })
 export class DatePikerListPrevComponent implements OnInit {
+  private _numberDisplay: number = 2;
+  private sizeWidth: any;
   private _valuesDates: any = [
     {label: '7 Dias', value: 7},
     {label: '15 Dias', value: 15},
@@ -18,9 +20,11 @@ export class DatePikerListPrevComponent implements OnInit {
   private _currentPeriodo: string = '';
 
   @Input('init') valoresIniciais: DateStruct;
-  @Output() alterarPeriodo: EventEmitter<any> = new EventEmitter();
+  @Output() alterarPeriodo = new EventEmitter();
 
   ngOnInit() {
+    this.sizeWidth  = window.innerWidth;
+    this.setNumber(this.sizeWidth);
     this._date;
     console.log(this._date)
   }
@@ -36,11 +40,17 @@ export class DatePikerListPrevComponent implements OnInit {
     return this._currentPeriodo;
   }
 
+  get numberDisplay() {
+    return this._numberDisplay;
+  }
 
   hoveredDate: NgbDate = null;
   private _date: DateStruct = {
     fromDate: moment().toDate(),
-    toDate: moment().toDate()
+    toDate: moment().toDate(),
+    period: 1,
+    custom: false,
+    label: ''
   }
 
   public fromDate: NgbDate;
@@ -95,21 +105,72 @@ export class DatePikerListPrevComponent implements OnInit {
     return parsed && this.calendar.isValid(NgbDate.from(parsed)) ? NgbDate.from(parsed) : currentValue;
   }
 
-  public alterar15dias(event) {
-    event.preventDefault();
-    this._currentPeriodo = '15 Dias'
-    this._date.fromDate = moment(moment().toDate()).subtract(15, 'days').toDate();
-    this._date.toDate = moment(moment().toDate()).subtract(1, 'days').toDate();
-    this.alterarPeriodo.emit(this._date);
-    this._date;
+
+
+  public periodoHoje(valor) {
+    valor.preventDefault();
+    const hoje ={
+     fromDate: moment().toDate(),
+     toDate:   moment().toDate(),
+     periodo:  1,
+     custom:   false,
+     label:    'HOJE'
+    }
+    this.alterarPeriodo.emit(hoje);
+    this._date = hoje;
+  }
+  public alterar7dias(valor) {
+    valor.preventDefault();
+    const ultimos7ias ={
+      fromDate: moment(moment().toDate()).subtract(6, 'days').toDate(),
+      toDate:   moment().toDate(),
+      periodo:  1,
+      custom:   false,
+      label:    '7 DIAS'
+     }
+     this.alterarPeriodo.emit(ultimos7ias);
+     this._date = ultimos7ias;
   }
 
-  public periodo(i) {
-    console.log(i.value)
-    this._date.fromDate = moment(moment().toDate()).subtract(i.value, 'days').toDate();
-    this._date.toDate = moment(moment().toDate()).subtract(1, 'days').toDate();
-    console.log(this._date);
+  public alterar15dias(valor) {
+    valor.preventDefault();
+    const periodo15dias ={
+      fromDate: moment(moment().toDate()).subtract(14, 'days').toDate(),
+      toDate:   moment().toDate(),
+      periodo:  1,
+      custom:   false,
+      label:    '15 DIAS'
+     }
+     this.alterarPeriodo.emit(periodo15dias);
+     this._date = periodo15dias;
   }
+
+  public alterar30dias(valor) {
+    valor.preventDefault();
+    const periodo30dias ={
+      fromDate: moment(moment().toDate()).subtract(29, 'days').toDate(),
+      toDate:   moment().toDate(),
+      periodo:  1,
+      custom:   false,
+      label:    '30 DIAS'
+     }
+     this.alterarPeriodo.emit(periodo30dias);
+     this._date = periodo30dias;
+  }
+  public setNumber(i) {
+    if (i >= 700) {
+      this._numberDisplay = 2;
+    } else {
+      this._numberDisplay = 1;
+    }
+  }
+
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+      this.sizeWidth  = window.innerWidth;
+      this.setNumber(this.sizeWidth);
+    }
+
 
 }
 

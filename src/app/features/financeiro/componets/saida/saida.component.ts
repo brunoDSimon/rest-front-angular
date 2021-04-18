@@ -6,6 +6,7 @@ import { CompaniesDataService } from 'src/app/shared/service/CompaniesData.servi
 import { DateFormatPipe } from 'ngx-moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EventEmitterService } from 'src/app/shared/service/event-emitter.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-saida',
@@ -28,7 +29,7 @@ export class SaidaComponent implements OnInit {
     private formBuilder: FormBuilder,
     private dateFormatPipe: DateFormatPipe,
     private companiesData: CompaniesDataService,
-    private spinner: NgxSpinnerService
+    private toastr: ToastrService,
     ) { }
 
   ngOnInit() {
@@ -91,15 +92,13 @@ export class SaidaComponent implements OnInit {
 
   }
 
-  public init(){
+  public async init(){
     this.route.params.subscribe( parametros => {
       if (parametros['id']) {
         console.log(parametros.id)
         console.log()
         if(typeof parametros.id != 'undefined'){
           this.getListUser();
-          this.getListCompanies();
-          this.getTalao(parametros.id)
           this._idTalao = parametros.id
         }else{
           console.log('informado nao foi incontrado')
@@ -114,7 +113,8 @@ export class SaidaComponent implements OnInit {
     this.financeiroService.getUser().subscribe((res) =>{
       this._listUser = res.user;
       console.log(this._listUser);
-      EventEmitterService.get('hideLoader').emit();
+      this.getListCompanies();
+      setTimeout(() => {EventEmitterService.get('hideLoader').emit();}, 1000);
     }, (err) => {
       this._error = err.message;
       EventEmitterService.get('hideLoader').emit();
@@ -127,7 +127,8 @@ export class SaidaComponent implements OnInit {
     EventEmitterService.get('showLoader').emit();
     this.financeiroService.getCompanies().subscribe((res) =>{
       this._listCompanies =res.companies;
-      EventEmitterService.get('hideLoader').emit();
+      this.getTalao(this._idTalao)
+      setTimeout(() => {EventEmitterService.get('hideLoader').emit();}, 1000);
     }, (err) => {
       EventEmitterService.get('hideLoader').emit();
       this.ngbAlert.msg = err
@@ -161,12 +162,10 @@ export class SaidaComponent implements OnInit {
     }
     console.log(body)
     this.financeiroService.updateTalao(this._idTalao, body).subscribe((res) =>{
-      this.ngbAlert.msg = 'Alterado com sucesso!'
-      this.ngbAlert.type = 'success';
+      this.toastr.success('Alterado com sucesso!', 'Baixa dada com sucesso!')
       setTimeout(() => {EventEmitterService.get('hideLoader').emit();}, 500);
     },(erro: Error) =>{
-      this.ngbAlert.msg = erro
-      this.ngbAlert.type = 'danger';
+      this.toastr.error('Não foi possivel dar baixar caso persista contate o suporte', `Não foi possivel dar baixa` )
       setTimeout(() => {EventEmitterService.get('hideLoader').emit();}, 500);
     })
   }
