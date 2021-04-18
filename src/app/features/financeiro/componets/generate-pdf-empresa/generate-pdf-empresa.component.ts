@@ -6,7 +6,11 @@ import { FinanceiroService } from '../../service/financeiro.service';
 import * as moment from 'moment';
 import { DateStruct } from 'src/app/shared/models/date-struct.model';
 import {EventEmitterService} from 'src/app/shared/service/event-emitter.service'
-import { NgxSpinnerService } from 'ngx-spinner';
+import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer/ngx';
+import { File } from '@ionic-native/file/ngx';
+import { Platform } from '@ionic/angular';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-generate-pdf-empresa',
@@ -32,7 +36,11 @@ export class GeneratePdfEmpresaComponent implements OnInit {
     private companiesData: CompaniesDataService,
     private formBuilder: FormBuilder,
     private dateFormatPipe: DateFormatPipe,
-    private spinner: NgxSpinnerService
+    private transfer: FileTransfer,
+    private file: File,
+    private platform: Platform,
+    private fileOpener: FileOpener,
+    private toastr: ToastrService,
   ) {
     this._date ={
       fromDate: moment(moment().toDate()).subtract(30, 'days').toDate(),
@@ -105,18 +113,54 @@ export class GeneratePdfEmpresaComponent implements OnInit {
     console.log(dateEntry, dateFinal, companyID, 'pdf empresa');
     this.financeiroService.getPdf(dateEntry, dateFinal,companyID).subscribe((res) =>{
       const linkSource = 'data:application/pdf;base64,' +`${res.base64}`;
-      const downloadLink = document.createElement("a");
-      const fileName = `${this.formGroup.get('companyID').value.companyName}.pdf`;
-      downloadLink.href = linkSource;
-      downloadLink.download = fileName;
-      downloadLink.click();
+        const fileName = `${this.formGroup.get('companyID').value.companyName}.pdf`;
+      if(this.platform.is('desktop')) {
+        const downloadLink = document.createElement("a");
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+      } else {
+        this.saveAndOpenPdf(linkSource, fileName)
+      }
       setTimeout(() => {EventEmitterService.get('hideLoader').emit();}, 500);
     },(error) =>{
-      this._error = error.message;
-      this._typeError = 'danger'
+      this.toastr.error('Não foi possivel gerar download')
       console.log(error);
       setTimeout(() => {EventEmitterService.get('hideLoader').emit();}, 500);
     })
+  }
+
+  convertBase64ToBlob(b64Data, contentType): Blob {
+    contentType = contentType || '';
+    const sliceSize = 512;
+    b64Data = b64Data.replace(/^[^,]+,/, '');
+    b64Data = b64Data.replace(/\s/g, '');
+    const byteCharacters = window.atob(b64Data);
+    const byteArrays = [];
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+         const slice = byteCharacters.slice(offset, offset + sliceSize);
+         const byteNumbers = new Array(slice.length);
+         for (let i = 0; i < slice.length; i++) {
+             byteNumbers[i] = slice.charCodeAt(i);
+         }
+         const byteArray = new Uint8Array(byteNumbers);
+         byteArrays.push(byteArray);
+    }
+   return new Blob(byteArrays, {type: contentType});
+  }
+
+  saveAndOpenPdf(pdf: string, filename: string) {
+    const writeDirectory = this.platform.is('ios') ? this.file.dataDirectory : this.file.externalDataDirectory;
+    this.file.writeFile(writeDirectory, filename, this.convertBase64ToBlob(pdf, 'data:application/pdf;base64'), {replace: true})
+      .then(() => {
+        this.fileOpener.open(writeDirectory + filename, 'application/pdf')
+            .catch(() => {
+                this.toastr.error('Error opening pdf file');
+            });
+      })
+      .catch(() => {
+        this.toastr.error('Error writing pdf file');
+      });
   }
 
 }

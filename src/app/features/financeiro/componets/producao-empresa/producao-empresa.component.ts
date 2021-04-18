@@ -8,6 +8,9 @@ import html2canvas from 'html2canvas';
 import html2PDF from 'jspdf-html2canvas';
 import { EventEmitterService } from 'src/app/shared/service/event-emitter.service';
 import { ToastrService } from 'ngx-toastr';
+import { Platform } from '@ionic/angular';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { File } from '@ionic-native/file/ngx';
 
 @Component({
   selector: 'app-producao-empresa',
@@ -51,6 +54,9 @@ export class ProducaoEmpresaComponent implements OnInit {
     private toastr: ToastrService,
     private renderer: Renderer2,
     private elementRef: ElementRef,
+    private file: File,
+    private platform: Platform,
+    private fileOpener: FileOpener,
   ) {
     this.crieFormulario();
     this._date ={
@@ -205,11 +211,16 @@ export class ProducaoEmpresaComponent implements OnInit {
     this.financeiroService.getPdf(dateEntry, dateFinal,companyID).subscribe((res) =>{
 
      const linkSource = 'data:application/pdf;base64,' +`${res.base64}`;
-     const downloadLink = document.createElement("a");
      const fileName = 'relatorio_de_pagamento.pdf';
-     downloadLink.href = linkSource;
-     downloadLink.download = fileName;
-     downloadLink.click();
+
+     if(this.platform.is('desktop')) {
+      const downloadLink = document.createElement("a");
+      downloadLink.href = linkSource;
+      downloadLink.download = fileName;
+      downloadLink.click();
+     } else {
+      this.saveAndOpenPdf(linkSource, fileName)
+     }
      EventEmitterService.get('hideLoader').emit();
 
     },(error) =>{
@@ -235,49 +246,54 @@ export class ProducaoEmpresaComponent implements OnInit {
   }
 
   public downloadImage() {
-    const defaultOptions = {
-      jsPDF: {
-        unit: 'px',
-        format: 'a4',
-      },
-      html2canvas: {
-        imageTimeout: 15000,
-        logging: true,
-        useCORS: false,
-      },
-      imageType: 'image/jpeg',
-      imageQuality: 1,
-      margin: {
-        top: 0,
-        right: 5,
-        bottom: 0,
-        left: 5,
-      },
-      output: 'jspdf-generate.pdf',
-      init: function() {},
-      success: function(pdf) {
-        var blob = pdf.output();
-        window.open(URL.createObjectURL(blob));
-        // pdf.save(this.output);
+    if(this.platform.is('desktop')) {
+      const defaultOptions = {
+        jsPDF: {
+          unit: 'px',
+          format: 'a4',
+        },
+        html2canvas: {
+          imageTimeout: 15000,
+          logging: true,
+          useCORS: false,
+        },
+        imageType: 'image/jpeg',
+        imageQuality: 1,
+        margin: {
+          top: 0,
+          right: 5,
+          bottom: 0,
+          left: 5,
+        },
+        // output: 'jspdf-generate.pdf',
+        // init: function() {},
+        // success: function(pdf) {
+        //   var blob = pdf.output();
+        //   window.open(URL.createObjectURL(blob));
+        // }
       }
+      EventEmitterService.get('showLoader').emit();
+      html2PDF(this.screen.nativeElement, {
+        defaultOptions
+      })
+    } else {
+      html2canvas(this.screen.nativeElement,{
+        scale:3,
+        width: 800
+      }).then(canvas => {
+        const parts = canvas.toDataURL('image/png').split(',')
+        const linkSource = 'data:image/png;base64,' +`${parts[1]}`;
+        const downloadLink = document.createElement("a");
+        const fileName = `teste.pdf`;
+        // downloadLink.href = linkSource;
+        // downloadLink.download = fileName;
+        // downloadLink.click();
+        this.saveAndOpenPdf(linkSource, fileName)
+        EventEmitterService.get('hideLoader').emit();
+      });
     }
-    EventEmitterService.get('showLoader').emit();
-    // html2canvas(this.screen.nativeElement,{
-    //   scale:3,
-    //   width: 800
-    // }).then(canvas => {
-    //   const parts = canvas.toDataURL('image/png').split(',')
-    //   const linkSource = 'data:image/png;base64,' +`${parts[1]}`;
-    //   const downloadLink = document.createElement("a");
-    //   const fileName = `teste.png`;
-    //   downloadLink.href = linkSource;
-    //   downloadLink.download = fileName;
-    //   downloadLink.click();
-    //   EventEmitterService.get('hideLoader').emit();
-    // });
-    html2PDF(this.screen.nativeElement, {
-      defaultOptions
-    });
+
+
     EventEmitterService.get('hideLoader').emit();
     this._showSize = false;
 
@@ -292,6 +308,38 @@ export class ProducaoEmpresaComponent implements OnInit {
   getCustomeWidth() {
     const customeWidth = '1200px';
     return customeWidth;
+  }
+  convertBase64ToBlob(b64Data, contentType): Blob {
+    contentType = contentType || '';
+    const sliceSize = 512;
+    b64Data = b64Data.replace(/^[^,]+,/, '');
+    b64Data = b64Data.replace(/\s/g, '');
+    const byteCharacters = window.atob(b64Data);
+    const byteArrays = [];
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+         const slice = byteCharacters.slice(offset, offset + sliceSize);
+         const byteNumbers = new Array(slice.length);
+         for (let i = 0; i < slice.length; i++) {
+             byteNumbers[i] = slice.charCodeAt(i);
+         }
+         const byteArray = new Uint8Array(byteNumbers);
+         byteArrays.push(byteArray);
+    }
+   return new Blob(byteArrays, {type: contentType});
+  }
+
+  saveAndOpenPdf(pdf: string, filename: string) {
+    const writeDirectory = this.platform.is('ios') ? this.file.dataDirectory : this.file.externalDataDirectory;
+    this.file.writeFile(writeDirectory, filename, this.convertBase64ToBlob(pdf, 'data:application/pdf;base64'), {replace: true})
+      .then(() => {
+        this.fileOpener.open(writeDirectory + filename, 'application/pdf')
+            .catch(() => {
+                this.toastr.error('Error opening pdf file');
+            });
+      })
+      .catch(() => {
+        this.toastr.error('Error writing pdf file');
+      });
   }
 }
 
