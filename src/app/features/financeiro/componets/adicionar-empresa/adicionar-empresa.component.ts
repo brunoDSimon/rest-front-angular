@@ -85,7 +85,8 @@ export class AdicionarEmpresaComponent implements OnInit {
     EventEmitterService.get('showLoader').emit();
     let cnpj = this.formGroup.get('cnpj').value;
     this.financeiroService.checkCompanie(cnpj).subscribe((response) =>{
-      if (response.data) {
+      console.log(response)
+      if (response) {
         this._nextCreateCompanies = true;
         this.formGroup.get('cnpj').disable();
       } else {
