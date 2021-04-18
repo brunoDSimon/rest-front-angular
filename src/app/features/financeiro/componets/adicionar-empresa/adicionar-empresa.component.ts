@@ -70,7 +70,6 @@ export class AdicionarEmpresaComponent implements OnInit {
 
   public crieFormularioEditar(aux){
     this.formGroup.get('cnpj').setValue(aux.cnpj);
-    this.formGroup.get('cnpj').disable();
     this.formGroup.get('companyName').setValue(aux.companyName);
     this.formGroup.get('telephone').setValue(aux.telephone);
     this.formGroup.get('address').setValue(aux.address);

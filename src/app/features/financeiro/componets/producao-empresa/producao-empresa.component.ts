@@ -205,7 +205,7 @@ export class ProducaoEmpresaComponent implements OnInit {
   }
 
   public url(aux){
-    let url = `https://frontend-empresa.herokuapp.com/saida/${aux}`
+    let url = `/financeiro/saida/${aux}`
     return url
   }
 

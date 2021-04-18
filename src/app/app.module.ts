@@ -25,7 +25,8 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { ToastrModule } from 'ngx-toastr';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { RouteReuseStrategy } from '@angular/router';
-import { RefrashPageComponent } from './shared/componets/refrash-page/refrash-page.component';
+// import { RefrashPageComponent } from './shared/componets/refrash-page/refrash-page.component';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 
 registerLocaleData(localePt)
 
@@ -35,7 +36,7 @@ registerLocaleData(localePt)
     LoaderComponent,
     HeaderComponent,
     FooterComponent,
-    RefrashPageComponent
+    // RefrashPageComponent
   ],
   imports: [
     FormsModule,
@@ -59,7 +60,7 @@ registerLocaleData(localePt)
     LoaderComponent,
     HeaderComponent,
     FooterComponent,
-    RefrashPageComponent
+    // RefrashPageComponent
   ],
   providers: [
     DateFormatPipe,
@@ -67,7 +68,9 @@ registerLocaleData(localePt)
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     {provide: HTTP_INTERCEPTORS, useClass: RefrashTokenInterceptor, multi: true },
     { provide: LOCALE_ID, useValue: 'pt'},
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    BarcodeScanner
+
 
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -24,6 +24,7 @@ import { ProducaoFuncionarioComponent } from './componets/producao-funcionario/p
 import { SaidaComponent } from './componets/saida/saida.component';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { IonicModule } from '@ionic/angular';
+import { LeitorQrcodeComponent } from './componets/leitor-qrcode/leitor-qrcode.component';
 
 @NgModule({
   imports: [
@@ -51,7 +52,8 @@ import { IonicModule } from '@ionic/angular';
     CardTotalizadorComponent,
     ProducaoEmpresaComponent,
     ProducaoFuncionarioComponent,
-    SaidaComponent
+    SaidaComponent,
+    LeitorQrcodeComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
