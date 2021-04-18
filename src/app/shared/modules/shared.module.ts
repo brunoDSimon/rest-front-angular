@@ -10,6 +10,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { MessengerDadosComponent } from '../componets/messenger-dados/messenger-dados.component';
 import { MessengerErrorComponent } from '../componets/messenger-error/messenger-error.component';
 import { DatePikerListPrevComponent } from '../componets/date-piker-list-prev/date-piker-list-prev.component'
+import { BreadcrumbComponent } from '../componets/breadcrumb/breadcrumb.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -26,12 +27,14 @@ import { DatePikerListPrevComponent } from '../componets/date-piker-list-prev/da
     MessengerDadosComponent,
     MessengerErrorComponent,
     DatePikerListPrevComponent,
+    BreadcrumbComponent
   ],
   exports:[
     DatePikerComponent,
     MessengerDadosComponent,
     MessengerErrorComponent,
     DatePikerListPrevComponent,
+    BreadcrumbComponent
   ],
   providers:[
 

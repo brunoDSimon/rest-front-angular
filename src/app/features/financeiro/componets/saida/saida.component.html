@@ -3,6 +3,7 @@
     <div class="col-12">
       <div class="card">
         <div class="card-body">
+          <app-breadcrumb></app-breadcrumb>
           <h5 class="card-title font-weight-bold">Saida de produto</h5>
           <form [formGroup]="formGroup" class="form-group" (ngSubmit)="update()">
             <div class="row">
@@ -53,8 +54,8 @@
 
                 <div class="col-12 mt-2">
                   <button class="btn btn-outline-success" type="submit" [disabled]="!formGroup.valid">ALTERAR</button>
+                  <button class="btn btn-outline-danger float-right" type="submit" [routerLink]="['/financeiro']"   >VOLTAR</button>
                 </div>
-
               </div>
             </div>
           </form>

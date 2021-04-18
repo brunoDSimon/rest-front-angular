@@ -1,0 +1,5 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item" aria-current="page" *ngFor="let aux of urlDestinos; index as i" (click)="redirect(i)">{{aux.label}}</li>
+  </ol>
+</nav>

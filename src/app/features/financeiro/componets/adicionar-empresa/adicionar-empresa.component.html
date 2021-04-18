@@ -3,6 +3,8 @@
     <div class="col-12">
       <div class="card ">
         <div class="card-body">
+        <app-breadcrumb></app-breadcrumb>
+
             <div class="col-12">
               <button class="btn btn-success mb-2" (click)="openCreate();" *ngIf="!createCompany">Adicionar nova empresa</button>
               <button class="btn btn-success mb-2" (click)="openCreate(); resetAll();" *ngIf="createCompany">Ver empresa cadastradas</button>
