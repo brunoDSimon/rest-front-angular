@@ -1,0 +1,76 @@
+<div class="col-12" *ngIf="dados.length">
+  <div class="card mb-2" *ngFor="let aux of dados">
+      <div class="card-body">
+          <div class="row text-sm">
+              <div class="col-xl-3 col-lg-3">
+                  <div class="col-12 font-weight-bold">
+                      Solicitante
+                  </div>
+                  <div class="col-12">
+                      {{aux?.companies?.companyName}}
+                  </div>
+              </div>
+
+              <div class="col-xl-3 col-lg-3">
+                  <div class="col-12 font-weight-bold">
+                      Cortador
+                  </div>
+                  <div class="col-12">
+                      {{aux.users.name}}
+                  </div>
+              </div>
+
+              <div class="col-xl-3 col-lg-3">
+                  <div class="col-12 font-weight-bold">
+                      Referencia
+                  </div>
+                  <div class="col-12">
+                      {{aux.reference}}
+                  </div>
+              </div>
+
+              <div class="col-xl-3 col-lg-3 ">
+                  <div class="col-12 font-weight-bold">
+                      Talão
+                  </div>
+                  <div class="col-12">
+                      {{aux.patch}}
+                  </div>
+              </div>
+              <hr>
+              <div class="col-xl-3 col-lg-3">
+                  <div class="col-12 font-weight-bold">
+                      quantidade
+                  </div>
+                  <div class="col-12 text-success">
+                      {{aux.amount}}
+                  </div>
+              </div>
+              <div class="col-xl-3 col-lg-3">
+                  <div class="col-12 font-weight-bold">
+                      Valor
+                  </div>
+                  <div class="col-12 text-success">
+                      {{aux.value | reais}}
+                  </div>
+              </div>
+              <div class="col-xl-3 col-lg-3 ">
+                  <div class="col-12 font-weight-bold">
+                      Valor a receber
+                  </div>
+                  <div class="col-12 text-danger">
+                      {{aux.valueTotal | reais}}
+                  </div>
+              </div>
+              <div class="col-3">
+                  <div class="col-12 font-weight-bold">
+                      Data Entrada
+                  </div>
+                  <div class="col-12">
+                      {{aux.dateEntry | date:'dd/MM/yyy'}}
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

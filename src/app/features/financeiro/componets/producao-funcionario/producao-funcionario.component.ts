@@ -20,6 +20,9 @@ export class ProducaoFuncionarioComponent implements OnInit {
   private _date: DateStruct = {
     fromDate: moment().toDate(),
     toDate: moment().toDate(),
+    period: 30,
+    custom: true,
+    label: ''
   };
   private _listUser: any =[];
   private _listCompanies: any =[];
@@ -42,6 +45,13 @@ export class ProducaoFuncionarioComponent implements OnInit {
 
   ) {
     this.crieFormulario();
+    this._date ={
+      fromDate: moment(moment().toDate()).subtract(30, 'days').toDate(),
+      toDate: moment(moment().toDate()).subtract(1, 'days').toDate(),
+      period: 30,
+      custom: true,
+      label: '30 dias'
+    }
    }
 
   ngOnInit(){
@@ -88,6 +98,14 @@ export class ProducaoFuncionarioComponent implements OnInit {
 
   get error(){
     return this._error;
+  }
+
+  get valueFormat (){
+    if (this.formGroup.get('dateFinalNotNul').value) {
+      return 'Itens em aberto'
+    } else {
+      return 'Itens fechados'
+    }
   }
 
   public alterarPeriodo(datas){

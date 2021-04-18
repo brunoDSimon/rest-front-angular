@@ -11,6 +11,8 @@ import { MessengerDadosComponent } from '../componets/messenger-dados/messenger-
 import { MessengerErrorComponent } from '../componets/messenger-error/messenger-error.component';
 import { DatePikerListPrevComponent } from '../componets/date-piker-list-prev/date-piker-list-prev.component'
 import { BreadcrumbComponent } from '../componets/breadcrumb/breadcrumb.component';
+import { ListaProducaoComponent } from '../componets/lista-producao/lista-producao.component';
+import { ListaProducaoResponsiveComponent } from '../componets/lista-producao-responsive/lista-producao-responsive.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -27,14 +29,19 @@ import { BreadcrumbComponent } from '../componets/breadcrumb/breadcrumb.componen
     MessengerDadosComponent,
     MessengerErrorComponent,
     DatePikerListPrevComponent,
-    BreadcrumbComponent
+    BreadcrumbComponent,
+    ListaProducaoComponent,
+    ListaProducaoResponsiveComponent
   ],
   exports:[
     DatePikerComponent,
     MessengerDadosComponent,
     MessengerErrorComponent,
     DatePikerListPrevComponent,
-    BreadcrumbComponent
+    BreadcrumbComponent,
+    ListaProducaoComponent,
+    ListaProducaoResponsiveComponent
+
   ],
   providers:[
 

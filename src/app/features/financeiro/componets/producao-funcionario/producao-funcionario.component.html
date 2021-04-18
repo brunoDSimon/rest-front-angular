@@ -4,13 +4,14 @@
       <div class="col-12">
           <form [formGroup]="formGroup" class="form-group " (ngSubmit)="getProducao()">
               <div class="row">
-                  <div class="col-xl-5">
-                      <app-date-piker
-                      [init]="init"
-                      (alterarPeriodo)="alterarPeriodo($event)"
-                      ></app-date-piker>
+                  <div class="col-xl-2 col-lg-2 col-md-6 col-sm-6 col-5 align-self-center">
+                    <app-date-piker-list-prev
+                    [init]="init"
+                    class="float-left"
+                    (alterarPeriodo)="alterarPeriodo($event)"
+                    ></app-date-piker-list-prev>
                   </div>
-                  <div class="col-xl-2">
+                  <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-7 align-self-center">
                       <select class="custom-select" formControlName="userID" >
                           <option
                           *ngFor="let aux of listUser"
@@ -20,7 +21,7 @@
                           </option>
                       </select>
                   </div>
-                  <div class="col-xl-2">
+                  <div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-4 align-self-center">
                     <input
                     maxlength="5"
                     class="custom-select"
@@ -30,27 +31,28 @@
                     [options]="{ prefix: '', thousands: '', decimal: '.', aling: 'rigth', suffix: ' %', allowNegatve:false}"
                     >
                   </div>
-                  <div class="col-xl-1 col-lg-1 col-md-2 col-sm-2 col-6 align-self-center">
+                  <div class="col-xl-2 col-lg-2 col-md-4 col-sm-5 col-4 align-self-center">
+                    <div class="text-muted text-xs">{{valueFormat}}</div>
                     <label class="switch">
                       <input type="checkbox" formControlName="dateFinalNotNul" >
                       <span class="slider round"></span>
                     </label>
                   </div>
-                  <div class="col-xl-1">
-                    <button class="btn btn-info text-right" [disabled]="!formGroup.valid"  type="submit">PESQUISAR</button>
+                  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-3 col-4 align-self-center px-0">
+                    <button class="btn btn-info " [disabled]="!formGroup.valid"  type="submit">PESQUISAR</button>
                   </div>
               </div>
           </form>
       </div>
       <div class="col-12">
         <div class="row">
-          <div class="col-4">
+          <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
             <div class="font-weight-bold h5">Quantidade total Bolsas: {{totalBolsas}}</div>
           </div>
-          <div class="col-4">
+          <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
             <div class="font-weight-bold h5">Valor total: {{valorTotal  | reais}}</div>
           </div>
-          <div class="col-4">
+          <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
             <div class="font-weight-bold h5"> porcentagem desconto: {{totalDescont  | percent}}</div>
           </div>
           <div class="col-12" *ngIf="listProducao.length">
@@ -58,84 +60,14 @@
           </div>
         </div>
       </div>
-      <div class="col-12" *ngIf="listProducao.length">
-        <div class="card mb-2" *ngFor="let aux of listProducao">
-            <div class="card-body">
-                <div class="row text-sm">
-                    <div class="col-3">
-                        <div class="col-12 font-weight-bold">
-                            Solicitante
-                        </div>
-                        <div class="col-12">
-                            {{aux?.companies?.companyName}}
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="col-12 font-weight-bold">
-                            Cortador
-                        </div>
-                        <div class="col-12">
-                            {{aux.users.name}}
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="col-12 font-weight-bold">
-                            Referencia
-                        </div>
-                        <div class="col-12">
-                            {{aux.reference}}
-                        </div>
-                    </div>
-                    <div class="col-3 ">
-                        <div class="col-12 font-weight-bold">
-                            Talão
-                        </div>
-                        <div class="col-12">
-                            {{aux.patch}}
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="col-3">
-                        <div class="col-12 font-weight-bold">
-                            quantidade
-                        </div>
-                        <div class="col-12 text-success">
-                            {{aux.amount}}
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="col-12 font-weight-bold">
-                            Valor
-                        </div>
-                        <div class="col-12 text-success">
-                            {{aux.value | reais}}
-                        </div>
-                    </div>
-                    <div class="col-3 ">
-                        <div class="col-12 font-weight-bold">
-                            Valor a receber
-                        </div>
-                        <div class="col-12 text-danger">
-                            {{aux.valueTotal | reais}}
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="col-12 font-weight-bold">
-                            Data Entrada
-                        </div>
-                        <div class="col-12">
-                            {{aux.dateEntry | date:'dd/MM/yyy'}}
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div class="row">
+        <div class="col-12">
+          <app-lista-producao            [dados]="listProducao" class="container-responsive-lg-none"></app-lista-producao>
+          <app-lista-producao-responsive [dados]="listProducao" class="container-responsive-md-none"></app-lista-producao-responsive>
         </div>
       </div>
       <div class="col-12" *ngIf="!listProducao.length">
         <app-messenger-dados></app-messenger-dados>
       </div>
   </div>
-  <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
-    <p style="font-size: 20px; color: white">Loading...</p>
-  </ngx-spinner>
 </div>

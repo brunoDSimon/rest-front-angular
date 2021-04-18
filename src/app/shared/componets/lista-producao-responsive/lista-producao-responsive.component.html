@@ -1,0 +1,65 @@
+<div class="col-12" *ngIf="dados.length">
+  <div class="card mb-2 text-xs font-weight-bolder" *ngFor="let aux of dados">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-4 align-self-center">
+          <div class="row">
+            <div class="col-12">Solicitante</div>
+            <div class="col-12">{{aux?.companies?.companyName}}</div>
+          </div>
+        </div>
+
+        <div class="col-4 align-self-center">
+          <div class="row">
+            <div class="col-12">Cortador</div>
+            <div class="col-12">{{aux.users.name}}</div>
+          </div>
+        </div>
+
+        <div class="col-4 align-self-center">
+          <div class="row">
+            <div class="col-12">Referencia</div>
+            <div class="col-12">{{aux.reference}}</div>
+          </div>
+        </div>
+
+        <div class="col-4 align-self-center">
+          <div class="row">
+            <div class="col-12">Talão</div>
+            <div class="col-12">{{aux.patch}}</div>
+          </div>
+        </div>
+
+        <div class="col-4 align-self-center">
+          <div class="row">
+            <div class="col-12">quantidade</div>
+            <div class="col-12">{{aux.amount}}</div>
+          </div>
+        </div>
+
+        <div class="col-4 align-self-center">
+          <div class="row">
+            <div class="col-12">Valor</div>
+            <div class="col-12">{{aux.value | reais}}</div>
+          </div>
+        </div>
+
+        <div class="col-6 align-self-center">
+          <div class="row">
+            <div class="col-12">Valor a receber</div>
+            <div class="col-12">{{aux.valueTotal | reais}}</div>
+          </div>
+        </div>
+
+        <div class="col-6 align-self-center">
+          <div class="row">
+            <div class="col-12">Data Entrada</div>
+            <div class="col-12">{{aux.dateEntry | date:'dd/MM/yyy'}}</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

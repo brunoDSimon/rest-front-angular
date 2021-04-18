@@ -23,6 +23,9 @@ export class ProducaoEmpresaComponent implements OnInit {
   private _date: DateStruct = {
     fromDate: moment().toDate(),
     toDate: moment().toDate(),
+    period: 30,
+    custom: true,
+    label: ''
   };
   private _listUser: any = [];
   private _listCompanies: any = [];
@@ -48,12 +51,20 @@ export class ProducaoEmpresaComponent implements OnInit {
     private toastr: ToastrService,
     private renderer: Renderer2,
     private elementRef: ElementRef,
-  ) {}
+  ) {
+    this.crieFormulario();
+    this._date ={
+      fromDate: moment(moment().toDate()).subtract(30, 'days').toDate(),
+      toDate: moment(moment().toDate()).subtract(1, 'days').toDate(),
+      period: 30,
+      custom: true,
+      label: '30 dias'
+    }
+  }
 
   ngOnInit() {
     this.sizeWidth  = window.innerWidth;
     this.sizeHeigth = window.innerHeight;
-    this.crieFormulario();
     this.getListCompanies();
     this.getListUser();
   }
@@ -111,11 +122,20 @@ export class ProducaoEmpresaComponent implements OnInit {
     return this.formGroup.get('dateFinalNotNul').value
   }
 
+  get valueFormat (){
+    if (this.formGroup.get('dateFinalNotNul').value) {
+      return 'Itens em aberto'
+    } else {
+      return 'Itens fechados'
+    }
+  }
+
   get showSize() {
     return this._showSize;
   }
 
   public alterarPeriodo(datas){
+    console.log(datas)
     this._date = datas
   }
 
@@ -145,7 +165,6 @@ export class ProducaoEmpresaComponent implements OnInit {
   }
   public getListCompanies(){
     EventEmitterService.get('showLoader').emit();
-
     this.financeiroService.getCompanies().subscribe((res) =>{
       this._listCompanies =res.companies;
       EventEmitterService.get('hideLoader').emit();

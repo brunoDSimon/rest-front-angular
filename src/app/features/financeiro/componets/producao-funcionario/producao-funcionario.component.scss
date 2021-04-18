@@ -56,3 +56,14 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+.container-responsive-md-none {
+  @media (min-width: 769px) {
+    display: none !important;
+  }
+}
+.container-responsive-lg-none {
+  @media (max-width: 768px) {
+    display: none !important;
+  }
+}
