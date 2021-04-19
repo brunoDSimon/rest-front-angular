@@ -106,9 +106,9 @@ export class ProducaoFuncionarioComponent implements OnInit {
 
   get valueFormat (){
     if (this.formGroup.get('dateFinalNotNul').value) {
-      return 'Itens em aberto'
-    } else {
       return 'Itens fechados'
+    } else {
+      return 'Itens em aberto'
     }
   }
 
