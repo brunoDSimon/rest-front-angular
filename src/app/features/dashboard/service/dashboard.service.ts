@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {Observable} from 'rxjs';    
+import {Observable} from 'rxjs';
 import {map, catchError} from 'rxjs/operators'
 import { Service } from 'src/app/shared/service/service';
 import { DateFormatPipe } from 'ngx-moment';
@@ -18,8 +18,8 @@ constructor(
 
 
 
-  public sumGroupMonthCompanies():Observable<any>{
-    return this.http.get(environment.api_url+`bead/sumGroupMonthCompanies`).pipe(
+  public sumGroupMonthCompanies(periodo):Observable<any>{
+    return this.http.get(environment.api_url+`bead/sumGroupMonthCompanies?periodo=${periodo}`).pipe(
       map((res) =>{
         return res;
       }),catchError((error) =>{
@@ -28,8 +28,8 @@ constructor(
     )
   }
 
-  public sumGroupMonth():Observable<any>{
-    return this.http.get(environment.api_url+`bead/sumGroupMonth`).pipe(
+  public sumGroupMonth(periodo):Observable<any>{
+    return this.http.get(environment.api_url+`bead/sumGroupMonth?periodo=${periodo}`).pipe(
       map((res)=>{
         return res;
       }),catchError((error) =>{
@@ -38,8 +38,8 @@ constructor(
     )
   }
 
-  public sumTotalGroupCompanies():Observable<any>{
-    return this.http.get(environment.api_url+`bead/sumTotalGroupCompanies`).pipe(
+  public sumTotalGroupCompanies(periodo):Observable<any>{
+    return this.http.get(environment.api_url+`bead/sumTotalGroupCompanies?periodo=${periodo}`).pipe(
       map((res) =>{
         return res
       }),catchError((error) =>{

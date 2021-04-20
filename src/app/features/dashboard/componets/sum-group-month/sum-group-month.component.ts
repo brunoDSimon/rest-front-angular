@@ -14,6 +14,9 @@ export class SumGroupMonthComponent implements OnInit {
   private _month: any = [];
   private _valueTotal: any = [];
   private _response: any = [];
+  private _listYears: any[] = [];
+  private _currentYear;
+  private _dateAtual = new Date()
   constructor(
     private dashboardService: DashboardService,
     private reais:ReaisPipe,
@@ -23,15 +26,37 @@ export class SumGroupMonthComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getSumGroupMonth();
-
+    this.changeFilter();
   }
 
   get response(){
     return this._response;
   }
-  public getSumGroupMonth(){
-    this.dashboardService.sumGroupMonth().subscribe((res) =>{
+
+  get years() {
+    return this._listYears;
+  }
+
+  get currentYear() {
+    return this._currentYear
+  }
+
+  public changeFilter() {
+    for (let index = 0; index < 5; index++) {
+      this._listYears.push(new Date(new Date().setFullYear(new Date().getFullYear() -index)).getFullYear())
+    }
+    this.setYear(this._listYears[0])
+   }
+
+   public setYear(aux) {
+     this._currentYear = aux;
+     this.getSumGroupMonth(aux);
+   }
+
+  public getSumGroupMonth(periodo){
+    this._valueTotal = [];
+    this._month      = [];
+    this.dashboardService.sumGroupMonth(periodo).subscribe((res) =>{
       this._response = res.data.beadGroupMonth;
       res.data.beadGroupMonth.map((item) =>{this._valueTotal.push(item.resultGroup.toFixed(2))})
       res.data.beadGroupMonth.map((item) =>{this._month.push(item.periodo)})

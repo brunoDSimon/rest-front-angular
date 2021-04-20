@@ -124,8 +124,8 @@ export class GeneratePdfEmpresaComponent implements OnInit {
       }
       setTimeout(() => {EventEmitterService.get('hideLoader').emit();}, 500);
     },(error) =>{
-      this.toastr.error('Não foi possivel gerar download')
-      console.log(error);
+      this.toastr.error(`${error}`, 'Não foi possivel gerar documento!')
+      console.log();
       setTimeout(() => {EventEmitterService.get('hideLoader').emit();}, 500);
     })
   }

@@ -48,7 +48,6 @@ export class ProducaoFuncionarioComponent implements OnInit {
     private platform: Platform,
     private fileOpener: FileOpener
   ) {
-    this.crieFormulario();
     this._date ={
       fromDate: moment(moment().toDate()).subtract(30, 'days').toDate(),
       toDate: moment(moment().toDate()).subtract(1, 'days').toDate(),
@@ -59,6 +58,7 @@ export class ProducaoFuncionarioComponent implements OnInit {
    }
 
   ngOnInit(){
+    this.crieFormulario();
     this.getListUser();
     this.getListCompanies();
   }
@@ -106,9 +106,9 @@ export class ProducaoFuncionarioComponent implements OnInit {
 
   get valueFormat (){
     if (this.formGroup.get('dateFinalNotNul').value) {
-      return 'Itens em aberto'
-    } else {
       return 'Itens fechados'
+    } else {
+      return 'Itens em aberto'
     }
   }
 
@@ -120,7 +120,7 @@ export class ProducaoFuncionarioComponent implements OnInit {
   public crieFormulario(){
     this.formGroup = this.formBuilder.group({
       userID: new FormControl(this._listUser,Validators.required),
-      descont: ['',[ CustomValidators.number, Validators.required]],
+      descont: ['',[ Validators.required]],
       dateFinalNotNul: [false,[]]
     })
   }
@@ -158,7 +158,7 @@ export class ProducaoFuncionarioComponent implements OnInit {
     const dateEntry = this.dateFormatPipe.transform(this._date.fromDate, 'YYYY-MM-DD');
     const dateFinal = this.dateFormatPipe.transform(this._date.toDate, 'YYYY-MM-DD');
     const userID = this.formGroup.get('userID').value.id;
-    const descont = this.formGroup.get('descont').value / 100;
+    const descont = this.formGroup.get('descont').value;
     console.log(this.formGroup.get('descont').value)
     const dateFinalNotNul = this.formGroup.get('dateFinalNotNul').value;
     console.log(dateEntry, dateFinal, userID, descont)
@@ -197,7 +197,7 @@ export class ProducaoFuncionarioComponent implements OnInit {
     const dateEntry = this.dateFormatPipe.transform(this._date.fromDate, 'YYYY-MM-DD');
     const dateFinal = this.dateFormatPipe.transform(this._date.toDate, 'YYYY-MM-DD');
     const userID = this.formGroup.get('userID').value.id;
-    const descont = this.formGroup.get('descont').value / 100;
+    const descont = this.formGroup.get('descont').value;
     console.log(dateEntry,dateFinal,userID,descont)
     this.financeiroService.geratePaymentUser(userID,dateEntry, dateFinal,descont).subscribe((res) =>{
      this.pdf(res.data.base64,dateEntry,dateFinal);

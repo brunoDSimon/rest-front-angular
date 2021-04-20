@@ -12,19 +12,23 @@ import { CustomFormsModule } from 'ngx-custom-validators';
 import { SumGroupMonthComponent } from './componets/sum-group-month/sum-group-month.component';
 import { SumGroupCompaniesComponent } from './componets/sum-group-companies/sum-group-companies.component';
 import { SumGroupMonthCompaniesComponent } from './componets/sum-group-month-companies/sum-group-month-companies.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { IonicModule } from '@ionic/angular';
 
 @NgModule({
   imports: [
     CommonModule,
-    DashboardRoutingModule,
     PipeModule,
     NgxCurrencyModule,
     FormsModule,
     ReactiveFormsModule,
+    DashboardRoutingModule,
     HttpClientModule,
     NgxMaskModule.forRoot(),
     SharedModule,
     CustomFormsModule,
+    NgbModule,
+    IonicModule.forRoot()
   ],
   declarations: [
     DashboardComponent,
