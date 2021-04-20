@@ -1,5 +1,25 @@
 <div class="row">
   <div class="col-12">
-    <canvas id="bar-chart-grouped" width="800" height="600"></canvas>
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Soma total de ganhos por mês agrupado por empresa
+          <div ngbDropdown class="float-right">
+            <button class="btn btn-sm btn-outline-info" id="dropdownMenuButton" ngbDropdownToggle>
+                {{ this?.currentYear }}
+            </button>
+            <div ngbDropdownMenu  aria-labelledby="dropdownMenuButton" >
+              <button class="dropdown-item" (click)="setYear(aux)" *ngFor='let aux of years;index as i;'>
+                {{ aux}}
+              </button>
+            </div>
+          </div>
+        </h5>
+        <div class="row">
+          <div class="col-12">
+            <canvas id="bar-chart-grouped" width="800" height="600"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

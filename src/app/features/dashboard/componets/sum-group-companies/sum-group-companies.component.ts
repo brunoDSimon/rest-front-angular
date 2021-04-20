@@ -13,27 +13,49 @@ export class SumGroupCompaniesComponent implements OnInit {
   private _valueTotal: any = [];
   private _namesCompanies: any = [];
   private _response: any = [];
+  private _listYears: any[] = [];
+  private _currentYear;
+  private _dateAtual = new Date()
   constructor(
    private dashboardService: DashboardService,
    private reais:ReaisPipe
   ) { }
 
   ngOnInit() {
-    this.getSumTotalGroupCompanies();
+    console.log(this._currentYear)
+    this.changeFilter();
   }
 
   get response(){
     return this._response;
   }
-  public getSumTotalGroupCompanies(){
-    this.dashboardService.sumTotalGroupCompanies().subscribe((res)=>{
+  get years() {
+    return this._listYears;
+  }
+  get currentYear() {
+    return this._currentYear
+  }
+
+  public changeFilter() {
+   for (let index = 0; index < 5; index++) {
+     this._listYears.push(new Date(new Date().setFullYear(new Date().getFullYear() -index)).getFullYear())
+   }
+   this.setYear(this._listYears[0])
+  }
+
+  public setYear(aux) {
+    this._currentYear = aux;
+    this.getSumTotalGroupCompanies(aux);
+  }
+
+  public getSumTotalGroupCompanies(periodo){
+    this._valueTotal     = [];
+    this._namesCompanies = [];
+    this.dashboardService.sumTotalGroupCompanies(periodo).subscribe((res)=>{
       // console.log(res.data.beadSumGroup, 'getSumTotalGroupCompanies');
       this._response = res.data.beadSumGroup;
       res.data.beadSumGroup.map((item) =>{this._valueTotal.push(item.resultGroup.toFixed(2))})
       res.data.beadSumGroup.map((item) =>{this._namesCompanies.push(item.companies.companyName)})
-      // console.log( this._response, 'response');
-
-
       this.render()
     },(err) => {
       console.log(err)

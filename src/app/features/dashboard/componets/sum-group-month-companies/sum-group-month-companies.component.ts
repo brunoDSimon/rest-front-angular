@@ -28,6 +28,8 @@ export class SumGroupMonthCompaniesComponent implements OnInit {
     "#CCFFCC",
     "#FF3333"
   ];
+  private _listYears: any[] = [];
+  private _currentYear;
 
   constructor(
     private dashboardService: DashboardService,
@@ -36,7 +38,7 @@ export class SumGroupMonthCompaniesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getSumGroupMonthCompanies();
+    this.changeFilter();
   }
 
   get conteudoChart() {
@@ -46,17 +48,47 @@ export class SumGroupMonthCompaniesComponent implements OnInit {
   get monthsChart() {
     return this._monthsChart;
   }
+
  get periodo(){
    return this._periodos
  }
+
  get valor(){
    return this._valor
  }
+
  get names(){
    return this._names;
  }
-  public getSumGroupMonthCompanies(){
-    this.dashboardService.sumGroupMonthCompanies().subscribe((res) =>{
+
+ get years() {
+  return this._listYears;
+}
+
+get currentYear() {
+  return this._currentYear
+}
+
+ public changeFilter() {
+  for (let index = 0; index < 5; index++) {
+    this._listYears.push(new Date(new Date().setFullYear(new Date().getFullYear() -index)).getFullYear())
+  }
+  this.setYear(this._listYears[0])
+ }
+
+ public setYear(aux) {
+   this._currentYear = aux;
+   this.getSumGroupMonthCompanies(aux);
+ }
+
+
+
+  public getSumGroupMonthCompanies(periodo){
+    this._valor    = [] = [];
+    this._periodos = [] = [];
+    this._conteudoChart = [] =[];
+    this.response = [] = [];
+    this.dashboardService.sumGroupMonthCompanies(periodo).subscribe((res) =>{
       this.response = res.data;
 
       this.response.forEach((item) =>{if (this._monthsChart.indexOf(item.periodo) ==-1){
